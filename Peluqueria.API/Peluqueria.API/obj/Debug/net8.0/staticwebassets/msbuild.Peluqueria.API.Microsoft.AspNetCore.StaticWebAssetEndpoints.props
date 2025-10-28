@@ -1,0 +1,52 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/Peluqueria.API/images/0a6b6211-dcaa-4f93-b539-607a85af6784.by2tz13q0a.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"by2tz13q0a"},{"Name":"integrity","Value":"sha256-zfTnYH4KtvjuD7isUCBlSAls6pQR3ImqChinyAaWeTI="},{"Name":"label","Value":"_content/Peluqueria.API/images/0a6b6211-dcaa-4f93-b539-607a85af6784.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"91668"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022zfTnYH4KtvjuD7isUCBlSAls6pQR3ImqChinyAaWeTI=\u0022"},{"Name":"Last-Modified","Value":"Tue, 28 Oct 2025 19:51:32 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Peluqueria.API/images/0a6b6211-dcaa-4f93-b539-607a85af6784.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-zfTnYH4KtvjuD7isUCBlSAls6pQR3ImqChinyAaWeTI="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"91668"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022zfTnYH4KtvjuD7isUCBlSAls6pQR3ImqChinyAaWeTI=\u0022"},{"Name":"Last-Modified","Value":"Tue, 28 Oct 2025 19:51:32 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Peluqueria.API/images/bobCut.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\bobCut.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-ijxcHj7D91/YN5LbE16IwYR1IYInMiqiyQrr7sF\u002BrZ0="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"1305032"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022ijxcHj7D91/YN5LbE16IwYR1IYInMiqiyQrr7sF\u002BrZ0=\u0022"},{"Name":"Last-Modified","Value":"Mon, 27 Oct 2025 03:29:23 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Peluqueria.API/images/bobCut.u6kt842o77.png">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\bobCut.png'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"u6kt842o77"},{"Name":"integrity","Value":"sha256-ijxcHj7D91/YN5LbE16IwYR1IYInMiqiyQrr7sF\u002BrZ0="},{"Name":"label","Value":"_content/Peluqueria.API/images/bobCut.png"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1305032"},{"Name":"Content-Type","Value":"image/png"},{"Name":"ETag","Value":"\u0022ijxcHj7D91/YN5LbE16IwYR1IYInMiqiyQrr7sF\u002BrZ0=\u0022"},{"Name":"Last-Modified","Value":"Mon, 27 Oct 2025 03:29:23 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Peluqueria.API/images/hidratacion.1odr5yb8zk.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\hidratacion.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"1odr5yb8zk"},{"Name":"integrity","Value":"sha256-D\u002BVXVgQ\u002B/1PKRfD/g7n79mOelSOXbQZRnKVTEQGus4M="},{"Name":"label","Value":"_content/Peluqueria.API/images/hidratacion.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"93402"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022D\u002BVXVgQ\u002B/1PKRfD/g7n79mOelSOXbQZRnKVTEQGus4M=\u0022"},{"Name":"Last-Modified","Value":"Mon, 27 Oct 2025 03:29:23 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Peluqueria.API/images/hidratacion.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\hidratacion.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-D\u002BVXVgQ\u002B/1PKRfD/g7n79mOelSOXbQZRnKVTEQGus4M="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"93402"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022D\u002BVXVgQ\u002B/1PKRfD/g7n79mOelSOXbQZRnKVTEQGus4M=\u0022"},{"Name":"Last-Modified","Value":"Mon, 27 Oct 2025 03:29:23 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Peluqueria.API/images/manicura.esw2m0r44n.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\manicura.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"esw2m0r44n"},{"Name":"integrity","Value":"sha256-gmc6iB/lnnbORIv\u002BELp\u002Bl2a1RJT5ZwQRCrorIPFSyyc="},{"Name":"label","Value":"_content/Peluqueria.API/images/manicura.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"78909"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022gmc6iB/lnnbORIv\u002BELp\u002Bl2a1RJT5ZwQRCrorIPFSyyc=\u0022"},{"Name":"Last-Modified","Value":"Mon, 27 Oct 2025 03:29:23 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Peluqueria.API/images/manicura.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\manicura.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-gmc6iB/lnnbORIv\u002BELp\u002Bl2a1RJT5ZwQRCrorIPFSyyc="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"78909"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022gmc6iB/lnnbORIv\u002BELp\u002Bl2a1RJT5ZwQRCrorIPFSyyc=\u0022"},{"Name":"Last-Modified","Value":"Mon, 27 Oct 2025 03:29:23 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+  </ItemGroup>
+</Project>

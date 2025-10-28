@@ -1,0 +1,434 @@
+{
+  "Version": 1,
+  "Hash": "IojVb1f7OVl3ZmNbKWPbzsBM+yGMHru4yldjTYbUPHI=",
+  "Source": "Peluqueria.API",
+  "BasePath": "_content/Peluqueria.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Peluqueria.API\\wwwroot",
+      "Source": "Peluqueria.API",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "BasePath": "_content/Peluqueria.API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg",
+      "SourceId": "Peluqueria.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "BasePath": "_content/Peluqueria.API",
+      "RelativePath": "images/0a6b6211-dcaa-4f93-b539-607a85af6784#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "by2tz13q0a",
+      "Integrity": "zfTnYH4KtvjuD7isUCBlSAls6pQR3ImqChinyAaWeTI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\bobCut.png",
+      "SourceId": "Peluqueria.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "BasePath": "_content/Peluqueria.API",
+      "RelativePath": "images/bobCut#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "u6kt842o77",
+      "Integrity": "ijxcHj7D91/YN5LbE16IwYR1IYInMiqiyQrr7sF+rZ0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\bobCut.png"
+    },
+    {
+      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\hidratacion.jpg",
+      "SourceId": "Peluqueria.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "BasePath": "_content/Peluqueria.API",
+      "RelativePath": "images/hidratacion#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "1odr5yb8zk",
+      "Integrity": "D+VXVgQ+/1PKRfD/g7n79mOelSOXbQZRnKVTEQGus4M=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\hidratacion.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\manicura.jpg",
+      "SourceId": "Peluqueria.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "BasePath": "_content/Peluqueria.API",
+      "RelativePath": "images/manicura#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "esw2m0r44n",
+      "Integrity": "gmc6iB/lnnbORIv+ELp+l2a1RJT5ZwQRCrorIPFSyyc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\manicura.jpg"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "images/0a6b6211-dcaa-4f93-b539-607a85af6784.by2tz13q0a.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "91668"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"zfTnYH4KtvjuD7isUCBlSAls6pQR3ImqChinyAaWeTI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 28 Oct 2025 19:51:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "by2tz13q0a"
+        },
+        {
+          "Name": "label",
+          "Value": "images/0a6b6211-dcaa-4f93-b539-607a85af6784.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-zfTnYH4KtvjuD7isUCBlSAls6pQR3ImqChinyAaWeTI="
+        }
+      ]
+    },
+    {
+      "Route": "images/0a6b6211-dcaa-4f93-b539-607a85af6784.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "91668"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"zfTnYH4KtvjuD7isUCBlSAls6pQR3ImqChinyAaWeTI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 28 Oct 2025 19:51:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-zfTnYH4KtvjuD7isUCBlSAls6pQR3ImqChinyAaWeTI="
+        }
+      ]
+    },
+    {
+      "Route": "images/bobCut.png",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\bobCut.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1305032"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ijxcHj7D91/YN5LbE16IwYR1IYInMiqiyQrr7sF+rZ0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 27 Oct 2025 03:29:23 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ijxcHj7D91/YN5LbE16IwYR1IYInMiqiyQrr7sF+rZ0="
+        }
+      ]
+    },
+    {
+      "Route": "images/bobCut.u6kt842o77.png",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\bobCut.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1305032"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ijxcHj7D91/YN5LbE16IwYR1IYInMiqiyQrr7sF+rZ0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 27 Oct 2025 03:29:23 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u6kt842o77"
+        },
+        {
+          "Name": "label",
+          "Value": "images/bobCut.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ijxcHj7D91/YN5LbE16IwYR1IYInMiqiyQrr7sF+rZ0="
+        }
+      ]
+    },
+    {
+      "Route": "images/hidratacion.1odr5yb8zk.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\hidratacion.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "93402"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"D+VXVgQ+/1PKRfD/g7n79mOelSOXbQZRnKVTEQGus4M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 27 Oct 2025 03:29:23 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "1odr5yb8zk"
+        },
+        {
+          "Name": "label",
+          "Value": "images/hidratacion.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-D+VXVgQ+/1PKRfD/g7n79mOelSOXbQZRnKVTEQGus4M="
+        }
+      ]
+    },
+    {
+      "Route": "images/hidratacion.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\hidratacion.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "93402"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"D+VXVgQ+/1PKRfD/g7n79mOelSOXbQZRnKVTEQGus4M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 27 Oct 2025 03:29:23 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-D+VXVgQ+/1PKRfD/g7n79mOelSOXbQZRnKVTEQGus4M="
+        }
+      ]
+    },
+    {
+      "Route": "images/manicura.esw2m0r44n.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\manicura.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "78909"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"gmc6iB/lnnbORIv+ELp+l2a1RJT5ZwQRCrorIPFSyyc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 27 Oct 2025 03:29:23 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "esw2m0r44n"
+        },
+        {
+          "Name": "label",
+          "Value": "images/manicura.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-gmc6iB/lnnbORIv+ELp+l2a1RJT5ZwQRCrorIPFSyyc="
+        }
+      ]
+    },
+    {
+      "Route": "images/manicura.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\manicura.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "78909"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"gmc6iB/lnnbORIv+ELp+l2a1RJT5ZwQRCrorIPFSyyc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 27 Oct 2025 03:29:23 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-gmc6iB/lnnbORIv+ELp+l2a1RJT5ZwQRCrorIPFSyyc="
+        }
+      ]
+    }
+  ]
+}

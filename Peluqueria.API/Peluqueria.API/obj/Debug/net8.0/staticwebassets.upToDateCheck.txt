@@ -1,0 +1,4 @@
+wwwroot\images\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg
+wwwroot\images\bobCut.png
+wwwroot\images\hidratacion.jpg
+wwwroot\images\manicura.jpg
