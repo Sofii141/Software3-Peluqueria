@@ -1,0 +1,108 @@
+/* Estilos para login.component.css (que también usará register.component.css) */
+.auth-page-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #1c1c1e;
+  padding: 2rem;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 450px;
+  background-color: #2a2a2e;
+  padding: 2.5rem 3rem;
+  border-radius: 10px;
+  border: 1px solid #444;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-brand-logo {
+  font-family: 'Great Vibes', cursive;
+  color: #fff;
+  font-size: 3rem;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.auth-title {
+  font-family: 'Playfair Display', serif;
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+  color: #a0a0a0;
+  font-size: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #c0c0c0;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input-group-icon {
+  position: relative;
+}
+
+.input-group-icon .form-control {
+  padding-left: 2.5rem;
+}
+
+.input-group-icon i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+}
+
+.btn-block {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 2rem;
+  color: #a0a0a0;
+}
+
+.auth-footer a {
+  color: #D4AF37;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.invalid-feedback {
+    display: block;
+    color: #ff8a8a;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}

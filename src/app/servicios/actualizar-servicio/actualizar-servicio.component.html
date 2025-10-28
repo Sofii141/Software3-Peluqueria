@@ -1,0 +1,83 @@
+<section class="full-page-section">
+  <div class="form-container">
+    <h2 class="section-title">{{ titulo }}</h2>
+    <p class="form-subtitle">Modifica los detalles del servicio seleccionado.</p>
+
+    <form #servicioForm="ngForm" (ngSubmit)="actualizarServicio()">
+      <div class="row">
+        <!-- Columna Izquierda (SIN CAMBIOS) -->
+        <div class="col-lg-7">
+          <!-- ... todo el contenido de la columna izquierda se mantiene igual ... -->
+          <div class="form-group mb-4">
+            <label for="nombre">Nombre del Servicio</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="servicio.nombre" required>
+          </div>
+          <div class="form-group mb-4">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" class="form-control" rows="4" [(ngModel)]="servicio.descripcion" required></textarea>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group mb-4">
+              <label for="precio">Precio</label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" id="precio" name="precio" class="form-control" [(ngModel)]="servicio.precio" required>
+              </div>
+            </div>
+            <div class="col-md-6 form-group mb-4">
+              <label for="categoria">Categoría</label>
+              <select id="categoria" name="categoria" class="form-select" [(ngModel)]="servicio.categoria" [compareWith]="compararCategoria" required>
+                <option [ngValue]="null" disabled>Seleccione una categoría</option>
+                <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{ categoria.nombre }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna Derecha (CON CAMBIOS) -->
+        <div class="col-lg-5 d-flex flex-column">
+          <div class="form-group mb-4 flex-grow-1">
+            <label>Imagen del Servicio</label>
+            <div class="image-upload-box" (click)="fileInput.click()">
+              <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+              
+              <img *ngIf="imagePreview" [src]="imagePreview" alt="Vista previa de la nueva imagen" class="image-preview">
+              <img *ngIf="!imagePreview && servicio.imagen" [src]="servicio.imagen" alt="Imagen actual" class="image-preview">
+              <div *ngIf="!imagePreview && !servicio.imagen" class="upload-prompt">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Haz clic para subir una imagen</p>
+              </div>
+
+              <!-- ============================================== -->
+              <!-- ===== AQUÍ ESTÁ EL CÓDIGO NUEVO A AÑADIR ===== -->
+              <!-- ============================================== -->
+              <div class="image-overlay">
+                <i class="fas fa-camera"></i>
+                <span>Cambiar Imagen</span>
+              </div>
+              <!-- ============================================== -->
+              <!-- ============ FIN DEL CÓDIGO NUEVO ============ -->
+              <!-- ============================================== -->
+
+            </div>
+          </div>
+          
+          <div class="switch-container">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="disponible" name="disponible" [(ngModel)]="servicio.disponible">
+              <label class="form-check-label" for="disponible">Disponible para Clientes</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <hr class="form-divider">
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="!servicioForm.form.valid">
+          <i class="fas fa-save me-2"></i>Actualizar Servicio
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

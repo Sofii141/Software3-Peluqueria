@@ -1,0 +1,150 @@
+/* --- Contenedor principal de la página --- */
+.full-page-section {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 1.5rem;
+  background-color: #1c1c1e;
+}
+
+/* --- Estilo del contenedor del formulario --- */
+.form-container {
+  width: 100%;
+  max-width: 1100px;
+  background-color: #2a2a2e;
+  padding: 3rem 4rem;
+  border-radius: 10px;
+  border: 1px solid #444;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Títulos y subtítulos --- */
+.form-container .section-title,
+.form-container .form-subtitle {
+  text-align: center;
+}
+
+.form-subtitle {
+  color: #a0a0a0;
+  margin-bottom: 3rem;
+}
+
+/* --- Etiquetas de los campos (labels) --- */
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  display: block;
+  color: #c0c0c0;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* --- Caja de Subida/Previsualización de Imagen con Overlay --- */
+.image-upload-box {
+  border: 2px dashed #555;
+  border-radius: 10px;
+  text-align: center;
+  height: 100%;
+  min-height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background-color: #1c1c1e;
+  padding: 0.5rem;
+  cursor: pointer; /* Indica que el área es interactiva */
+  transition: border-color 0.3s ease;
+}
+
+.image-upload-box:hover {
+  border-color: #D4AF37; /* Borde dorado al pasar el ratón */
+}
+
+/* Estilo de la imagen de previsualización */
+.image-preview {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 5px;
+  object-fit: contain;
+  transition: filter 0.3s ease; /* Transición suave para el efecto de desenfoque */
+}
+
+/* El overlay que se muestra al pasar el ratón */
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(28, 28, 30, 0.7);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0; /* Oculto por defecto */
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* Permite que el clic "atraviese" el overlay */
+}
+
+/* Al pasar el ratón por la caja, el overlay se hace visible... */
+.image-upload-box:hover .image-overlay {
+  opacity: 1;
+}
+
+/* ...y la imagen de fondo se desenfoca y oscurece */
+.image-upload-box:hover .image-preview {
+  filter: blur(2px) brightness(0.7);
+}
+
+/* Estilo para el ícono y texto del overlay */
+.image-overlay i {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.image-overlay span {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* --- Estilo del interruptor (switch) de disponibilidad --- */
+.switch-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+.form-check-label {
+  color: #c0c0c0;
+  font-weight: 600;
+  margin-left: 0.75rem;
+}
+
+/* --- Divisor y Botón Final --- */
+.form-divider {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, transparent, #555, transparent);
+  margin: 2.5rem 0;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-lg {
+  padding: 0.8rem 2.5rem;
+  font-size: 1.1rem;
+}

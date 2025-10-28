@@ -1,0 +1,29 @@
+<section id="sugerencias" class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Sugiere un Servicio</h2>
+      <p class="lead">¿Hay algún tratamiento que te gustaría ver en nuestro menú?</p>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="form-wrapper">
+          <!-- Usamos ngSubmit para manejar el envío -->
+          <form #suggestionForm="ngForm" (ngSubmit)="enviarSugerencia()">
+            <div class="mb-4">
+              <label for="nombreServicio" class="form-label">Nombre del Servicio</label>
+              <input type="text" class="form-control" id="nombreServicio" name="nombreServicio" [(ngModel)]="sugerencia.nombre" required>
+            </div>
+            <div class="mb-4">
+              <label for="descripcionServicio" class="form-label">Descripción</label>
+              <textarea class="form-control" id="descripcionServicio" name="descripcionServicio" rows="4" [(ngModel)]="sugerencia.descripcion" required></textarea>
+              <div class="form-text">Describe el servicio que te gustaría que añadiéramos.</div>
+            </div>
+            <div class="d-flex justify-content-start mt-4">
+              <button type="submit" class="btn btn-primary px-4 py-2" [disabled]="!suggestionForm.form.valid">Enviar Sugerencia</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

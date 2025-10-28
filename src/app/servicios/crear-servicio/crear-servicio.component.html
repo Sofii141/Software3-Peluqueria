@@ -1,0 +1,78 @@
+<section class="full-page-section">
+  <div class="form-container">
+    <h2 class="section-title">{{ titulo }}</h2>
+    <p class="form-subtitle">Añade un nuevo tratamiento al catálogo de nuestro salón.</p>
+
+    <form #servicioForm="ngForm" (ngSubmit)="crearServicio()">
+      <div class="row">
+
+        <!-- Columna Izquierda: Campos de Texto -->
+        <div class="col-lg-7">
+          <div class="form-group mb-4">
+            <label for="nombre">Nombre del Servicio</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej: Corte Estilo Bob" [(ngModel)]="servicio.nombre" required>
+          </div>
+          <div class="form-group mb-4">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" class="form-control" rows="4" placeholder="Describe brevemente el servicio..." [(ngModel)]="servicio.descripcion" required></textarea>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group mb-4">
+              <label for="precio">Precio</label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" id="precio" name="precio" class="form-control" placeholder="50000" [(ngModel)]="servicio.precio" required>
+              </div>
+            </div>
+            <div class="col-md-6 form-group mb-4">
+              <label for="categoria">Categoría</label>
+              <select id="categoria" name="categoria" class="form-select" 
+                      [(ngModel)]="servicio.categoria" 
+                      [compareWith]="compararCategoria" required>
+                <option [ngValue]="null" disabled>Seleccione una categoría</option>
+                <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{ categoria.nombre }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: Subida de Imagen y Switch -->
+        <div class="col-lg-5 d-flex flex-column">
+          <div class="form-group mb-4 flex-grow-1">
+            <label>Imagen del Servicio</label>
+            <!-- El input real está oculto, el div es el área clickeable -->
+            <div class="image-upload-box" (click)="fileInput.click()">
+              <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+              
+              <!-- Se muestra solo si NO hay imagen seleccionada -->
+              <div *ngIf="!imagePreview" class="upload-prompt">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Arrastra o haz clic para subir</p>
+                <small>Recomendado: 800x800px</small>
+              </div>
+              
+              <!-- Se muestra solo si SÍ hay una imagen seleccionada -->
+              <img *ngIf="imagePreview" [src]="imagePreview" alt="Vista previa" class="image-preview">
+            </div>
+          </div>
+          
+          <div class="switch-container">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="disponible" name="disponible" [(ngModel)]="servicio.disponible">
+              <label class="form-check-label" for="disponible">Disponible para Clientes</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Divisor elegante antes del botón -->
+      <hr class="form-divider">
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="!servicioForm.form.valid || !selectedFile">
+          <i class="fas fa-plus-circle me-2"></i>Crear Servicio
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

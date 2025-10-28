@@ -1,0 +1,70 @@
+/* --- Estilo base de la barra de navegación --- */
+.navbar {
+  /* Fondo oscuro sólido siempre */
+  background-color: #1c1c1e;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #444444;
+  /* Una sombra sutil para que "flote" sobre el contenido al hacer scroll */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Estilo del logo/marca --- */
+.navbar-brand {
+  font-family: 'Great Vibes', cursive;
+  color: #fff;
+  font-size: 2.8rem;
+  font-weight: normal;
+}
+
+/* --- Estilo de los enlaces de navegación --- */
+.nav-link {
+  color: #a0a0a0;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+  position: relative;
+  padding-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+/* Subrayado animado que aparece al pasar el ratón */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: #D4AF37;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #fff;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* --- ESTILO PARA EL ENLACE ACTIVO (LA SECCIÓN ACTUAL) --- */
+.nav-link.active {
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  width: 100%;
+  left: 0;
+}
+
+
+/* --- Estilos para el botón del menú en móviles --- */
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}

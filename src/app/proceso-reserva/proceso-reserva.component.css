@@ -1,0 +1,78 @@
+.process-section {
+  background-color: #1c1c1e;
+  padding-top: 6rem; /* Más espacio arriba */
+  padding-bottom: 6rem; /* Más espacio abajo */
+}
+
+/* Estilo para el subtítulo, ahora legible */
+.section-subtitle {
+  color: #a0a0a0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.process-step {
+  padding: 2rem;
+}
+
+.step-icon-container {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 2rem auto;
+  border-radius: 50%;
+  border: 2px solid #D4AF37;
+  color: #D4AF37;
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+}
+
+.process-step:hover .step-icon-container {
+  background-color: #D4AF37;
+  color: #1c1c1e;
+  transform: rotate(360deg) scale(1.1);
+}
+
+.step-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.step-text {
+  color: #a0a0a0;
+  line-height: 1.6; /* Mejor espaciado de línea */
+}
+
+/* ============================================== */
+/* === ESTILOS PARA EL BOTÓN "ESPECTACULAR" === */
+/* ============================================== */
+.btn-cta {
+  padding: 1rem 3rem; /* Más grande y cómodo */
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 50px; /* Completamente redondeado */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); /* Sombra sutil */
+}
+
+.btn-cta:hover {
+  /* Al pasar el ratón, el botón se levanta y proyecta una sombra dorada */
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+}
+
+.btn-cta i {
+  /* Animación sutil para la flecha */
+  transition: transform 0.3s ease;
+}
+
+.btn-cta:hover i {
+  transform: translateX(5px);
+}

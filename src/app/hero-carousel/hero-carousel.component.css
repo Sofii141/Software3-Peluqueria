@@ -1,0 +1,185 @@
+/* =================================================================== */
+/* 1. CONTENEDORES PRINCIPALES DEL CARRUSEL
+/* =================================================================== */
+.hero-carousel {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  min-height: 500px;
+  overflow: hidden;
+  background-color: #1c1c1e;
+}
+.carousel-inner, .carousel-item {
+  height: 100%;
+}
+/* =================================================================== */
+/* 2. CAPAS DEL CARRUSEL (VIDEO Y SOMBRA)
+/* =================================================================== */
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+.carousel-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+/* =================================================================== */
+/* 3. CONTENIDO DE TEXTO SUPERPUESTO
+/* =================================================================== */
+.carousel-caption {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  padding: 1rem;
+}
+.text-container {
+  padding: 2.5rem;
+  background-color: rgba(28, 28, 30, 0.7);
+  border-left: 5px solid #D4AF37;
+  backdrop-filter: blur(5px);
+  max-width: 100%;
+  text-align: center;
+}
+.services-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  text-align: left;
+}
+.subtitle {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background-color: #fff;
+  color: #1c1c1e;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 8vw, 5.5rem); /* Ligeramente más grande en pantallas muy grandes */
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  color: #fff;
+
+  /* ============================================== */
+  /* === CAMBIO 1: El "Arreglo Mágico" === */
+  /* Le dice al texto que se divida en líneas si es necesario, en lugar de salirse de su caja. */
+  /* ============================================== */
+  overflow-wrap: break-word;
+}
+.services-list li {
+  font-family: 'Raleway', sans-serif;
+  margin-bottom: 0.75rem;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: #f8f9fa;
+}
+.services-list li::before {
+  content: '•';
+  color: #D4AF37;
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+.description {
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: #f8f9fa;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* =================================================================== */
+/* 4. CONTROLES DEL CARRUSEL (FLECHAS)
+/* =================================================================== */
+.carousel-control-prev,
+.carousel-control-next {
+  z-index: 5;
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-size: 100%, 100%;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+}
+/* =================================================================== */
+/* 5. MEDIA QUERIES PARA RESPONSIVIDAD (CON AJUSTES FINOS)
+/* =================================================================== */
+
+/* ============================================== */
+/* === CAMBIO 2: NUEVO PUNTO DE QUIEBRE PARA PANTALLAS GRANDES === */
+/* Controla el tamaño del título en el rango problemático (ej. 1020px) */
+/* ============================================== */
+@media (max-width: 1200px) {
+  .title {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+  }
+}
+
+/* --- AJUSTE PARA TABLETS Y PANTALLAS MEDIANAS --- */
+@media (max-width: 992px) {
+  .text-container {
+    padding: 2rem;
+  }
+  .title {
+    /* CAMBIO 3: Hacemos la parte fluida (vw) un poco menos agresiva */
+    font-size: clamp(2.5rem, 9vw, 4rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-carousel {
+    height: 80vh;
+  }
+}
+
+@media (max-width: 576px) {
+  .text-container {
+    padding: 1.5rem;
+    border-left-width: 4px;
+  }
+  .title {
+    font-size: clamp(2.2rem, 12vw, 3rem);
+  }
+}
+
+/* =================================================================== */
+/* 6. ANIMACIONES
+/* =================================================================== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.carousel-item.active .subtitle {
+  animation: fadeInUp 0.5s ease-out 0.3s backwards;
+}
+.carousel-item.active .title {
+  animation: fadeInUp 0.5s ease-out 0.5s backwards;
+}
+.carousel-item.active .services-list,
+.carousel-item.active .description {
+  animation: fadeInUp 0.5s ease-out 0.7s backwards;
+}

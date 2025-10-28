@@ -1,0 +1,86 @@
+.footer {
+  background-color: #1c1c1e; /* Fondo oscuro principal */
+  color: #a0a0a0; /* Color de texto base (gris claro) */
+  border-top: 1px solid #444;
+}
+
+/* Títulos de cada columna del footer */
+.footer-title {
+  font-family: 'Playfair Display', serif;
+  color: #fff;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+/* Subrayado dorado sutil para los títulos */
+.footer-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background-color: #D4AF37;
+}
+
+/* Estilo de los párrafos en el footer */
+.footer p {
+  line-height: 1.7;
+}
+
+/* Lista de enlaces */
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.75rem;
+}
+
+.footer-links a {
+  color: #a0a0a0;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #D4AF37;
+  padding-left: 5px; /* Efecto de desplazamiento al pasar el ratón */
+}
+
+/* Formulario de suscripción */
+.subscription-form .form-control {
+  border-radius: 50px 0 0 50px;
+  padding: 0.75rem 1.25rem;
+}
+
+.subscription-form .btn-primary {
+  border-radius: 0 50px 50px 0;
+  padding: 0.75rem 1.5rem;
+}
+
+/* Barra inferior del footer */
+.footer-bottom {
+  background-color: #111; /* Un negro un poco más profundo */
+  padding: 1.5rem 0;
+}
+
+.copyright {
+  font-size: 0.9rem;
+}
+
+/* Iconos de redes sociales */
+.social-icons a {
+  color: #a0a0a0;
+  font-size: 1.2rem;
+  margin-left: 1.5rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #D4AF37;
+  transform: scale(1.2);
+}

@@ -1,0 +1,122 @@
+/* src/app/featured-services/featured-services.component.css */
+.full-page-section {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 1rem;
+  background-color: #1c1c1e;
+}
+
+/* --- Filtros de Categoría --- */
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.filter-btn {
+  background-color: transparent;
+  color: #a0a0a0;
+  border: 1px solid #444;
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-btn:hover {
+  background-color: #3a3a3e;
+  color: #fff;
+}
+
+.filter-btn.active {
+  background: linear-gradient(to bottom, #E6C37A, #D4AF37);
+  color: #1c1c1e;
+  border-color: #D4AF37;
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+}
+
+
+/* --- Tarjeta de Servicio Rediseñada --- */
+.service-card-home {
+  background-color: #2a2a2e;
+  border: 1px solid #444;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.service-card-home:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
+}
+
+.card-img-container {
+  height: 250px;
+  position: relative; /* Para la superposición */
+}
+
+.card-img-top {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Superposición sutil para mejorar el contraste */
+.img-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(42, 42, 46, 0.8), transparent);
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: #f8f9fa; /* TEXTO BLANCO */
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.card-text {
+  color: #a0a0a0; /* TEXTO GRIS CLARO, AHORA VISIBLE */
+  min-height: 60px;
+}
+
+.price {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #D4AF37;
+  font-family: 'Raleway', sans-serif;
+  text-align: right;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+/* Mensaje cuando no hay servicios */
+.no-services-message {
+  color: #a0a0a0;
+  margin-top: 3rem;
+  font-size: 1.1rem;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

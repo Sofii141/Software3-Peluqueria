@@ -1,0 +1,79 @@
+/* --- Estilo principal de la sección --- */
+.location-section {
+  /* Usamos un fondo oscuro para continuar el patrón visual */
+  background-color: #1c1c1e;
+    border-top: 1px solid #444;
+}
+
+/* Estilo para el subtítulo */
+.section-subtitle {
+  color: #a0a0a0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- Contenedor del mapa estilizado --- */
+.map-container {
+  border-radius: 10px;
+  overflow: hidden; /* Esencial para que el iframe respete el borde redondeado */
+  border: 2px solid #444;
+  height: 450px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.map-iframe {
+  width: 100%;
+  height: 100%;
+  /* El truco mágico: el mapa se ve en escala de grises, más oscuro y con más contraste */
+  filter: grayscale(100%) brightness(0.8) contrast(1.2);
+  transition: filter 0.4s ease-in-out; /* Transición suave */
+}
+
+/* Al pasar el ratón, el mapa vuelve a su color original */
+.map-container:hover .map-iframe {
+  filter: grayscale(0%) brightness(1) contrast(1);
+}
+
+/* --- Contenedor de la información --- */
+.info-container {
+  padding-right: 2rem; /* Cambiamos el padding a la derecha */
+}
+.info-title {
+  font-family: 'Playfair Display', serif;
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-list, .horario-list {
+  list-style: none;
+  padding: 0;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  font-size: 1.1rem;
+  color: #c0c0c0;
+}
+
+.info-item i {
+  color: #D4AF37; /* Iconos dorados */
+  font-size: 1.3rem;
+  width: 30px; /* Ancho fijo para alineación perfecta */
+  margin-right: 1rem;
+}
+
+.horario-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #333;
+  color: #c0c0c0;
+}
+
+.horario-list li:last-child {
+  border-bottom: none;
+}
