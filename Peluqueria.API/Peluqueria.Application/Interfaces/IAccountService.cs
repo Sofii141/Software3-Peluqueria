@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Peluqueria.Application.Interfaces
 {
-    // Ooperaciones de autenticación y autorización
     public interface IAccountService
     {
         Task<NewUserDto?> LoginAsync(LoginDto loginDto);

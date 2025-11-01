@@ -1,7 +1,4 @@
-﻿// Peluqueria.Application/Interfaces/IServicioService.cs
-using Peluqueria.Application.Dtos.Servicio;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Peluqueria.Application.Dtos.Servicio;
 
 namespace Peluqueria.Application.Interfaces
 {

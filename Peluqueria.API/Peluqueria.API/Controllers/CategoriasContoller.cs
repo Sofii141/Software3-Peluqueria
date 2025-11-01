@@ -1,9 +1,5 @@
-﻿// Peluqueria.API/Controllers/CategoriasController.cs
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using Peluqueria.Application.Interfaces;
-using Peluqueria.Application.Dtos.Categoria;
 
 namespace Peluqueria.API.Controllers
 {
@@ -11,10 +7,8 @@ namespace Peluqueria.API.Controllers
     [ApiController]
     public class CategoriasController : ControllerBase
     {
-        // Se reemplaza ICategoriaRepository por ICategoriaService
         private readonly ICategoriaService _categoriaService;
 
-        // El constructor inyecta el nuevo Servicio de Aplicación
         public CategoriasController(ICategoriaService categoriaService)
         {
             _categoriaService = categoriaService;
@@ -23,10 +17,8 @@ namespace Peluqueria.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            // Toda la lógica (acceso a repo y mapeo) se delega al servicio
             var categoriaDtos = await _categoriaService.GetAllAsync();
 
-            // El controlador solo devuelve el resultado HTTP
             return Ok(categoriaDtos);
         }
     }

@@ -11,7 +11,6 @@ namespace Peluqueria.Infrastructure.Data
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
         {
         }
-
         public DbSet<Categoria> Categorias { get; set; } = null!;
         public DbSet<Servicio> Servicios { get; set; } = null!;
 
@@ -21,7 +20,6 @@ namespace Peluqueria.Infrastructure.Data
 
             List<IdentityRole> roles = new List<IdentityRole>
     {
-                    // El ID del rol Admin debe coincidir con el de AdminUserSeed.cs
                     new IdentityRole { Id = "d17abceb-8c0b-454e-b296-883bc029d82b", Name = "Admin", NormalizedName = "ADMIN" },
                     new IdentityRole { Name = "Cliente", NormalizedName = "CLIENTE" },
                     new IdentityRole { Name = "Estilista", NormalizedName = "ESTILISTA" },
@@ -34,7 +32,6 @@ namespace Peluqueria.Infrastructure.Data
                 new Categoria { Id = 3, Nombre = "Manicura y Pedicura" }
             );
 
-            // Seeding de Servicios
             builder.Entity<Servicio>().HasData(
                 new Servicio
                 {
@@ -72,15 +69,10 @@ namespace Peluqueria.Infrastructure.Data
                  }
             );
 
-
-            // Seeding del Usuario Administrador
-            // 1. Llamamos a nuestra clase de seeding para obtener los objetos.
             var (adminUser, adminUserRole) = AdminUserSeed.CreateAdminUserWithRole();
 
-            // 2. Le decimos a EF Core que cree este usuario cuando se genere la base de datos.
             builder.Entity<AppUser>().HasData(adminUser);
 
-            // 3. Le decimos a EF Core que cree la relación entre el usuario y el rol.
             builder.Entity<IdentityUserRole<string>>().HasData(adminUserRole);
         }
     }

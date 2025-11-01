@@ -16,7 +16,6 @@ namespace Peluqueria.Infrastructure.Service
 
         public async Task<string> SaveFileAsync(IFormFile file, string subfolder)
         {
-            // La carpeta de destino será 'wwwroot/<subfolder>'
             var folderPath = Path.Combine(_env.WebRootPath, subfolder);
             if (!Directory.Exists(folderPath))
             {
@@ -32,8 +31,6 @@ namespace Peluqueria.Infrastructure.Service
             {
                 await file.CopyToAsync(stream);
             }
-
-            // Devolvemos el nombre del archivo para guardarlo en la BD
             return uniqueFilename;
         }
     }

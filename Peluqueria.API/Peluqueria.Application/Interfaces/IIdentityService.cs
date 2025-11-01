@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Peluqueria.Application.Dtos.Account; 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Peluqueria.Application.Interfaces
 {

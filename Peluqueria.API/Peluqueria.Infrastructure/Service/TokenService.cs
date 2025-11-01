@@ -2,12 +2,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Peluqueria.Application.Interfaces;
 using Peluqueria.Application.Dtos.Account;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Linq;
 
 namespace Peluqueria.Infrastructure.Service
 {
@@ -27,7 +24,6 @@ namespace Peluqueria.Infrastructure.Service
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey));
         }
 
-        // Usamos AppUserMinimalDto, el único tipo de usuario que la capa de Aplicación conoce.
         public string CreateToken(AppUserMinimalDto user, IList<string> roles)
         {
             var claims = new List<Claim>

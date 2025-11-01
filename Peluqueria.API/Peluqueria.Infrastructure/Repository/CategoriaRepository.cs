@@ -2,8 +2,6 @@
 using Peluqueria.Application.Interfaces;
 using Peluqueria.Domain.Entities;
 using Peluqueria.Infrastructure.Data;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Peluqueria.Infrastructure.Repositories
 {

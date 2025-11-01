@@ -13,7 +13,6 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -119,7 +118,6 @@ app.UseCors(corsBuilder => corsBuilder
     .AllowAnyHeader()
     .AllowCredentials());
 
-// Es importante que UseAuthentication vaya ANTES de UseAuthorization
 app.UseAuthentication();
 app.UseAuthorization();
 

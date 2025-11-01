@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FjAvIdrhvpc=",
+  "dgSpecHash": "xUTQAOxx5aU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Peluqueria.API.csproj",
+  "projectFilePath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\Peluqueria.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ana_Sofia\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Ana_Sofia\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

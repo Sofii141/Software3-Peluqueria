@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Peluqueria.Infrastructure.Identity;
-using System;
 
 namespace Peluqueria.Infrastructure.Data
 {
@@ -11,7 +10,6 @@ namespace Peluqueria.Infrastructure.Data
 
         public static (AppUser, IdentityUserRole<string>) CreateAdminUserWithRole()
         {
-            // ... el resto del código es idéntico
             var hasher = new PasswordHasher<AppUser>();
 
             var adminUser = new AppUser

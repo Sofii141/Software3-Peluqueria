@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4On3LbcXaWI=",
+  "dgSpecHash": "pfkyqrembC4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Peluqueria.Application.csproj",
+  "projectFilePath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.Application\\Peluqueria.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ana_Sofia\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.8\\microsoft.aspnetcore.cryptography.internal.8.0.8.nupkg.sha512",
     "C:\\Users\\Ana_Sofia\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\8.0.8\\microsoft.aspnetcore.cryptography.keyderivation.8.0.8.nupkg.sha512",

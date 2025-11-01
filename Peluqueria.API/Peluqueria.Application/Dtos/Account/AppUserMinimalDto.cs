@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Peluqueria.Application.Dtos.Account
+﻿namespace Peluqueria.Application.Dtos.Account
 {
     public class AppUserMinimalDto
     {

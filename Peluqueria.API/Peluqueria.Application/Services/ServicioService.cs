@@ -1,5 +1,4 @@
-﻿// Peluqueria.Application/Services/ServicioService.cs
-using Peluqueria.Application.Dtos.Categoria;
+﻿using Peluqueria.Application.Dtos.Categoria;
 using Peluqueria.Application.Dtos.Servicio;
 using Peluqueria.Application.Interfaces;
 using Peluqueria.Domain.Entities;
@@ -17,7 +16,6 @@ namespace Peluqueria.Application.Services
             _fileStorage = fileStorage;
         }
 
-        // Lógica de Presentación (requestScheme, requestHost) ELIMINADA.
         public async Task<ServicioDto> CreateAsync(CreateServicioRequestDto requestDto)
         {
             var servicio = new Servicio
@@ -30,22 +28,18 @@ namespace Peluqueria.Application.Services
                 FechaCreacion = DateTime.UtcNow
             };
 
-            // Lógica de Negocio: Manejo de archivos y guardado del nombre único (CORRECTO)
             if (requestDto.Imagen != null && requestDto.Imagen.Length > 0)
             {
                 var nombreArchivo = await _fileStorage.SaveFileAsync(requestDto.Imagen, "images");
-                // SOLO se guarda el nombre del archivo, no la URL absoluta.
                 servicio.Imagen = nombreArchivo;
             }
 
             var nuevoServicio = await _servicioRepo.CreateAsync(servicio);
-            // Si el repositorio incluye la categoría, el mapeo funciona correctamente.
             var servicioCompleto = await _servicioRepo.GetByIdAsync(nuevoServicio.Id);
 
             return MapToDto(servicioCompleto!);
         }
 
-        // El resto de los métodos (GetAllAsync, GetByIdAsync, GetByCategoriaIdAsync, DeleteAsync) se mantienen igual...
         public async Task<bool> DeleteAsync(int id)
         {
             return await _servicioRepo.DeleteAsync(id);
@@ -69,7 +63,6 @@ namespace Peluqueria.Application.Services
             return servicio == null ? null : MapToDto(servicio);
         }
 
-        // Lógica de Presentación (requestScheme, requestHost) ELIMINADA.
         public async Task<ServicioDto?> UpdateAsync(int id, UpdateServicioRequestDto requestDto)
         {
             var servicioExistente = await _servicioRepo.GetByIdAsync(id);
@@ -84,7 +77,6 @@ namespace Peluqueria.Application.Services
             servicioExistente.Disponible = requestDto.Disponible;
             servicioExistente.CategoriaId = requestDto.CategoriaId;
 
-            // Se guarda SOLO el nombre de archivo en la entidad.
             if (requestDto.Imagen != null && requestDto.Imagen.Length > 0)
             {
                 var nombreArchivo = await _fileStorage.SaveFileAsync(requestDto.Imagen, "images");
@@ -98,13 +90,11 @@ namespace Peluqueria.Application.Services
                 return null;
             }
 
-            // Aquí el DTO tendrá el nombre de archivo interno
             return MapToDto(servicioActualizado);
         }
 
         private static ServicioDto MapToDto(Servicio servicio)
         {
-            // El mapeo permanece igual, Imagen contendrá solo el nombre del archivo.
             return new()
             {
                 Id = servicio.Id,

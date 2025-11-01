@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "JRleoderXZNGmDvTcHgS2HznDwo0imlCyZ2K3c/KW/Y=",
+  "Hash": "KlkiiybhXr7ChDEr3gUDBAryeEm7j9ErqSa58q7nBrY=",
   "Source": "Peluqueria.API",
   "BasePath": "_content/Peluqueria.API",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "Peluqueria.API\\wwwroot",
       "Source": "Peluqueria.API",
-      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
       "BasePath": "_content/Peluqueria.API",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\09bc9d7a-61fd-42a7-addd-bcd98d98a876.jpg",
+      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\09bc9d7a-61fd-42a7-addd-bcd98d98a876.jpg",
       "SourceId": "Peluqueria.API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
       "BasePath": "_content/Peluqueria.API",
       "RelativePath": "images/09bc9d7a-61fd-42a7-addd-bcd98d98a876#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -38,10 +38,10 @@
       "OriginalItemSpec": "wwwroot\\images\\09bc9d7a-61fd-42a7-addd-bcd98d98a876.jpg"
     },
     {
-      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg",
+      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg",
       "SourceId": "Peluqueria.API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
       "BasePath": "_content/Peluqueria.API",
       "RelativePath": "images/0a6b6211-dcaa-4f93-b539-607a85af6784#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -59,10 +59,10 @@
       "OriginalItemSpec": "wwwroot\\images\\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg"
     },
     {
-      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\123112f9-614d-4cfe-8434-8696118faefd.png",
+      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\123112f9-614d-4cfe-8434-8696118faefd.png",
       "SourceId": "Peluqueria.API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
       "BasePath": "_content/Peluqueria.API",
       "RelativePath": "images/123112f9-614d-4cfe-8434-8696118faefd#[.{fingerprint}]?.png",
       "AssetKind": "All",
@@ -80,10 +80,10 @@
       "OriginalItemSpec": "wwwroot\\images\\123112f9-614d-4cfe-8434-8696118faefd.png"
     },
     {
-      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\7a5fd803-1741-48fd-ac7a-14cee5003527.jpg",
+      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\7a5fd803-1741-48fd-ac7a-14cee5003527.jpg",
       "SourceId": "Peluqueria.API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
       "BasePath": "_content/Peluqueria.API",
       "RelativePath": "images/7a5fd803-1741-48fd-ac7a-14cee5003527#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -101,10 +101,10 @@
       "OriginalItemSpec": "wwwroot\\images\\7a5fd803-1741-48fd-ac7a-14cee5003527.jpg"
     },
     {
-      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\bobCut.png",
+      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\bobCut.png",
       "SourceId": "Peluqueria.API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
       "BasePath": "_content/Peluqueria.API",
       "RelativePath": "images/bobCut#[.{fingerprint}]?.png",
       "AssetKind": "All",
@@ -122,10 +122,10 @@
       "OriginalItemSpec": "wwwroot\\images\\bobCut.png"
     },
     {
-      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\hidratacion.jpg",
+      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\hidratacion.jpg",
       "SourceId": "Peluqueria.API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
       "BasePath": "_content/Peluqueria.API",
       "RelativePath": "images/hidratacion#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -143,10 +143,10 @@
       "OriginalItemSpec": "wwwroot\\images\\hidratacion.jpg"
     },
     {
-      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\manicura.jpg",
+      "Identity": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\manicura.jpg",
       "SourceId": "Peluqueria.API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\",
       "BasePath": "_content/Peluqueria.API",
       "RelativePath": "images/manicura#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -167,7 +167,7 @@
   "Endpoints": [
     {
       "Route": "images/09bc9d7a-61fd-42a7-addd-bcd98d98a876.jpg",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\09bc9d7a-61fd-42a7-addd-bcd98d98a876.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\09bc9d7a-61fd-42a7-addd-bcd98d98a876.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -204,7 +204,7 @@
     },
     {
       "Route": "images/09bc9d7a-61fd-42a7-addd-bcd98d98a876.sndgw7vtus.jpg",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\09bc9d7a-61fd-42a7-addd-bcd98d98a876.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\09bc9d7a-61fd-42a7-addd-bcd98d98a876.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -249,7 +249,7 @@
     },
     {
       "Route": "images/0a6b6211-dcaa-4f93-b539-607a85af6784.by2tz13q0a.jpg",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -294,7 +294,7 @@
     },
     {
       "Route": "images/0a6b6211-dcaa-4f93-b539-607a85af6784.jpg",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -331,7 +331,7 @@
     },
     {
       "Route": "images/123112f9-614d-4cfe-8434-8696118faefd.png",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\123112f9-614d-4cfe-8434-8696118faefd.png",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\123112f9-614d-4cfe-8434-8696118faefd.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -368,7 +368,7 @@
     },
     {
       "Route": "images/123112f9-614d-4cfe-8434-8696118faefd.xx79lf5s1s.png",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\123112f9-614d-4cfe-8434-8696118faefd.png",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\123112f9-614d-4cfe-8434-8696118faefd.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -413,7 +413,7 @@
     },
     {
       "Route": "images/7a5fd803-1741-48fd-ac7a-14cee5003527.jpg",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\7a5fd803-1741-48fd-ac7a-14cee5003527.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\7a5fd803-1741-48fd-ac7a-14cee5003527.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -450,7 +450,7 @@
     },
     {
       "Route": "images/7a5fd803-1741-48fd-ac7a-14cee5003527.u3micchm5o.jpg",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\7a5fd803-1741-48fd-ac7a-14cee5003527.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\7a5fd803-1741-48fd-ac7a-14cee5003527.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -495,7 +495,7 @@
     },
     {
       "Route": "images/bobCut.png",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\bobCut.png",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\bobCut.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -532,7 +532,7 @@
     },
     {
       "Route": "images/bobCut.u6kt842o77.png",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\bobCut.png",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\bobCut.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -577,7 +577,7 @@
     },
     {
       "Route": "images/hidratacion.1odr5yb8zk.jpg",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\hidratacion.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\hidratacion.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -622,7 +622,7 @@
     },
     {
       "Route": "images/hidratacion.jpg",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\hidratacion.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\hidratacion.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -659,7 +659,7 @@
     },
     {
       "Route": "images/manicura.esw2m0r44n.jpg",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\manicura.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\manicura.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -704,7 +704,7 @@
     },
     {
       "Route": "images/manicura.jpg",
-      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\manicura.jpg",
+      "AssetFile": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.API\\wwwroot\\images\\manicura.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {

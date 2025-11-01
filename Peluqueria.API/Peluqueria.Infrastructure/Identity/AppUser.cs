@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
 
-namespace Peluqueria.Infrastructure.Identity // Cambio de namespace
+namespace Peluqueria.Infrastructure.Identity
 {
     public class AppUser : IdentityUser
     {

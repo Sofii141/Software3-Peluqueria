@@ -25,18 +25,13 @@ namespace Peluqueria.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Delega la lógica de negocio (creación de entidad, manejo de archivo) al servicio
-            // Ya no se pasan requestScheme ni requestHost.
             var nuevoServicioDto = await _servicioService.CreateAsync(requestDto);
 
-            // LÓGICA DE PRESENTACIÓN: Construcción de la URL absoluta aquí.
-            // El DTO del servicio tiene solo el nombre del archivo.
             if (!string.IsNullOrEmpty(nuevoServicioDto.Imagen))
             {
                 nuevoServicioDto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{nuevoServicioDto.Imagen}";
             }
 
-            // El controlador solo se encarga del resultado HTTP
             return CreatedAtAction(nameof(GetById), new { id = nuevoServicioDto.Id }, nuevoServicioDto);
         }
 
@@ -49,8 +44,6 @@ namespace Peluqueria.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Delega toda la lógica de actualización al servicio.
-            // Ya no se pasan requestScheme ni requestHost.
             var servicioActualizadoDto = await _servicioService.UpdateAsync(id, requestDto);
 
             if (servicioActualizadoDto == null)
@@ -58,13 +51,11 @@ namespace Peluqueria.API.Controllers
                 return NotFound();
             }
 
-            // LÓGICA DE PRESENTACIÓN: Construcción de la URL absoluta aquí.
             if (!string.IsNullOrEmpty(servicioActualizadoDto.Imagen))
             {
                 servicioActualizadoDto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{servicioActualizadoDto.Imagen}";
             }
 
-            // El controlador solo se encarga del resultado HTTP
             return Ok(servicioActualizadoDto);
         }
 
@@ -73,7 +64,6 @@ namespace Peluqueria.API.Controllers
         {
             var servicios = await _servicioService.GetAllAsync();
 
-            // LÓGICA DE PRESENTACIÓN: Mapeo de URL para todos los elementos
             foreach (var servicio in servicios)
             {
                 if (!string.IsNullOrEmpty(servicio.Imagen))
@@ -90,7 +80,6 @@ namespace Peluqueria.API.Controllers
             var servicio = await _servicioService.GetByIdAsync(id);
             if (servicio == null) return NotFound();
 
-            // LÓGICA DE PRESENTACIÓN: Mapeo de URL
             if (!string.IsNullOrEmpty(servicio.Imagen))
             {
                 servicio.Imagen = $"{Request.Scheme}://{Request.Host}/images/{servicio.Imagen}";
@@ -104,7 +93,6 @@ namespace Peluqueria.API.Controllers
         {
             var servicios = await _servicioService.GetByCategoriaIdAsync(categoriaId);
 
-            // LÓGICA DE PRESENTACIÓN: Mapeo de URL para todos los elementos
             foreach (var servicio in servicios)
             {
                 if (!string.IsNullOrEmpty(servicio.Imagen))
@@ -119,7 +107,6 @@ namespace Peluqueria.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            // La eliminación es pura lógica de negocio y persistencia.
             var success = await _servicioService.DeleteAsync(id);
             if (!success) return NotFound();
             return NoContent();

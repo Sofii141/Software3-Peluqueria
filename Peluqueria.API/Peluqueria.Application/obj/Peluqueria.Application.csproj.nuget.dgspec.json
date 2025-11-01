@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Peluqueria.Application.csproj": {}
+    "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.Application\\Peluqueria.Application.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Peluqueria.Application.csproj": {
+    "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.Application\\Peluqueria.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Peluqueria.Application.csproj",
+        "projectUniqueName": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.Application\\Peluqueria.Application.csproj",
         "projectName": "Peluqueria.Application",
-        "projectPath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Peluqueria.Application.csproj",
+        "projectPath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.Application\\Peluqueria.Application.csproj",
         "packagesPath": "C:\\Users\\Ana_Sofia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\obj\\",
+        "outputPath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Domain\\Peluqueria.Domain.csproj": {
-                "projectPath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Domain\\Peluqueria.Domain.csproj"
+              "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.Domain\\Peluqueria.Domain.csproj": {
+                "projectPath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.Domain\\Peluqueria.Domain.csproj"
               }
             }
           }
@@ -86,14 +86,14 @@
         }
       }
     },
-    "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Domain\\Peluqueria.Domain.csproj": {
+    "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.Domain\\Peluqueria.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Domain\\Peluqueria.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.Domain\\Peluqueria.Domain.csproj",
         "projectName": "Peluqueria.Domain",
-        "projectPath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Domain\\Peluqueria.Domain.csproj",
+        "projectPath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.Domain\\Peluqueria.Domain.csproj",
         "packagesPath": "C:\\Users\\Ana_Sofia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Domain\\obj\\",
+        "outputPath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\PELUQUERIA_BACKEND\\Peluqueria.API\\Peluqueria.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

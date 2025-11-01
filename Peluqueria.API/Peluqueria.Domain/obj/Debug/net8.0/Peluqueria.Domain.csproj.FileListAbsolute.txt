@@ -24,3 +24,16 @@ C:\Users\Ana_Sofia\OneDrive\Documentos\PELUQUERIA_SOFTWARE\Peluqueria.API\Peluqu
 C:\Users\Ana_Sofia\OneDrive\Documentos\PELUQUERIA_SOFTWARE\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\refint\Peluqueria.Domain.dll
 C:\Users\Ana_Sofia\OneDrive\Documentos\PELUQUERIA_SOFTWARE\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\Peluqueria.Domain.pdb
 C:\Users\Ana_Sofia\OneDrive\Documentos\PELUQUERIA_SOFTWARE\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\ref\Peluqueria.Domain.dll
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\bin\Debug\net8.0\Peluqueria.Domain.deps.json
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\bin\Debug\net8.0\Peluqueria.Domain.dll
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\bin\Debug\net8.0\Peluqueria.Domain.pdb
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\Peluqueria.Domain.csproj.AssemblyReference.cache
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\Peluqueria.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\Peluqueria.Domain.AssemblyInfoInputs.cache
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\Peluqueria.Domain.AssemblyInfo.cs
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\Peluqueria.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\Peluqueria.Domain.sourcelink.json
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\Peluqueria.Domain.dll
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\refint\Peluqueria.Domain.dll
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\Peluqueria.Domain.pdb
+C:\Users\Ana_Sofia\OneDrive\Documentos\UNIVERSIDAD\PELUQUERIA_BACKEND\Peluqueria.API\Peluqueria.Domain\obj\Debug\net8.0\ref\Peluqueria.Domain.dll
