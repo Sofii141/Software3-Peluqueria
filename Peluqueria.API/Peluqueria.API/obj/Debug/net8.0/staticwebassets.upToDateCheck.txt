@@ -1,0 +1,7 @@
+wwwroot\images\09bc9d7a-61fd-42a7-addd-bcd98d98a876.jpg
+wwwroot\images\0a6b6211-dcaa-4f93-b539-607a85af6784.jpg
+wwwroot\images\123112f9-614d-4cfe-8434-8696118faefd.png
+wwwroot\images\7a5fd803-1741-48fd-ac7a-14cee5003527.jpg
+wwwroot\images\bobCut.png
+wwwroot\images\hidratacion.jpg
+wwwroot\images\manicura.jpg

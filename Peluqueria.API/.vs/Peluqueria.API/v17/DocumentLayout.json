@@ -1,0 +1,806 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.infrastructure\\service\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|solutionrelative:peluqueria.infrastructure\\service\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.infrastructure\\service\\identityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|solutionrelative:peluqueria.infrastructure\\service\\identityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.infrastructure\\service\\filestorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|solutionrelative:peluqueria.infrastructure\\service\\filestorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.infrastructure\\repository\\serviciorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|solutionrelative:peluqueria.infrastructure\\repository\\serviciorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.infrastructure\\repository\\categoriarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|solutionrelative:peluqueria.infrastructure\\repository\\categoriarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.infrastructure\\identity\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|solutionrelative:peluqueria.infrastructure\\identity\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.infrastructure\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|solutionrelative:peluqueria.infrastructure\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.infrastructure\\data\\adminuserseed.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|solutionrelative:peluqueria.infrastructure\\data\\adminuserseed.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A3FAB516-765B-4624-B3EC-D94C4F8AE84C}|Peluqueria.Domain\\Peluqueria.Domain.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.domain\\entities\\servicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3FAB516-765B-4624-B3EC-D94C4F8AE84C}|Peluqueria.Domain\\Peluqueria.Domain.csproj|solutionrelative:peluqueria.domain\\entities\\servicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A3FAB516-765B-4624-B3EC-D94C4F8AE84C}|Peluqueria.Domain\\Peluqueria.Domain.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.domain\\entities\\categoria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3FAB516-765B-4624-B3EC-D94C4F8AE84C}|Peluqueria.Domain\\Peluqueria.Domain.csproj|solutionrelative:peluqueria.domain\\entities\\categoria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\services\\servicioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\services\\servicioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\services\\categoriaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\services\\categoriaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\services\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\interfaces\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\interfaces\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\interfaces\\iservicioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\interfaces\\iservicioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\interfaces\\iserviciorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\interfaces\\iserviciorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\interfaces\\iidentityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\interfaces\\iidentityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\interfaces\\ifilestorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\interfaces\\ifilestorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\interfaces\\icategoriaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\interfaces\\icategoriaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\interfaces\\icategoriarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\interfaces\\icategoriarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\interfaces\\iaccountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\interfaces\\iaccountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\extensions\\claimsextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\extensions\\claimsextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\dtos\\servicio\\updateserviciorequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\dtos\\servicio\\updateserviciorequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\dtos\\servicio\\serviciodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\dtos\\servicio\\serviciodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\dtos\\servicio\\createserviciodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\dtos\\servicio\\createserviciodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\dtos\\categoria\\categoriadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\dtos\\categoria\\categoriadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\dtos\\account\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\dtos\\account\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\dtos\\account\\newuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\dtos\\account\\newuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\dtos\\account\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\dtos\\account\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\dtos\\account\\appuserminimaldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\dtos\\account\\appuserminimaldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|solutionrelative:peluqueria.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.api\\controllers\\servicioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|solutionrelative:peluqueria.api\\controllers\\servicioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.api\\controllers\\categoriascontoller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|solutionrelative:peluqueria.api\\controllers\\categoriascontoller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|solutionrelative:peluqueria.api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|solutionrelative:peluqueria.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.infrastructure\\migrations\\20251028172756_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|solutionrelative:peluqueria.infrastructure\\migrations\\20251028172756_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.api\\peluqueria.api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|solutionrelative:peluqueria.api\\peluqueria.api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028165550_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028165408_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.application\\peluqueria.application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{3A0B2326-B218-44C9-B31F-81A588F1047C}|Peluqueria.Application\\Peluqueria.Application.csproj|solutionrelative:peluqueria.application\\peluqueria.application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028154457_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028154840_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.infrastructure\\peluqueria.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{BA1741FB-D4D4-448E-A78E-F127AEF8703B}|Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj|solutionrelative:peluqueria.infrastructure\\peluqueria.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A3FAB516-765B-4624-B3EC-D94C4F8AE84C}|Peluqueria.Domain\\Peluqueria.Domain.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.domain\\peluqueria.domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A3FAB516-765B-4624-B3EC-D94C4F8AE84C}|Peluqueria.Domain\\Peluqueria.Domain.csproj|solutionrelative:peluqueria.domain\\peluqueria.domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.api\\peluqueria.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|solutionrelative:peluqueria.api\\peluqueria.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|c:\\users\\ana_sofia\\onedrive\\documentos\\peluqueria_software\\peluqueria.api\\peluqueria.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8FBB75EF-1D4E-42BB-B427-9CB30B525FB4}|Peluqueria.API\\Peluqueria.API.csproj|solutionrelative:peluqueria.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TokenService.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Service\\TokenService.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Infrastructure\\Service\\TokenService.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Service\\TokenService.cs",
+              "RelativeToolTip": "Peluqueria.Infrastructure\\Service\\TokenService.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAIwDYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T03:33:28.724Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IdentityService.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Service\\IdentityService.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Infrastructure\\Service\\IdentityService.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Service\\IdentityService.cs",
+              "RelativeToolTip": "Peluqueria.Infrastructure\\Service\\IdentityService.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAowEcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T21:10:57.436Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FileStorageService.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Service\\FileStorageService.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Infrastructure\\Service\\FileStorageService.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Service\\FileStorageService.cs",
+              "RelativeToolTip": "Peluqueria.Infrastructure\\Service\\FileStorageService.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAiwCcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T03:26:44.81Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ServicioRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Repository\\ServicioRepository.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Infrastructure\\Repository\\ServicioRepository.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Repository\\ServicioRepository.cs",
+              "RelativeToolTip": "Peluqueria.Infrastructure\\Repository\\ServicioRepository.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAUwEkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T03:27:01.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CategoriaRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Repository\\CategoriaRepository.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Infrastructure\\Repository\\CategoriaRepository.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Repository\\CategoriaRepository.cs",
+              "RelativeToolTip": "Peluqueria.Infrastructure\\Repository\\CategoriaRepository.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAswBcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T03:26:59.63Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AppUser.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Identity\\AppUser.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Infrastructure\\Identity\\AppUser.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Identity\\AppUser.cs",
+              "RelativeToolTip": "Peluqueria.Infrastructure\\Identity\\AppUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T21:48:54.254Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ApplicationDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Data\\ApplicationDBContext.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Infrastructure\\Data\\ApplicationDBContext.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Data\\ApplicationDBContext.cs",
+              "RelativeToolTip": "Peluqueria.Infrastructure\\Data\\ApplicationDBContext.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAIwFYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T03:27:07.112Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AdminUserSeed.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Data\\AdminUserSeed.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Infrastructure\\Data\\AdminUserSeed.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Data\\AdminUserSeed.cs",
+              "RelativeToolTip": "Peluqueria.Infrastructure\\Data\\AdminUserSeed.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAIwCcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T03:27:05.309Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Servicio.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Domain\\Entities\\Servicio.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Domain\\Entities\\Servicio.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Domain\\Entities\\Servicio.cs",
+              "RelativeToolTip": "Peluqueria.Domain\\Entities\\Servicio.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAcwBQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T03:33:05.242Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Categoria.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Domain\\Entities\\Categoria.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Domain\\Entities\\Categoria.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Domain\\Entities\\Categoria.cs",
+              "RelativeToolTip": "Peluqueria.Domain\\Entities\\Categoria.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T03:33:02.306Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ServicioService.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Services\\ServicioService.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Services\\ServicioService.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Services\\ServicioService.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Services\\ServicioService.cs",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAwwHwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T20:53:20.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CategoriaService.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Services\\CategoriaService.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Services\\CategoriaService.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Services\\CategoriaService.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Services\\CategoriaService.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAowB8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T20:52:51.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "AccountService.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Services\\AccountService.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Services\\AccountService.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Services\\AccountService.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Services\\AccountService.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAUwFYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T20:52:14.366Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ITokenService.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\ITokenService.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Interfaces\\ITokenService.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\ITokenService.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Interfaces\\ITokenService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:17:35.215Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "IServicioService.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\IServicioService.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Interfaces\\IServicioService.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\IServicioService.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Interfaces\\IServicioService.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAiwBAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T19:48:03.859Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "IServicioRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\IServicioRepository.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Interfaces\\IServicioRepository.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\IServicioRepository.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Interfaces\\IServicioRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:17:29.701Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "IIdentityService.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\IIdentityService.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Interfaces\\IIdentityService.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\IIdentityService.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Interfaces\\IIdentityService.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAiwBAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T21:08:38.841Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "IFileStorageService.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\IFileStorageService.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Interfaces\\IFileStorageService.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\IFileStorageService.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Interfaces\\IFileStorageService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:17:21.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ICategoriaService.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\ICategoriaService.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Interfaces\\ICategoriaService.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\ICategoriaService.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Interfaces\\ICategoriaService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T20:31:12.561Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ICategoriaRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\ICategoriaRepository.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Interfaces\\ICategoriaRepository.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\ICategoriaRepository.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Interfaces\\ICategoriaRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:17:17.488Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "IAccountService.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\IAccountService.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Interfaces\\IAccountService.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Interfaces\\IAccountService.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Interfaces\\IAccountService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T19:49:42.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ClaimsExtensions.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Extensions\\ClaimsExtensions.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Extensions\\ClaimsExtensions.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Extensions\\ClaimsExtensions.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Extensions\\ClaimsExtensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:17:10.369Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "UpdateServicioRequestDto.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Servicio\\UpdateServicioRequestDto.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Dtos\\Servicio\\UpdateServicioRequestDto.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Servicio\\UpdateServicioRequestDto.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Dtos\\Servicio\\UpdateServicioRequestDto.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAwBwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T19:54:53.731Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "ServicioDto.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Servicio\\ServicioDto.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Dtos\\Servicio\\ServicioDto.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Servicio\\ServicioDto.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Dtos\\Servicio\\ServicioDto.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAcwBAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:17:03.188Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "CreateServicioDto.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Servicio\\CreateServicioDto.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Dtos\\Servicio\\CreateServicioDto.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Servicio\\CreateServicioDto.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Dtos\\Servicio\\CreateServicioDto.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAwBcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:16:59.653Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "CategoriaDto.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Categoria\\CategoriaDto.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Dtos\\Categoria\\CategoriaDto.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Categoria\\CategoriaDto.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Dtos\\Categoria\\CategoriaDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:16:51.644Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "RegisterDto.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Account\\RegisterDto.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Dtos\\Account\\RegisterDto.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Account\\RegisterDto.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Dtos\\Account\\RegisterDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAkwBIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:16:45.555Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "NewUserDto.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Account\\NewUserDto.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Dtos\\Account\\NewUserDto.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Account\\NewUserDto.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Dtos\\Account\\NewUserDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:16:41.404Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "LoginDto.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Account\\LoginDto.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Dtos\\Account\\LoginDto.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Account\\LoginDto.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Dtos\\Account\\LoginDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:16:37.213Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "AppUserMinimalDto.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Account\\AppUserMinimalDto.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Dtos\\Account\\AppUserMinimalDto.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Dtos\\Account\\AppUserMinimalDto.cs",
+              "RelativeToolTip": "Peluqueria.Application\\Dtos\\Account\\AppUserMinimalDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T21:49:36.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Program.cs",
+              "RelativeDocumentMoniker": "Peluqueria.API\\Program.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Program.cs",
+              "RelativeToolTip": "Peluqueria.API\\Program.cs",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAIwH4AAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T03:05:47.955Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "ServiciosController.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Controllers\\ServiciosController.cs",
+              "RelativeDocumentMoniker": "Peluqueria.API\\Controllers\\ServiciosController.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Controllers\\ServiciosController.cs",
+              "RelativeToolTip": "Peluqueria.API\\Controllers\\ServiciosController.cs",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAwwH8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T03:04:36.19Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "CategoriasContoller.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Controllers\\CategoriasContoller.cs",
+              "RelativeDocumentMoniker": "Peluqueria.API\\Controllers\\CategoriasContoller.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Controllers\\CategoriasContoller.cs",
+              "RelativeToolTip": "Peluqueria.API\\Controllers\\CategoriasContoller.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAowCAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T03:04:24.542Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Peluqueria.API\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Peluqueria.API\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAIwEYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T03:03:50.137Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\appsettings.json",
+              "RelativeDocumentMoniker": "Peluqueria.API\\appsettings.json",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\appsettings.json",
+              "RelativeToolTip": "Peluqueria.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-28T03:05:53.072Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "20251028172756_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028172756_InitialCreate.cs",
+              "RelativeDocumentMoniker": "Peluqueria.Infrastructure\\Migrations\\20251028172756_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028172756_InitialCreate.cs",
+              "RelativeToolTip": "Peluqueria.Infrastructure\\Migrations\\20251028172756_InitialCreate.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T17:27:56.46Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "Peluqueria.API.http",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Peluqueria.API.http",
+              "RelativeDocumentMoniker": "Peluqueria.API\\Peluqueria.API.http",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Peluqueria.API.http",
+              "RelativeToolTip": "Peluqueria.API\\Peluqueria.API.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-10-28T03:36:46.957Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "20251028165550_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028165550_InitialCreate.cs",
+              "RelativeDocumentMoniker": "..\\..\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028165550_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028165550_InitialCreate.cs",
+              "RelativeToolTip": "..\\..\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028165550_InitialCreate.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:55:51.03Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "20251028165408_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028165408_InitialCreate.cs",
+              "RelativeDocumentMoniker": "..\\..\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028165408_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028165408_InitialCreate.cs",
+              "RelativeToolTip": "..\\..\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028165408_InitialCreate.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T16:54:08.963Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "Peluqueria.Application.csproj",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Peluqueria.Application.csproj",
+              "RelativeDocumentMoniker": "Peluqueria.Application\\Peluqueria.Application.csproj",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Application\\Peluqueria.Application.csproj",
+              "RelativeToolTip": "Peluqueria.Application\\Peluqueria.Application.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-28T03:49:36.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "20251028154840_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028154840_InitialCreate.cs",
+              "RelativeDocumentMoniker": "..\\..\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028154840_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028154840_InitialCreate.cs",
+              "RelativeToolTip": "..\\..\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028154840_InitialCreate.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T15:48:40.948Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "20251028154457_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028154457_InitialCreate.cs",
+              "RelativeDocumentMoniker": "..\\..\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028154457_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028154457_InitialCreate.cs",
+              "RelativeToolTip": "..\\..\\UNIVERSIDAD\\BACKENDNETCORE_COPIA\\Peluqueria.API\\Peluqueria.Infrastructure\\Migrations\\20251028154457_InitialCreate.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T15:44:58.083Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "Peluqueria.Infrastructure.csproj",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj",
+              "RelativeDocumentMoniker": "Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj",
+              "RelativeToolTip": "Peluqueria.Infrastructure\\Peluqueria.Infrastructure.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-28T03:50:56.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "Peluqueria.Domain.csproj",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Domain\\Peluqueria.Domain.csproj",
+              "RelativeDocumentMoniker": "Peluqueria.Domain\\Peluqueria.Domain.csproj",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.Domain\\Peluqueria.Domain.csproj",
+              "RelativeToolTip": "Peluqueria.Domain\\Peluqueria.Domain.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-28T03:32:56.367Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "Peluqueria.API.csproj",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Peluqueria.API.csproj",
+              "RelativeDocumentMoniker": "Peluqueria.API\\Peluqueria.API.csproj",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Peluqueria.API.csproj",
+              "RelativeToolTip": "Peluqueria.API\\Peluqueria.API.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-28T03:06:52.096Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Peluqueria.API\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\Ana_Sofia\\OneDrive\\Documentos\\PELUQUERIA_SOFTWARE\\Peluqueria.API\\Peluqueria.API\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Peluqueria.API\\Properties\\launchSettings.json",
+              "ViewState": "AgIAABMAAAAAAAAAAMBdwAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-28T03:06:02.105Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

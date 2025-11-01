@@ -1,0 +1,25 @@
+# Archivos y carpetas de Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Compilados
+bin/
+obj/
+Debug/
+Release/
+*.dll
+*.exe
+*.pdb
+
+# Archivos temporales
+*.cache
+*.log
+*.vsidx
+*.v2
+
+# Archivos del sistema
+Thumbs.db
+*.DS_Store
