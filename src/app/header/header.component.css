@@ -1,15 +1,11 @@
-/* --- Estilo base de la barra de navegación --- */
 .navbar {
-  /* Fondo oscuro sólido siempre */
   background-color: #1c1c1e;
   padding-top: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #444444;
-  /* Una sombra sutil para que "flote" sobre el contenido al hacer scroll */
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* --- Estilo del logo/marca --- */
 .navbar-brand {
   font-family: 'Great Vibes', cursive;
   color: #fff;
@@ -17,7 +13,6 @@
   font-weight: normal;
 }
 
-/* --- Estilo de los enlaces de navegación --- */
 .nav-link {
   color: #a0a0a0;
   font-size: 1.1rem;
@@ -27,7 +22,6 @@
   cursor: pointer;
 }
 
-/* Subrayado animado que aparece al pasar el ratón */
 .nav-link::after {
   content: '';
   position: absolute;
@@ -48,7 +42,6 @@
   left: 0;
 }
 
-/* --- ESTILO PARA EL ENLACE ACTIVO (LA SECCIÓN ACTUAL) --- */
 .nav-link.active {
   color: #fff !important;
   font-weight: 600;
@@ -59,8 +52,6 @@
   left: 0;
 }
 
-
-/* --- Estilos para el botón del menú en móviles --- */
 .navbar-toggler {
   border-color: rgba(255, 255, 255, 0.2);
 }

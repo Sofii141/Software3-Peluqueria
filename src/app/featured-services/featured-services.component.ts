@@ -15,8 +15,6 @@ import { CategoriaService } from '../categorias/servicios/categoria.service';
 })
 export class FeaturedServicesComponent implements OnInit {
 
-  // --- PROPIEDADES SIMPLIFICADAS ---
-  // Ya no necesitamos el array 'todosLosServicios'
   public serviciosFiltrados: Servicio[] = [];
   public categorias: Categoria[] = [];
   public categoriaActiva: number | 'all' = 'all';
@@ -27,18 +25,13 @@ export class FeaturedServicesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Obtenemos las categorías para los botones de filtro, esto ya estaba bien
     this.categoriaService.getCategorias().subscribe(cats => {
       this.categorias = cats;
     });
 
-    // --- LÓGICA MEJORADA ---
-    // Hacemos la carga inicial de "Todos" los servicios llamando a la función de filtro
     this.filtrarServicios('all');
   }
 
-  // --- FUNCIÓN DE FILTRADO OPTIMIZADA ---
-  // Ahora llama al backend para obtener solo los servicios necesarios
   filtrarServicios(idCategoria: number | 'all'): void {
     this.categoriaActiva = idCategoria;
     

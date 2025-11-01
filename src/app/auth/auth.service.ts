@@ -10,11 +10,12 @@ import { LoginRequest, LoginResponse, RegisterRequest } from './auth.interfaces'
   providedIn: 'root'
 })
 export class AuthService {
-  private http = inject(HttpClient);
-  private router = inject(Router);
-  private apiAuthUrl = `${environment.apiUrl}/api/account`;
+  // Inyeccion de dependencias
+  private http = inject(HttpClient); // Peticiones HTTP
+  private router = inject(Router); // Navegar 
+  private apiAuthUrl = `${environment.apiUrl}/api/account`; // URL completa
 
-  // BehaviorSubject para el token y el rol
+  // BehaviorSubject para el token y el rol que hay en localStorage
   private currentUserToken = new BehaviorSubject<string | null>(this.getTokenFromStorage());
   private currentUserRole = new BehaviorSubject<string | null>(this.getRoleFromToken(this.getTokenFromStorage()));
 
@@ -24,11 +25,15 @@ export class AuthService {
 
   // Método de Login 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
+    // Peticion POST
     return this.http.post<LoginResponse>(`${this.apiAuthUrl}/login`, loginRequest).pipe(
       tap(response => {
         // Al recibir respuesta, guardamos el token y actualizamos los BehaviorSubjects
+        // Sesion persistente 
         localStorage.setItem('authToken', response.token);
+        // Se notifica a toda la app que hay nuevo token
         this.currentUserToken.next(response.token);
+        // Decodificamos el token y le decimos a la app sobre nuevo rol
         this.currentUserRole.next(this.getRoleFromToken(response.token));
       })
     );
@@ -46,22 +51,28 @@ export class AuthService {
   }
 
   logout(): void {
+    // Eliminarmos token del almacenamiento
     localStorage.removeItem('authToken');
+    // Notificamos a la app que ya no hay token
     this.currentUserToken.next(null);
+    // Notificamos que no hay rol
     this.currentUserRole.next(null);
     this.router.navigate(['/']);
   }
 
+  // Devuelve el valor actual del token
   public getToken(): string | null {
     return this.currentUserToken.getValue();
   }
 
+  // Devuelve el valor actual del rol
   public getRole(): string | null {
     return this.currentUserRole.getValue();
   }
   
+  // metoodo usado por guard para ver si es admin
   public isAdmin(): boolean {
-    return this.getRole() === 'Admin'; // El rol viene del backend
+    return this.getRole() === 'Admin'; 
   }
 
   private getTokenFromStorage(): string | null {
@@ -78,7 +89,6 @@ export class AuthService {
     }
     try {
       const decodedToken: { role: string } = jwtDecode(token);
-      // En tu backend, el claim se llama 'role'. Si se llamara de otra forma, ajústalo aquí.
       return decodedToken.role;
     } catch (error) {
       console.error("Error decodificando el token", error);

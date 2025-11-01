@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './register.component.html',
-  styleUrls: ['../login/login.component.css'] // Reutilizamos los estilos del login
+  styleUrls: ['../login/login.component.css'] 
 })
 export class RegisterComponent {
   public userData = {
@@ -24,6 +24,7 @@ export class RegisterComponent {
     private router: Router
   ) {}
 
+  // Este método se llama cuando el usuario envía el formulario.
   onSubmit(registerForm: NgForm): void {
     if (registerForm.invalid) {
       return;

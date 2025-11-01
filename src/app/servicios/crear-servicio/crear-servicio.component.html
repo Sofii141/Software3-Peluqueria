@@ -6,7 +6,6 @@
     <form #servicioForm="ngForm" (ngSubmit)="crearServicio()">
       <div class="row">
 
-        <!-- Columna Izquierda: Campos de Texto -->
         <div class="col-lg-7">
           <div class="form-group mb-4">
             <label for="nombre">Nombre del Servicio</label>
@@ -36,22 +35,18 @@
           </div>
         </div>
 
-        <!-- Columna Derecha: Subida de Imagen y Switch -->
         <div class="col-lg-5 d-flex flex-column">
           <div class="form-group mb-4 flex-grow-1">
             <label>Imagen del Servicio</label>
-            <!-- El input real está oculto, el div es el área clickeable -->
             <div class="image-upload-box" (click)="fileInput.click()">
               <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
               
-              <!-- Se muestra solo si NO hay imagen seleccionada -->
               <div *ngIf="!imagePreview" class="upload-prompt">
                 <i class="fas fa-cloud-upload-alt"></i>
                 <p>Arrastra o haz clic para subir</p>
                 <small>Recomendado: 800x800px</small>
               </div>
               
-              <!-- Se muestra solo si SÍ hay una imagen seleccionada -->
               <img *ngIf="imagePreview" [src]="imagePreview" alt="Vista previa" class="image-preview">
             </div>
           </div>
@@ -65,7 +60,6 @@
         </div>
       </div>
       
-      <!-- Divisor elegante antes del botón -->
       <hr class="form-divider">
 
       <div class="form-actions">

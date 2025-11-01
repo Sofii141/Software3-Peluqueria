@@ -19,8 +19,6 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class ListarServiciosComponent implements OnInit {
 
-  // --- PROPIEDADES SIMPLIFICADAS ---
-  // Ya no necesitamos un array para 'todos los servicios', solo el que se muestra
   serviciosFiltrados: Servicio[] = [];
   categorias: Categoria[] = [];
   categoriaActiva: string | number = 'all';
@@ -41,18 +39,13 @@ export class ListarServiciosComponent implements OnInit {
     this.objCategoriaService.getCategorias().subscribe(categorias => {
       this.categorias = categorias;
     });
-
-    // --- LÓGICA MEJORADA ---
     // Hacemos la carga inicial de los servicios llamando a nuestra nueva función de filtro
     this.filtrarServicios('all');
   }
 
-  // --- FUNCIÓN DE FILTRADO OPTIMIZADA ---
-  // Ahora llama al backend para obtener solo los servicios necesarios
   filtrarServicios(categoriaId: string | number): void {
     this.categoriaActiva = categoriaId;
 
-    // Convertimos 'all' a 0 para que el servicio lo entienda
     const idParaPeticion = categoriaId === 'all' ? 0 : Number(categoriaId);
 
     this.objServicioService.getServiciosPorCategoria(idParaPeticion).subscribe(
@@ -71,7 +64,6 @@ export class ListarServiciosComponent implements OnInit {
     this.router.navigate(['/servicios/actualizar', id]);
   }
 
-  // --- FUNCIÓN DE ELIMINACIÓN MEJORADA ---
   eliminarServicio(id: number): void {
     Swal.fire({
       title: '¿Desea eliminar el servicio?',

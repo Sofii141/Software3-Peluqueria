@@ -16,7 +16,6 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./crear-servicio.component.css']
 })
 export class CrearServicioComponent implements OnInit {
-  // --- CORREGIDO ---: Usamos 'categoria' en lugar de 'objCategoria' para consistencia
   public servicio: Servicio = new Servicio(); 
   public categorias: Categoria[] = [];
   public titulo: String = 'Registrar Nuevo Servicio';
@@ -51,7 +50,7 @@ export class CrearServicioComponent implements OnInit {
     }
   }
 
-  // --- FUNCIÓN 'crearServicio' COMPLETAMENTE CORREGIDA ---
+
   public crearServicio(): void {
     if (!this.selectedFile) {
       Swal.fire('Error de validación', 'Debe seleccionar una imagen para el servicio.', 'error');
@@ -65,7 +64,7 @@ export class CrearServicioComponent implements OnInit {
 
     const formData = new FormData();
 
-    // 1. Añadimos cada propiedad del servicio como un campo separado.
+    // Añadimos cada propiedad del servicio como un campo separado.
     // Las claves deben coincidir con las propiedades del DTO del backend.
     formData.append('Nombre', this.servicio.nombre);
     formData.append('Descripcion', this.servicio.descripcion);
@@ -73,10 +72,10 @@ export class CrearServicioComponent implements OnInit {
     formData.append('Disponible', this.servicio.disponible.toString());
     formData.append('CategoriaId', this.servicio.categoria.id.toString());
     
-    // 2. La clave para la imagen debe ser 'Imagen' (con 'I' mayúscula) para coincidir con el DTO.
+    // La clave para la imagen debe ser 'Imagen' (con 'I' mayúscula) para coincidir con el DTO.
     formData.append('Imagen', this.selectedFile, this.selectedFile.name);
 
-    // 3. Llamamos al servicio con el FormData correctamente construido.
+    // Llamamos al servicio con el FormData correctamente construido.
     this.servicioService.createWithImage(formData).subscribe({
       next: (response) => {
         this.router.navigate(['/servicios']);

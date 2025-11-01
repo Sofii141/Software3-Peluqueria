@@ -1,10 +1,7 @@
-<!-- src/app/featured-services/featured-services.component.html -->
 <section id="featured-services" class="full-page-section">
   <div class="container text-center">
-    <!-- 1. TÍTULO CORREGIDO Y MÁS CORTO -->
     <h2 class="section-title">Servicios Estrella</h2>
 
-    <!-- 2. NUEVO MENÚ DE FILTROS ELEGANTE -->
     <div class="category-filters my-5">
       <button 
         class="filter-btn" 
@@ -21,7 +18,6 @@
       </button>
     </div>
 
-    <!-- 3. TARJETAS REDISEÑADAS Y AHORA USAN 'serviciosFiltrados' -->
     <div class="row justify-content-center g-4">
       <div *ngFor="let servicio of serviciosFiltrados; let i = index" class="col-lg-4 col-md-6">
         <div class="card service-card-home" [style.animation-delay]="i * 0.1 + 's'">
@@ -38,7 +34,6 @@
       </div>
     </div>
     
-    <!-- Mensaje si no hay servicios en una categoría -->
     <div *ngIf="serviciosFiltrados.length === 0" class="no-services-message">
       <p>Próximamente tendremos nuevos servicios en esta categoría.</p>
     </div>

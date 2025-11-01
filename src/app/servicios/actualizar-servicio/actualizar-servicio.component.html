@@ -5,9 +5,7 @@
 
     <form #servicioForm="ngForm" (ngSubmit)="actualizarServicio()">
       <div class="row">
-        <!-- Columna Izquierda (SIN CAMBIOS) -->
         <div class="col-lg-7">
-          <!-- ... todo el contenido de la columna izquierda se mantiene igual ... -->
           <div class="form-group mb-4">
             <label for="nombre">Nombre del Servicio</label>
             <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="servicio.nombre" required>
@@ -34,7 +32,6 @@
           </div>
         </div>
 
-        <!-- Columna Derecha (CON CAMBIOS) -->
         <div class="col-lg-5 d-flex flex-column">
           <div class="form-group mb-4 flex-grow-1">
             <label>Imagen del Servicio</label>
@@ -48,16 +45,10 @@
                 <p>Haz clic para subir una imagen</p>
               </div>
 
-              <!-- ============================================== -->
-              <!-- ===== AQUÍ ESTÁ EL CÓDIGO NUEVO A AÑADIR ===== -->
-              <!-- ============================================== -->
               <div class="image-overlay">
                 <i class="fas fa-camera"></i>
                 <span>Cambiar Imagen</span>
               </div>
-              <!-- ============================================== -->
-              <!-- ============ FIN DEL CÓDIGO NUEVO ============ -->
-              <!-- ============================================== -->
 
             </div>
           </div>

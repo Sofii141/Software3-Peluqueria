@@ -1,48 +1,31 @@
-/* =================================================================== */
-/* 1. CONTENEDORES PRINCIPALES DEL CARRUSEL
-/* =================================================================== */
-
-/* Contenedor principal del carrusel */
 .hero-carousel {
   position: relative;
   width: 100%;
   height: 90vh;
   min-height: 500px;
   overflow: hidden;
-  background-color: #1c1c1e; /* Color de fondo si el video tarda en cargar */
+  background-color: #1c1c1e; 
 }
 
-/*
-  CORRECCIÓN 1: Se le da altura al contenedor de los slides para
-  que ocupe todo el espacio del carrusel principal.
-*/
 .carousel-inner {
   height: 100%;
 }
 
-/* Cada slide individual también debe ocupar el 100% de la altura */
 .carousel-item {
   width: 100%;
   height: 100%;
 }
 
-
-/* =================================================================== */
-/* 2. CAPAS DEL CARRUSEL (VIDEO Y SOMBRA)
-/* =================================================================== */
-
-/* Estilo para el video de fondo */
 .video-background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  /* CAMBIA ESTA LÍNEA */
-  object-fit: cover; /* En lugar de 'contain' */
+  object-fit: cover; 
   z-index: 1;
 }
-/* Capa oscura opcional sobre el video */
+
 .carousel-item::after {
   content: '';
   position: absolute;
@@ -51,12 +34,8 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2; /* Capa intermedia, sobre el video */
+  z-index: 2; 
 }
-
-/* =================================================================== */
-/* 3. CONTENIDO DE TEXTO SUPERPUESTO
-/* =================================================================== */
 
 .carousel-caption {
   position: absolute;
@@ -67,7 +46,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  z-index: 3; /* Sobre la sombra y el video */
+  z-index: 3; 
   padding: 0;
 }
 
@@ -77,15 +56,15 @@
   border-left: 5px solid #D4AF37;
   backdrop-filter: blur(5px);
   max-width: 100%;
-  text-align: center; /* <-- AÑADE ESTA LÍNEA PARA CENTRAR TODO */
+  text-align: center; 
 }
 
 .services-list {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: inline-block; /* <-- AÑADE ESTA LÍNEA */
-  text-align: left;    /* <-- Y AÑADE ESTA LÍNEA TAMBIÉN */
+  display: inline-block; 
+  text-align: left;  
 }
 .subtitle {
   font-family: 'Raleway', sans-serif;
@@ -123,32 +102,22 @@
   width: 1em;
   margin-left: -1em;
 }
-/* home.component.css */
+
 
 .description {
   font-family: 'Raleway', sans-serif;
   font-size: clamp(1rem, 2.5vw, 1.2rem);
   color: #f8f9fa;
   max-width: 500px;
-  /* --- ESTAS DOS LÍNEAS SON LA SOLUCIÓN --- */
   margin-left: auto;
   margin-right: auto;
 }
-/* =================================================================== */
-/* 4. CONTROLES DEL CARRUSEL (FLECHAS)
-/* =================================================================== */
 
-/*
-  CORRECCIÓN 2: Se establece un z-index alto para los controles
-  para asegurar que estén por encima de todas las demás capas y
-  puedan ser clickeados.
-*/
 .carousel-control-prev,
 .carousel-control-next {
-  z-index: 5; /* El valor más alto para la capa superior */
+  z-index: 5; 
 }
 
-/* Opcional: Mejora visual para los íconos de las flechas */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   background-size: 100%, 100%;
@@ -158,9 +127,6 @@
 }
 
 
-/* =================================================================== */
-/* 5. MEDIA QUERIES PARA RESPONSIVIDAD
-/* =================================================================== */
 @media (max-width: 992px) {
   .text-container {
     padding: 2rem;
@@ -203,7 +169,6 @@
   }
 }
 
-/* 2. Aplicamos la animación a los elementos del slide activo */
 .carousel-item.active .subtitle {
   animation: fadeInUp 0.5s ease-out 0.3s backwards;
 }

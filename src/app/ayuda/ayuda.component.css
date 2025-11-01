@@ -1,41 +1,39 @@
-/* Estilo para que la sección ocupe toda la pantalla y tenga el fondo deseado */
 .full-page-section {
-  min-height: 100vh; /* Ocupa al menos el 100% de la altura de la pantalla */
+  min-height: 100vh; 
   width: 100%;
-  display: flex; /* Usamos flexbox para centrar el contenido */
+  display: flex; 
   flex-direction: column;
-  justify-content: center; /* Centra verticalmente */
-  align-items: center; /* Centra horizontalmente */
+  justify-content: center; 
+  align-items: center; 
   padding: 5rem 1rem;
-  background-color: #1c1c1e; /* Fondo oscuro consistente con otras secciones */
-  text-align: center; /* Centra el texto dentro del contenedor */
+  background-color: #1c1c1e; 
+  text-align: center; 
 }
 
-/* Estilos para el mensaje de "en construcción" */
 .construction-wrapper {
-  background-color: #2a2a2e; /* Un fondo ligeramente más claro para resaltar */
+  background-color: #2a2a2e; 
   padding: 4rem;
   border-radius: 0.5rem;
   border: 1px solid #444;
   box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-  max-width: 600px; /* Ancho máximo para el contenido */
+  max-width: 600px;
   width: 100%;
 }
 
 .construction-icon {
   font-size: 5rem;
-  color: #D4AF37; /* Color dorado para el ícono */
+  color: #D4AF37; 
 }
 
 .section-title {
-  color: #ffffff; /* Título en color blanco */
+  color: #ffffff; 
 }
 
 .lead {
   font-size: 1.25rem;
-  color: #a0a0a0; /* Color de texto secundario */
+  color: #a0a0a0; 
 }
 
 p {
-  color: #c0c0c0; /* Color de texto general */
+  color: #c0c0c0; 
 }

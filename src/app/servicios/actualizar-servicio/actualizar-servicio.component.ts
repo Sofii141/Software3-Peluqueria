@@ -33,21 +33,14 @@ export class ActualizarServicioComponent implements OnInit {
   ) { }
 
     ngOnInit(): void {
-    // Es mejor cargar las categorías primero
     this.categoriaService.getCategorias().subscribe(categorias => {
       this.categorias = categorias;
-      
-      // Una vez que tenemos las categorías, cargamos el servicio
       const servicioId = this.route.snapshot.paramMap.get('id');
       if (servicioId) {
         this.servicioService.getServicioById(+servicioId).subscribe(servicio => {
           this.servicio = servicio;
-          
-          // Este 'if' es nuestra garantía de que 'servicio.categoria' no es null.
           if (servicio.categoria) {
 
-            // --- ÚNICO CAMBIO AQUÍ ---
-            // Añadimos '!' para asegurarle a TypeScript que 'servicio.categoria' no es null.
             this.servicio.categoria = this.categorias.find(cat => cat.id === servicio.categoria!.id) || null;
           }
         });
@@ -79,8 +72,6 @@ export class ActualizarServicioComponent implements OnInit {
     formData.append('Precio', this.servicio.precio.toString());
     formData.append('Disponible', this.servicio.disponible.toString());
     
-    // --- ÚNICO CAMBIO AQUÍ ---
-    // Añadimos '!' para decirle a TypeScript que confiamos en que 'categoria' no es null.
     formData.append('CategoriaId', this.servicio.categoria!.id.toString());
     
     if (this.selectedFile) {

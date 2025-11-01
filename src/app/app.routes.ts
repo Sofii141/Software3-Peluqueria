@@ -7,18 +7,15 @@ import { OfertasComponent } from './ofertas/ofertas.component';
 import { CuponesComponent } from './cupones/cupones.component';
 import { AyudaComponent } from './ayuda/ayuda.component';
 import { adminGuard } from './auth/auth.guard';
-// 1. IMPORTAR LOS NUEVOS COMPONENTES
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
 
-    // 2. AÑADIR RUTAS DE AUTENTICACIÓN
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     
-    // Rutas de la funcionalidad principal (Servicios de la peluquería)
     { path: 'servicios', component: ListarServiciosComponent },
     { 
       path: 'servicios/crear', 
@@ -31,7 +28,6 @@ export const routes: Routes = [
       canActivate: [adminGuard]
     },
 
-    // Rutas "Borrador"
     { path: 'ofertas', component: OfertasComponent },
     { path: 'cupones', component: CuponesComponent },
     { path: 'ayuda', component: AyudaComponent },
