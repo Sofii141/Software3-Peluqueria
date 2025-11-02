@@ -37,7 +37,6 @@ export class ServicioService {
       return this.getServicios();
     }
     return this.http.get<Servicio[]>(`${this.urlEndPoint}/categoria/${categoriaId}`).pipe(
-      // CORRECCIÓN: Usar una función flecha para preservar el contexto 'this'.
       map(servicios => servicios.map(servicio => this.mapServicio(servicio))) 
     );
   }
@@ -50,7 +49,6 @@ export class ServicioService {
 
   createWithImage(formData: FormData): Observable<Servicio> {
     return this.http.post<Servicio>(this.urlEndPoint, formData).pipe(
-      // CORRECCIÓN: Usar una función flecha para preservar el contexto 'this'.
       map(servicio => this.mapServicio(servicio)), 
       catchError(this.handleError)
     );
@@ -63,7 +61,6 @@ export class ServicioService {
    */
   updateWithImage(id: number, formData: FormData): Observable<Servicio> {
     return this.http.put<Servicio>(`${this.urlEndPoint}/${id}`, formData).pipe(
-      // CORRECCIÓN: Usar una función flecha para preservar el contexto 'this'.
       map(servicio => this.mapServicio(servicio)), 
       catchError(this.handleError)
     );
