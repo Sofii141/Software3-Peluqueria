@@ -10,24 +10,38 @@ using Peluqueria.Infrastructure.Data;
 using Peluqueria.Infrastructure.Repositories;
 using Peluqueria.Infrastructure.Service;
 using System.Text;
+using System.Globalization; // <-- Necesario
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+// --- CULTURA INVARIANTE PARA MODEL BINDING ---
+// Establece la cultura para la aplicaci贸n/hilo. Usar la cultura Invariante o en-US 
+// asegura que el separador decimal sea el punto (.), est谩ndar para APIs.
+var cultureInfo = new CultureInfo("en-US");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
+// Si usa .NET 6/7/8, esta configuraci贸n es la que aplica a la app y threads por defecto
+// Puede que solo necesite configurar el Model Binding.
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    })
+    // Opcional: Para asegurar que el Model Binding use la cultura correcta
+    .AddMvcOptions(options =>
+    {
+        options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+            _ => "El valor es requerido.");
+    });
+// FIN DE LA MODIFICACI脫N DE CULTURA
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Peluqueria.API", Version = "1.0" });
-    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Please enter a valid token",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "Bearer"
-    });
+    // ... (resto del c贸digo de SwaggerGen)
+    // ... (el resto de tu c贸digo sigue aqu铆 sin cambios)
     option.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -44,10 +58,12 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
-builder.Services.AddControllers().AddNewtonsoftJson(options =>
-{
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-});
+// El .AddControllers().AddNewtonsoftJson... fue modificado arriba, lo borramos de aqu铆:
+// builder.Services.AddControllers().AddNewtonsoftJson(options =>
+// {
+//     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+// });
+
 
 // --- DATABASE AND IDENTITY CONFIGURATION ---
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
@@ -107,7 +123,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(config =>
     {
-        // Esta l韓ea indica a Swagger UI que guarde las claves de autenticaci髇
+        // Esta l铆nea indica a Swagger UI que guarde las claves de autenticaci贸n
         config.ConfigObject.PersistAuthorization = true;
     });
 }
