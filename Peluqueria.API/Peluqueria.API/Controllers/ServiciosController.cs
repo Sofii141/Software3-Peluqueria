@@ -25,14 +25,21 @@ namespace Peluqueria.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var nuevoServicioDto = await _servicioService.CreateAsync(requestDto);
-
-            if (!string.IsNullOrEmpty(nuevoServicioDto.Imagen))
+            try
             {
-                nuevoServicioDto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{nuevoServicioDto.Imagen}";
-            }
+                var nuevoServicioDto = await _servicioService.CreateAsync(requestDto);
 
-            return CreatedAtAction(nameof(GetById), new { id = nuevoServicioDto.Id }, nuevoServicioDto);
+                if (!string.IsNullOrEmpty(nuevoServicioDto.Imagen))
+                {
+                    nuevoServicioDto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{nuevoServicioDto.Imagen}";
+                }
+
+                return CreatedAtAction(nameof(GetById), new { id = nuevoServicioDto.Id }, nuevoServicioDto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id:int}")]
