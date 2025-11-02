@@ -10,38 +10,29 @@ using Peluqueria.Infrastructure.Data;
 using Peluqueria.Infrastructure.Repositories;
 using Peluqueria.Infrastructure.Service;
 using System.Text;
-using System.Globalization; // <-- Necesario
+using System.Globalization; 
 
-var builder = WebApplication.CreateBuilder(args);
-
-// --- CULTURA INVARIANTE PARA MODEL BINDING ---
-// Establece la cultura para la aplicación/hilo. Usar la cultura Invariante o en-US 
-// asegura que el separador decimal sea el punto (.), estándar para APIs.
 var cultureInfo = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
-// Si usa .NET 6/7/8, esta configuración es la que aplica a la app y threads por defecto
-// Puede que solo necesite configurar el Model Binding.
+var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
     })
-    // Opcional: Para asegurar que el Model Binding use la cultura correcta
     .AddMvcOptions(options =>
     {
         options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
             _ => "El valor es requerido.");
     });
-// FIN DE LA MODIFICACIÓN DE CULTURA
 
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(option =>
 {
-    // ... (resto del código de SwaggerGen)
-    // ... (el resto de tu código sigue aquí sin cambios)
     option.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -57,13 +48,6 @@ builder.Services.AddSwaggerGen(option =>
         }
     });
 });
-
-// El .AddControllers().AddNewtonsoftJson... fue modificado arriba, lo borramos de aquí:
-// builder.Services.AddControllers().AddNewtonsoftJson(options =>
-// {
-//     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-// });
-
 
 // --- DATABASE AND IDENTITY CONFIGURATION ---
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
