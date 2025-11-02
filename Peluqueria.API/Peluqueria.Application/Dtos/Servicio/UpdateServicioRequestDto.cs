@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,15 +15,11 @@ namespace Peluqueria.Application.Dtos.Servicio
 
         public string Descripcion { get; set; } = string.Empty;
 
-        [Range(1, double.MaxValue)]
-        public double Precio { get; set; }
-
+        public string? Precio { get; set; } = string.Empty;
         public bool Disponible { get; set; }
 
         [Required]
         public int CategoriaId { get; set; }
-
-        // La imagen es opcional en la actualización
         public IFormFile? Imagen { get; set; }
     }
 }
