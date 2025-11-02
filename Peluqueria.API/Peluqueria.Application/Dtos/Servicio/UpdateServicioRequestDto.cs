@@ -15,11 +15,13 @@ namespace Peluqueria.Application.Dtos.Servicio
 
         public string Descripcion { get; set; } = string.Empty;
 
-        public string? Precio { get; set; } = string.Empty;
+        [Required]
+        public string Precio { get; set; } = string.Empty;
         public bool Disponible { get; set; }
 
         [Required]
         public int CategoriaId { get; set; }
+
         public IFormFile? Imagen { get; set; }
     }
 }
