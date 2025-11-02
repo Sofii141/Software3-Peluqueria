@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Servicio } from '../modelos/servicio';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs'; 
 import Swal from 'sweetalert2';
 import { environment } from "../../../environments/environment";
 
@@ -10,24 +10,36 @@ import { environment } from "../../../environments/environment";
 })
 export class ServicioService {
   private urlEndPoint: string = `${environment.apiUrl}/api/servicios`;
+  private imageBaseUrl: string = `${environment.apiUrl}/images/`; 
 
   constructor(private http: HttpClient) { }
+  private mapServicio(servicio: Servicio): Servicio {
+    if (servicio.imagen && !servicio.imagen.startsWith('http')) {
+      servicio.imagen = this.imageBaseUrl + servicio.imagen; 
+    }
+    return servicio;
+  }
 
   getServicios(): Observable<Servicio[]> {
-    return this.http.get<Servicio[]>(this.urlEndPoint);
+    return this.http.get<Servicio[]>(this.urlEndPoint).pipe(
+      map(servicios => servicios.map(servicio => this.mapServicio(servicio))) 
+    );
   }
 
   getServicioById(id: number): Observable<Servicio> {
-    return this.http.get<Servicio>(`${this.urlEndPoint}/${id}`);
+    return this.http.get<Servicio>(`${this.urlEndPoint}/${id}`).pipe(
+      map(servicio => this.mapServicio(servicio)) 
+    );
   }
   
   getServiciosPorCategoria(categoriaId: number): Observable<Servicio[]> {
-    // Si el ID es 0 o nulo, asumimos que se quieren todos los servicios
     if (!categoriaId || categoriaId === 0) {
       return this.getServicios();
     }
-    // Llamamos al nuevo endpoint del backend
-    return this.http.get<Servicio[]>(`${this.urlEndPoint}/categoria/${categoriaId}`);
+    return this.http.get<Servicio[]>(`${this.urlEndPoint}/categoria/${categoriaId}`).pipe(
+      // CORRECCIÓN: Usar una función flecha para preservar el contexto 'this'.
+      map(servicios => servicios.map(servicio => this.mapServicio(servicio))) 
+    );
   }
 
   deleteServicio(id: number): Observable<void> {
@@ -38,6 +50,8 @@ export class ServicioService {
 
   createWithImage(formData: FormData): Observable<Servicio> {
     return this.http.post<Servicio>(this.urlEndPoint, formData).pipe(
+      // CORRECCIÓN: Usar una función flecha para preservar el contexto 'this'.
+      map(servicio => this.mapServicio(servicio)), 
       catchError(this.handleError)
     );
   }
@@ -49,6 +63,8 @@ export class ServicioService {
    */
   updateWithImage(id: number, formData: FormData): Observable<Servicio> {
     return this.http.put<Servicio>(`${this.urlEndPoint}/${id}`, formData).pipe(
+      // CORRECCIÓN: Usar una función flecha para preservar el contexto 'this'.
+      map(servicio => this.mapServicio(servicio)), 
       catchError(this.handleError)
     );
   }
