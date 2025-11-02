@@ -10,15 +10,25 @@ namespace Peluqueria.Application.Services
     {
         private readonly IServicioRepository _servicioRepo;
         private readonly IFileStorageService _fileStorage;
+        private readonly ICategoriaRepository _categoriaRepo;
 
-        public ServicioService(IServicioRepository servicioRepo, IFileStorageService fileStorage)
+        public ServicioService(IServicioRepository servicioRepo, IFileStorageService fileStorage
+            , ICategoriaRepository categoriaRepo)
         {
             _servicioRepo = servicioRepo;
             _fileStorage = fileStorage;
+            _categoriaRepo = categoriaRepo;
         }
 
         public async Task<ServicioDto> CreateAsync(CreateServicioRequestDto requestDto)
         {
+            var categoriaExistente = await _categoriaRepo.GetByIdAsync(requestDto.CategoriaId);
+
+            if (categoriaExistente == null)
+            {
+                throw new ArgumentException($"La categoría con ID {requestDto.CategoriaId} no existe.");
+            }
+
             if (!TryConvertPrecio(requestDto.Precio, out double precioValor))
             {
                 throw new ArgumentException("El precio debe ser un valor numérico válido mayor o igual a 1. Utiliza el punto como separador decimal (ej: 50000.00).");
@@ -71,7 +81,13 @@ namespace Peluqueria.Application.Services
 
         public async Task<ServicioDto?> UpdateAsync(int id, UpdateServicioRequestDto requestDto)
         {
-            // La validación ahora funciona incluso si requestDto.Precio es null.
+            var categoriaExistente = await _categoriaRepo.GetByIdAsync(requestDto.CategoriaId);
+
+            if (categoriaExistente == null)
+            {
+                throw new ArgumentException($"La categoría con ID {requestDto.CategoriaId} no existe.");
+            }
+
             if (!TryConvertPrecio(requestDto.Precio, out double precioValor))
             {
                 throw new ArgumentException("El precio debe ser un valor numérico válido mayor o igual a 1. Utiliza el punto como separador decimal (ej: 50000.00).");
@@ -85,7 +101,7 @@ namespace Peluqueria.Application.Services
 
             servicioExistente.Nombre = requestDto.Nombre;
             servicioExistente.Descripcion = requestDto.Descripcion;
-            servicioExistente.Precio = precioValor;
+            servicioExistente.Precio = precioValor; 
             servicioExistente.Disponible = requestDto.Disponible;
             servicioExistente.CategoriaId = requestDto.CategoriaId;
 
@@ -95,26 +111,30 @@ namespace Peluqueria.Application.Services
                 servicioExistente.Imagen = nombreArchivo;
             }
 
-            var servicioActualizado = await _servicioRepo.UpdateAsync(id, servicioExistente);
+            var servicioGuardado = await _servicioRepo.UpdateAsync(id, servicioExistente);
 
-            if (servicioActualizado == null)
+            if (servicioGuardado == null)
             {
                 return null;
             }
 
-            return MapToDto(servicioActualizado);
+            var servicioCompleto = await _servicioRepo.GetByIdAsync(servicioGuardado.Id);
+
+            if (servicioCompleto == null)
+            {
+                return MapToDto(servicioGuardado);
+            }
+
+            return MapToDto(servicioCompleto);
         }
 
         private bool TryConvertPrecio(string? precioString, out double precioValor)
         {
             precioValor = 0;
-            // CORRECCIÓN: Usamos IsNullOrWhiteSpace para cubrir null, "" o "   "
             if (string.IsNullOrWhiteSpace(precioString)) return false;
 
-            // Reemplazamos coma (,) por punto (.) para estandarizar el formato decimal
             string cleanedString = precioString.Replace(',', '.');
 
-            // Intentamos el parseo con la cultura invariante (usa siempre el punto como decimal)
             if (double.TryParse(cleanedString, NumberStyles.Any, CultureInfo.InvariantCulture, out double result) && result >= 1)
             {
                 precioValor = result;
