@@ -1,7 +1,8 @@
-﻿using Peluqueria.Application.Dtos.Categoria;
+using Peluqueria.Application.Dtos.Categoria;
 using Peluqueria.Application.Dtos.Servicio;
 using Peluqueria.Application.Interfaces;
 using Peluqueria.Domain.Entities;
+using System.Globalization;
 
 namespace Peluqueria.Application.Services
 {
@@ -18,11 +19,16 @@ namespace Peluqueria.Application.Services
 
         public async Task<ServicioDto> CreateAsync(CreateServicioRequestDto requestDto)
         {
+            if (!TryConvertPrecio(requestDto.Precio, out double precioValor))
+            {
+                throw new ArgumentException("El precio debe ser un valor numérico válido mayor o igual a 1. Utiliza el punto como separador decimal (ej: 50000.00).");
+            }
+
             var servicio = new Servicio
             {
                 Nombre = requestDto.Nombre,
                 Descripcion = requestDto.Descripcion,
-                Precio = requestDto.Precio,
+                Precio = precioValor,
                 Disponible = requestDto.Disponible,
                 CategoriaId = requestDto.CategoriaId,
                 FechaCreacion = DateTime.UtcNow
@@ -65,6 +71,12 @@ namespace Peluqueria.Application.Services
 
         public async Task<ServicioDto?> UpdateAsync(int id, UpdateServicioRequestDto requestDto)
         {
+            // La validación ahora funciona incluso si requestDto.Precio es null.
+            if (!TryConvertPrecio(requestDto.Precio, out double precioValor))
+            {
+                throw new ArgumentException("El precio debe ser un valor numérico válido mayor o igual a 1. Utiliza el punto como separador decimal (ej: 50000.00).");
+            }
+
             var servicioExistente = await _servicioRepo.GetByIdAsync(id);
             if (servicioExistente == null)
             {
@@ -73,7 +85,7 @@ namespace Peluqueria.Application.Services
 
             servicioExistente.Nombre = requestDto.Nombre;
             servicioExistente.Descripcion = requestDto.Descripcion;
-            servicioExistente.Precio = requestDto.Precio;
+            servicioExistente.Precio = precioValor;
             servicioExistente.Disponible = requestDto.Disponible;
             servicioExistente.CategoriaId = requestDto.CategoriaId;
 
@@ -91,6 +103,25 @@ namespace Peluqueria.Application.Services
             }
 
             return MapToDto(servicioActualizado);
+        }
+
+        private bool TryConvertPrecio(string? precioString, out double precioValor)
+        {
+            precioValor = 0;
+            // CORRECCIÓN: Usamos IsNullOrWhiteSpace para cubrir null, "" o "   "
+            if (string.IsNullOrWhiteSpace(precioString)) return false;
+
+            // Reemplazamos coma (,) por punto (.) para estandarizar el formato decimal
+            string cleanedString = precioString.Replace(',', '.');
+
+            // Intentamos el parseo con la cultura invariante (usa siempre el punto como decimal)
+            if (double.TryParse(cleanedString, NumberStyles.Any, CultureInfo.InvariantCulture, out double result) && result >= 1)
+            {
+                precioValor = result;
+                return true;
+            }
+
+            return false;
         }
 
         private static ServicioDto MapToDto(Servicio servicio)
