@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Peluqueria.Application.Interfaces;
 using Peluqueria.Application.Dtos.Servicio;
@@ -44,19 +44,30 @@ namespace Peluqueria.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var servicioActualizadoDto = await _servicioService.UpdateAsync(id, requestDto);
-
-            if (servicioActualizadoDto == null)
+            try
             {
-                return NotFound();
-            }
+                var servicioActualizadoDto = await _servicioService.UpdateAsync(id, requestDto);
 
-            if (!string.IsNullOrEmpty(servicioActualizadoDto.Imagen))
+                if (servicioActualizadoDto == null)
+                {
+                    return NotFound();
+                }
+
+                if (!string.IsNullOrEmpty(servicioActualizadoDto.Imagen))
+                {
+                    servicioActualizadoDto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{servicioActualizadoDto.Imagen}";
+                }
+
+                return Ok(servicioActualizadoDto);
+            }
+            catch (ArgumentException ex)
             {
-                servicioActualizadoDto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{servicioActualizadoDto.Imagen}";
+                return BadRequest(ex.Message);
             }
-
-            return Ok(servicioActualizadoDto);
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpGet]
