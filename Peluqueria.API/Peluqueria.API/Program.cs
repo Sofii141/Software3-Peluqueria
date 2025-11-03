@@ -23,11 +23,13 @@ builder.Services.AddControllers()
     {
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
     })
+    // Opcional: Para asegurar que el Model Binding use la cultura correcta
     .AddMvcOptions(options =>
     {
         options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
             _ => "El valor es requerido.");
     });
+// FIN DE LA MODIFICACIÓN DE CULTURA
 
 builder.Services.AddEndpointsApiExplorer();
 
