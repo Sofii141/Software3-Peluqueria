@@ -100,11 +100,16 @@ namespace Peluqueria.API.Controllers
 
             if (!string.IsNullOrEmpty(servicio.Imagen))
             {
-                servicio.Imagen = $"{Request.Scheme}://{Request.Host}/images/{servicio.Imagen}";
+                if (!servicio.Imagen.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
+                    !servicio.Imagen.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                {
+                    servicio.Imagen = $"{Request.Scheme}://{Request.Host}/images/{servicio.Imagen}";
+                }
             }
 
             return Ok(servicio);
         }
+
 
         [HttpGet("categoria/{categoriaId:int}")]
         public async Task<IActionResult> GetByCategoria(int categoriaId)
