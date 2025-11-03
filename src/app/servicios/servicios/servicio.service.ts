@@ -11,14 +11,24 @@ import { environment } from "../../../environments/environment";
 export class ServicioService {
   private urlEndPoint: string = `${environment.apiUrl}/api/servicios`;
   private imageBaseUrl: string = `${environment.apiUrl}/images/`; 
-
+  
   constructor(private http: HttpClient) { }
-  private mapServicio(servicio: Servicio): Servicio {
-    if (servicio.imagen && !servicio.imagen.startsWith('http')) {
-      servicio.imagen = this.imageBaseUrl + servicio.imagen; 
+ private mapServicio(servicio: Servicio): Servicio {
+    if (servicio.imagen) {
+      const lowerCaseUrl = servicio.imagen.toLowerCase();
+      
+      // CAMBIO CLAVE: Usa 'http' o 'https' para verificar si ya es una URL completa.
+      // Si la URL YA empieza con 'http' o 'https', NO la modificamos.
+      if (!lowerCaseUrl.startsWith('http://') && !lowerCaseUrl.startsWith('https://')) {
+          
+          // Si NO empieza con protocolo, asumimos que es SÓLO el nombre
+          // y le concatenamos la URL base.
+          servicio.imagen = this.imageBaseUrl + servicio.imagen;
+      }
     }
     return servicio;
   }
+
 
   getServicios(): Observable<Servicio[]> {
     return this.http.get<Servicio[]>(this.urlEndPoint).pipe(

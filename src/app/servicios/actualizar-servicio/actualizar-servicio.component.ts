@@ -39,8 +39,11 @@ export class ActualizarServicioComponent implements OnInit {
       if (servicioId) {
         this.servicioService.getServicioById(+servicioId).subscribe(servicio => {
           this.servicio = servicio;
-          if (servicio.categoria) {
+          
+          console.log('Servicio cargado:', this.servicio);
+          console.log('URL de la imagen a cargar:', this.servicio.imagen);
 
+          if (servicio.categoria) {
             this.servicio.categoria = this.categorias.find(cat => cat.id === servicio.categoria!.id) || null;
           }
         });
