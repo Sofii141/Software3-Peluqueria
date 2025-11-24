@@ -5,8 +5,9 @@ namespace Peluqueria.Infrastructure.Data
 {
     public static class AdminUserSeed
     {
-        private const string ADMIN_ID = "a18be9c0-aa65-4af8-bd17-00bd9344e575";
-        private const string ADMIN_ROLE_ID = "d17abceb-8c0b-454e-b296-883bc029d82b";
+        // Se cambia a public para acceso desde ApplicationDBContext
+        public const string ADMIN_ID = "a18be9c0-aa65-4af8-bd17-00bd9344e575";
+        public const string ADMIN_ROLE_ID = "d17abceb-8c0b-454e-b296-883bc029d82b";
 
         public static (AppUser, IdentityUserRole<string>) CreateAdminUserWithRole()
         {
@@ -20,6 +21,8 @@ namespace Peluqueria.Infrastructure.Data
                 Email = "admin@test.com",
                 NormalizedEmail = "ADMIN@TEST.COM",
                 EmailConfirmed = true,
+                NombreCompleto = "Administrador Principal",
+                Telefono = "3001234567",
                 SecurityStamp = new Guid().ToString(),
                 ConcurrencyStamp = new Guid().ToString()
             };

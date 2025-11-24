@@ -10,7 +10,7 @@ using Peluqueria.Infrastructure.Data;
 using Peluqueria.Infrastructure.Repositories;
 using Peluqueria.Infrastructure.Service;
 using System.Text;
-using System.Globalization; 
+using System.Globalization;
 
 var cultureInfo = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
@@ -59,12 +59,14 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
     options.SignIn.RequireConfirmedAccount = false;
-    options.User.RequireUniqueEmail = true;
-    options.Password.RequireDigit = false;
-    options.Password.RequiredLength = 6;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireLowercase = false;
+    options.User.RequireUniqueEmail = true; // Unicidad de Correo
+    // (8 caracteres, Mayús, Minús, Número, Especial)**
+    options.Password.RequireDigit = true; // Requiere Número
+    options.Password.RequiredLength = 8;  // Requiere 8 caracteres (o más)
+    options.Password.RequireNonAlphanumeric = true; // Requiere Carácter Especial
+    options.Password.RequireUppercase = true; // Requiere Mayúscula
+    options.Password.RequireLowercase = true; // Requiere Minúscula
+    options.Password.RequiredUniqueChars = 1; // Un carácter especial es suficiente
 })
 .AddEntityFrameworkStores<ApplicationDBContext>();
 
@@ -81,8 +83,10 @@ builder.Services.AddAuthentication(options => {
         ValidateAudience = true,
         ValidAudience = builder.Configuration["JWT:Audience"],
         ValidateIssuerSigningKey = true,
+        // Uso del operador de nulidad (!) ya que la clave se valida y se lanza 
+        // una excepción en TokenService.cs, garantizando que esté presente en runtime.
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
+            Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]!)
         )
     };
 });
@@ -99,6 +103,7 @@ builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IServicioService, ServicioService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddSingleton<IMessagePublisher, RabbitMQMessagePublisher>();
 var app = builder.Build();
 
 app.UseStaticFiles();

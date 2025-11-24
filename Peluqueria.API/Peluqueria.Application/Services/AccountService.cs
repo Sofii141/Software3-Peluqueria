@@ -38,13 +38,19 @@ namespace Peluqueria.Application.Services
             {
                 UserName = userMinimal.UserName!,
                 Email = userMinimal.Email!,
-                Token = _tokenService.CreateToken(userMinimal, roles) 
+                Token = _tokenService.CreateToken(userMinimal, roles)
             };
         }
 
         public async Task<IdentityResult> RegisterAsync(RegisterDto registerDto)
         {
-            var createdUser = await _identityService.CreateUserAsync(registerDto.Username!, registerDto.Email!, registerDto.Password!);
+            var createdUser = await _identityService.CreateUserAsync(
+                registerDto.Username!,
+                registerDto.Email!,
+                registerDto.Password!,
+                registerDto.NombreCompleto!,
+                registerDto.Telefono!
+            );
 
             if (createdUser.Succeeded)
             {

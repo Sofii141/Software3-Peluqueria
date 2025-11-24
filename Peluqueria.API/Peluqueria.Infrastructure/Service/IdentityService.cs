@@ -1,6 +1,6 @@
 ﻿using Peluqueria.Application.Interfaces;
-using Peluqueria.Infrastructure.Identity; 
-using Peluqueria.Application.Dtos.Account; 
+using Peluqueria.Infrastructure.Identity;
+using Peluqueria.Application.Dtos.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,7 +35,7 @@ namespace Peluqueria.Infrastructure.Service
         public async Task<IList<string>> GetRolesAsync(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
-            if (user == null) return new List<string>(); 
+            if (user == null) return new List<string>();
             return await _userManager.GetRolesAsync(user);
         }
 
@@ -46,12 +46,14 @@ namespace Peluqueria.Infrastructure.Service
             return await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure);
         }
 
-        public async Task<IdentityResult> CreateUserAsync(string username, string email, string password)
+        public async Task<IdentityResult> CreateUserAsync(string username, string email, string password, string nombreCompleto, string telefono)
         {
             var appUser = new AppUser
             {
                 UserName = username.ToLower(),
-                Email = email
+                Email = email,
+                NombreCompleto = nombreCompleto,
+                Telefono = telefono
             };
             return await _userManager.CreateAsync(appUser, password);
         }

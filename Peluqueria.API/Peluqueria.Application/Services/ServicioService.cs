@@ -3,25 +3,57 @@ using Peluqueria.Application.Dtos.Servicio;
 using Peluqueria.Application.Interfaces;
 using Peluqueria.Domain.Entities;
 using System.Globalization;
+using Peluqueria.Application.Dtos.Events;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Peluqueria.Application.Services
 {
     public class ServicioService : IServicioService
     {
+
         private readonly IServicioRepository _servicioRepo;
         private readonly IFileStorageService _fileStorage;
         private readonly ICategoriaRepository _categoriaRepo;
+        private readonly IMessagePublisher _messagePublisher;
 
         public ServicioService(IServicioRepository servicioRepo, IFileStorageService fileStorage
-            , ICategoriaRepository categoriaRepo)
+            , ICategoriaRepository categoriaRepo, IMessagePublisher messagePublisher)
         {
             _servicioRepo = servicioRepo;
             _fileStorage = fileStorage;
             _categoriaRepo = categoriaRepo;
+            _messagePublisher = messagePublisher;
         }
+
+        // --- MÉTODO CORREGIDO: PUBLISHSERVICIOSERVICE ---
+        private Task PublishServicioEvent(Servicio servicio, string accion)
+        {
+            var evento = new ServicioEventDto
+            {
+                Id = servicio.Id,
+                Nombre = servicio.Nombre,
+                DuracionMinutos = servicio.DuracionMinutos,
+                Disponible = servicio.Disponible,
+                Accion = accion
+            };
+
+            // CORRECCIÓN APLICADA: Routing Key dinámica (ej: servicio.creado)
+            string routingKey = $"servicio.{accion.ToLower()}";
+
+            // Se usa el routingKey dinámico en el PublishAsync
+            return _messagePublisher.PublishAsync(evento, routingKey, "servicio_exchange");
+        }
+        // ------------------------------------------------
 
         public async Task<ServicioDto> CreateAsync(CreateServicioRequestDto requestDto)
         {
+            if (requestDto.Imagen != null)
+            {
+                ValidateImageFile(requestDto.Imagen.Length, requestDto.Imagen.ContentType);
+            }
+
             var categoriaExistente = await _categoriaRepo.GetByIdAsync(requestDto.CategoriaId);
 
             if (categoriaExistente == null)
@@ -38,6 +70,7 @@ namespace Peluqueria.Application.Services
             {
                 Nombre = requestDto.Nombre,
                 Descripcion = requestDto.Descripcion,
+                DuracionMinutos = requestDto.DuracionMinutos,
                 Precio = precioValor,
                 Disponible = requestDto.Disponible,
                 CategoriaId = requestDto.CategoriaId,
@@ -53,34 +86,34 @@ namespace Peluqueria.Application.Services
             var nuevoServicio = await _servicioRepo.CreateAsync(servicio);
             var servicioCompleto = await _servicioRepo.GetByIdAsync(nuevoServicio.Id);
 
+            await PublishServicioEvent(servicioCompleto!, "CREADO");
+
             return MapToDto(servicioCompleto!);
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            return await _servicioRepo.DeleteAsync(id);
-        }
-
-        public async Task<IEnumerable<ServicioDto>> GetAllAsync()
-        {
-            var servicios = await _servicioRepo.GetAllAsync();
-            return servicios.Select(MapToDto);
-        }
-
-        public async Task<IEnumerable<ServicioDto>> GetByCategoriaIdAsync(int categoriaId)
-        {
-            var servicios = await _servicioRepo.GetByCategoriaIdAsync(categoriaId);
-            return servicios.Select(MapToDto);
-        }
-
-        public async Task<ServicioDto?> GetByIdAsync(int id)
-        {
+            // OBTENER el servicio antes de eliminarlo para poder enviar el evento.
             var servicio = await _servicioRepo.GetByIdAsync(id);
-            return servicio == null ? null : MapToDto(servicio);
+            if (servicio == null) return false;
+
+            var success = await _servicioRepo.DeleteAsync(id);
+
+            if (success)
+            {
+                await PublishServicioEvent(servicio, "ELIMINADO");
+            }
+
+            return success;
         }
 
         public async Task<ServicioDto?> UpdateAsync(int id, UpdateServicioRequestDto requestDto)
         {
+            if (requestDto.Imagen != null)
+            {
+                ValidateImageFile(requestDto.Imagen.Length, requestDto.Imagen.ContentType);
+            }
+
             var categoriaExistente = await _categoriaRepo.GetByIdAsync(requestDto.CategoriaId);
 
             if (categoriaExistente == null)
@@ -101,9 +134,10 @@ namespace Peluqueria.Application.Services
 
             servicioExistente.Nombre = requestDto.Nombre;
             servicioExistente.Descripcion = requestDto.Descripcion;
-            servicioExistente.Precio = precioValor; 
+            servicioExistente.Precio = precioValor;
             servicioExistente.Disponible = requestDto.Disponible;
             servicioExistente.CategoriaId = requestDto.CategoriaId;
+            servicioExistente.DuracionMinutos = requestDto.DuracionMinutos;
 
             if (requestDto.Imagen != null && requestDto.Imagen.Length > 0)
             {
@@ -120,6 +154,8 @@ namespace Peluqueria.Application.Services
 
             var servicioCompleto = await _servicioRepo.GetByIdAsync(servicioGuardado.Id);
 
+            await PublishServicioEvent(servicioCompleto!, "ACTUALIZADO");
+
             if (servicioCompleto == null)
             {
                 return MapToDto(servicioGuardado);
@@ -127,6 +163,8 @@ namespace Peluqueria.Application.Services
 
             return MapToDto(servicioCompleto);
         }
+
+        // --- (Métodos auxiliares y GetAll/GetById/GetByCategoriaIdAsync no se modifican) ---
 
         private bool TryConvertPrecio(string? precioString, out double precioValor)
         {
@@ -143,6 +181,23 @@ namespace Peluqueria.Application.Services
 
             return false;
         }
+
+        private void ValidateImageFile(long fileSize, string contentType)
+        {
+            const int maxFileSize = 5 * 1024 * 1024;
+            var allowedContentTypes = new[] { "image/jpeg", "image/png" };
+
+            if (fileSize > maxFileSize)
+            {
+                throw new ArgumentException("El archivo de imagen no puede exceder los 5 MB.");
+            }
+
+            if (!allowedContentTypes.Contains(contentType.ToLower()))
+            {
+                throw new ArgumentException("Formato de archivo no válido. Solo se permiten imágenes JPEG o PNG.");
+            }
+        }
+
 
         private static ServicioDto MapToDto(Servicio servicio)
         {
@@ -161,6 +216,24 @@ namespace Peluqueria.Application.Services
                     Nombre = servicio.Categoria.Nombre
                 } : null!
             };
+        }
+
+        public async Task<IEnumerable<ServicioDto>> GetAllAsync()
+        {
+            var servicios = await _servicioRepo.GetAllAsync();
+            return servicios.Select(MapToDto);
+        }
+
+        public async Task<ServicioDto?> GetByIdAsync(int id)
+        {
+            var servicio = await _servicioRepo.GetByIdAsync(id);
+            return servicio == null ? null : MapToDto(servicio);
+        }
+
+        public async Task<IEnumerable<ServicioDto>> GetByCategoriaIdAsync(int categoriaId)
+        {
+            var servicios = await _servicioRepo.GetByCategoriaIdAsync(categoriaId);
+            return servicios.Select(MapToDto);
         }
     }
 }

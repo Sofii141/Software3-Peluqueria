@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string Nombre { get; set; } = string.Empty;
-
+        public bool EstaActiva { get; set; } = true;
         public List<Servicio> Servicios { get; set; } = new List<Servicio>();
     }
 }

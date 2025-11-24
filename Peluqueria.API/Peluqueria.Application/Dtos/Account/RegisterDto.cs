@@ -11,6 +11,11 @@ namespace Peluqueria.Application.Dtos.Account
         [Required]
         public string? Username { get; set; }
         [Required]
+        public string? NombreCompleto { get; set; } // Nuevo
+        [Required]
+        [RegularExpression(@"^\+?\d{10,15}$", ErrorMessage = "Formato de teléfono no válido.")] // Ejemplo de validación de formato
+        public string? Telefono { get; set; } // Nuevo
+        [Required]
         [EmailAddress]
         public string? Email { get; set; }
         [Required]
