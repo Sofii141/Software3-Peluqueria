@@ -12,11 +12,10 @@
             ],
             "UpstreamPathTemplate": "/api/account/{everything}",
             "UpstreamHttpMethod": [ "Post" ],
-            "Priority": 9 // Máxima prioridad para el acceso
+            "Priority": 9
         },
 
         // 2. [GESTIÓN DE CATEGORÍAS] - CONSULTAS PÚBLICAS
-        // Cubre: GET /api/categorias, GET /api/categorias/{id}
         {
             "DownstreamPathTemplate": "/api/categorias/{everything}",
             "DownstreamScheme": "http",
@@ -29,11 +28,9 @@
             "UpstreamPathTemplate": "/api/categorias/{everything}",
             "UpstreamHttpMethod": [ "Get" ],
             "Priority": 8
-            // No hay AuthenticationOptions -> PÚBLICO
         },
 
         // 3. [GESTIÓN DE CATEGORÍAS] - CREAR/MODIFICAR/ELIMINAR
-        // Cubre: POST/PUT/DELETE /api/categorias
         {
             "DownstreamPathTemplate": "/api/categorias/{everything}",
             "DownstreamScheme": "http",
@@ -48,12 +45,11 @@
             "Priority": 8,
             "AuthenticationOptions": {
                 "AuthenticationProviderKey": "ApiSecurityScheme",
-                "AllowedScopes": [] // Requiere JWT, Monolito valida el rol "Admin"
+                "AllowedScopes": []
             }
         },
 
         // 4. [GESTIÓN DE SERVICIOS] - CONSULTAS PÚBLICAS
-        // Cubre: GET /api/servicios, GET /api/servicios/{id}, GET /api/servicios/categoria/{id}
         {
             "DownstreamPathTemplate": "/api/servicios/{everything}",
             "DownstreamScheme": "http",
@@ -66,11 +62,9 @@
             "UpstreamPathTemplate": "/api/servicios/{everything}",
             "UpstreamHttpMethod": [ "Get" ],
             "Priority": 7
-            // No hay AuthenticationOptions -> PÚBLICO
         },
 
         // 5. [GESTIÓN DE SERVICIOS] - CREAR/MODIFICAR/ELIMINAR
-        // Cubre: POST/PUT/DELETE /api/servicios
         {
             "DownstreamPathTemplate": "/api/servicios/{everything}",
             "DownstreamScheme": "http",
@@ -85,11 +79,66 @@
             "Priority": 7,
             "AuthenticationOptions": {
                 "AuthenticationProviderKey": "ApiSecurityScheme",
-                "AllowedScopes": [] // Requiere JWT, Monolito valida el rol "Admin"
+                "AllowedScopes": []
             }
         },
 
-        // 6. [MICROSERVICIO DE RESERVAS] (FUTURO) - PROTEGIDO
+
+        // 6. [GESTIÓN DE ESTILISTAS] - CRUD & CONSULTAS (PEL-HU-08/09/10/11)
+        {
+            "DownstreamPathTemplate": "/api/estilistas/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5034
+                }
+            ],
+            "UpstreamPathTemplate": "/api/estilistas/{everything}",
+            "UpstreamHttpMethod": [ "Post", "Put", "Delete" ], // CRUD: Protegido
+            "Priority": 6,
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "ApiSecurityScheme",
+                "AllowedScopes": []
+            }
+        },
+
+        {
+            "DownstreamPathTemplate": "/api/estilistas/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5034
+                }
+            ],
+            "UpstreamPathTemplate": "/api/estilistas/{everything}",
+            "UpstreamHttpMethod": [ "Get" ], // Consulta: Público
+            "Priority": 6
+            // Sin AuthenticationOptions
+        },
+
+        // 7. [GESTIÓN DE AGENDA] - HORARIOS Y BLOQUEOS (PEL-HU-12/13)
+        {
+            "DownstreamPathTemplate": "/api/estilistas/agenda/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5034
+                }
+            ],
+            "UpstreamPathTemplate": "/api/estilistas/agenda/{everything}",
+            "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+            "Priority": 6,
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "ApiSecurityScheme",
+                "AllowedScopes": []
+            }
+        },
+
+
+        // 8. [MICROSERVICIO DE RESERVAS] (FUTURO) - PROTEGIDO (Ruta Original 6)
         {
             "DownstreamPathTemplate": "/api/reservas/{everything}",
             "DownstreamScheme": "http",
