@@ -11,10 +11,10 @@ namespace Peluqueria.Domain.Entities
     {
         public int Id { get; set; }
         public string IdentityId { get; set; } = string.Empty; // Enlace con AppUser (via Infraestructura)
-        public string NombreCompleto { get; set; } = string.Empty; // Copia de datos para el dominio
+        public string NombreCompleto { get; set; } = string.Empty;
         public string Telefono { get; set; } = string.Empty;
-        public bool EstaActivo { get; set; } = true; // Baja Lógica (PEL-HU-11)
-
+        public bool EstaActivo { get; set; } = true; 
+        public string Imagen { get; set; } = string.Empty;
         // Relación M:N con Servicio (PEL-HU-09)
         public ICollection<EstilistaServicio> ServiciosAsociados { get; set; } = new List<EstilistaServicio>();
         public ICollection<HorarioSemanalBase> HorariosBase { get; set; } = new List<HorarioSemanalBase>();

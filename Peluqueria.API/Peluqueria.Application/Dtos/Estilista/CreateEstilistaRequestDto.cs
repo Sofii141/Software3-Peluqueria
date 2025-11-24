@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Peluqueria.Application.Dtos.Estilista
 {
@@ -15,5 +11,6 @@ namespace Peluqueria.Application.Dtos.Estilista
         [Required] public string NombreCompleto { get; set; } = string.Empty;
         [Required] public string Telefono { get; set; } = string.Empty;
         [Required] public List<int> ServiciosIds { get; set; } = new List<int>(); // RNI-E003
+        public IFormFile? Imagen { get; set; }
     }
 }

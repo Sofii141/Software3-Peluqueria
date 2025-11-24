@@ -5,10 +5,8 @@ using Peluqueria.Application.Dtos.Estilista;
 
 namespace Peluqueria.API.Controllers
 {
-
     [Route("api/estilistas")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class EstilistaController : ControllerBase
     {
         private readonly IEstilistaService _estilistaService;
@@ -18,48 +16,70 @@ namespace Peluqueria.API.Controllers
             _estilistaService = estilistaService;
         }
 
-        // PEL-HU-09: Crear Estilista
+        private void SetImageUrl(EstilistaDto dto)
+        {
+            if (!string.IsNullOrEmpty(dto.Imagen))
+            {
+                dto.Imagen = $"{Request.Scheme}://{Request.Host}/images/estilistas/{dto.Imagen}";
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous] 
+        public async Task<IActionResult> GetAll()
+        {
+            var estilistas = await _estilistaService.GetAllAsync();
+            estilistas.ToList().ForEach(SetImageUrl);
+            return Ok(estilistas);
+        }
+
+        [HttpGet("{id:int}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var estilista = await _estilistaService.GetByIdAsync(id);
+            if (estilista == null) return NotFound();
+
+            SetImageUrl(estilista);
+
+            return Ok(estilista);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateEstilistaRequestDto requestDto)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create([FromForm] CreateEstilistaRequestDto requestDto)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState); // G-ERROR-002: Campos Vacíos
+                return BadRequest(ModelState);
             }
 
             try
             {
                 var newEstilista = await _estilistaService.CreateAsync(requestDto);
-                // INFO-HU09-01: Estilista [Nombre] registrado
+
+                SetImageUrl(newEstilista); 
+
                 return CreatedAtAction(nameof(GetById), new { id = newEstilista.Id }, newEstilista);
             }
             catch (ArgumentException ex) when (ex.Message.Contains("G-ERROR-006"))
             {
-                return BadRequest(ex.Message); // G-ERROR-006: Servicios Mínimos
+                return BadRequest(ex.Message); 
             }
             catch (Exception ex) when (ex.Message.Contains("Fallo en la creación de credenciales"))
             {
-                // Este manejo de excepciones es necesario porque G-ERROR-005 (Correo/Usuario duplicado)
-                // se genera en la capa de Identity, y lo propagamos a través del EstilistaService.
                 return BadRequest("El correo/usuario ya se encuentra registrado. (G-ERROR-005)");
             }
         }
 
-        // Asumiendo que existe un GetById para CreatedAtAction
-        // [HttpGet("{id:int}")]
-        // public async Task<IActionResult> GetById(int id) { ... }
-
-
-        // PEL-HU-10: Modificar Estilista
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateEstilistaRequestDto requestDto)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update(int id, [FromForm] UpdateEstilistaRequestDto requestDto)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState); // G-ERROR-002: Campos Obligatorios
+                return BadRequest(ModelState); 
             }
-
-            // TODO: Antes de llamar al servicio, se haría la validación del bloqueo de citas futuras (G-ERROR-009)
 
             try
             {
@@ -67,58 +87,36 @@ namespace Peluqueria.API.Controllers
 
                 if (updatedEstilista == null) return NotFound();
 
-                // INFO-HU10-01: Información del Estilista actualizada correctamente.
+                SetImageUrl(updatedEstilista); 
+
                 return Ok(updatedEstilista);
             }
             catch (ArgumentException ex) when (ex.Message.Contains("G-ERROR-006"))
             {
-                return BadRequest(ex.Message); // G-ERROR-006: Servicios Mínimos
+                return BadRequest(ex.Message); 
             }
             catch (Exception ex)
             {
-                // Este catch es genérico para el ejemplo, pero debe ser más específico si se implementa G-ERROR-005 (Unicidad) en Update.
                 return StatusCode(500, "Error interno al actualizar el estilista.");
             }
         }
 
-        // PEL-HU-11: Inactivar Estilista
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Inactivate(int id)
         {
-            // TODO: Antes de llamar al servicio, se haría la validación del bloqueo de citas futuras (G-ERROR-009)
-
             try
             {
                 var success = await _estilistaService.InactivateAsync(id);
 
                 if (!success) return NotFound();
 
-                // INFO-HU11-01: Estilista inactivado exitosamente. Ya no podrá recibir nuevas citas.
-                // Usamos 204 No Content para la baja lógica.
                 return NoContent();
             }
             catch (ArgumentException ex) when (ex.Message.Contains("G-ERROR-009"))
             {
-                return BadRequest(ex.Message); // G-ERROR-009: Bloqueo por Citas Futuras
+                return BadRequest(ex.Message); 
             }
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var estilistas = await _estilistaService.GetAllAsync();
-            return Ok(estilistas); // PROT-HU08-01
-        }
-
-        // Usado por CreatedAtAction y por consulta directa
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var estilista = await _estilistaService.GetByIdAsync(id);
-            if (estilista == null) return NotFound();
-            return Ok(estilista);
-        }
-
-
     }
 }

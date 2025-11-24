@@ -14,6 +14,7 @@ namespace Peluqueria.Application.Dtos.Estilista
         public string Email { get; set; } = string.Empty; 
         public string Telefono { get; set; } = string.Empty;
         public bool EstaActivo { get; set; }
+        public string Imagen { get; set; } = string.Empty;
         public List<int> ServiciosIds { get; set; } = new List<int>();
     }
 }

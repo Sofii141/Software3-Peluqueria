@@ -69,7 +69,8 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
     options.Password.RequireLowercase = true; // Requiere Minúscula
     options.Password.RequiredUniqueChars = 1; // Un carácter especial es suficiente
 })
-.AddEntityFrameworkStores<ApplicationDBContext>();
+.AddEntityFrameworkStores<ApplicationDBContext>()
+.AddDefaultTokenProviders();
 
 // --- AUTHENTICATION CONFIGURATION ---
 builder.Services.AddAuthentication(options => {

@@ -14,7 +14,7 @@ namespace Peluqueria.Application.Dtos.Events
         public string Email { get; set; } = string.Empty;
         public string Telefono { get; set; } = string.Empty;
         public bool EstaActivo { get; set; }
-
+        public string ImagenUrl { get; set; } = string.Empty;
         public List<EstilistaServicioMinimalEventDto> ServiciosAsociados { get; set; } = new List<EstilistaServicioMinimalEventDto>();
 
         public string Accion { get; set; } = string.Empty; // CREADO, ACTUALIZADO, INACTIVADO

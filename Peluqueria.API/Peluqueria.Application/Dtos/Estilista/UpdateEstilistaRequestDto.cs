@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,7 +12,10 @@ namespace Peluqueria.Application.Dtos.Estilista
     {
         [Required] public string NombreCompleto { get; set; } = string.Empty;
         [Required] public string Telefono { get; set; } = string.Empty;
-        // La contraseña se maneja aparte, y el email/username no se editan (RNI-S005)
+        public string? Password { get; set; }
+        public string? Username { get; set; }
+        public string? Email { get; set; }
         [Required] public List<int> ServiciosIds { get; set; } = new List<int>(); // RNI-E003
+        public IFormFile? Imagen { get; set; }
     }
 }

@@ -8,16 +8,14 @@ namespace Peluqueria.Application.Services
     public class CategoriaService : ICategoriaService
     {
         private readonly ICategoriaRepository _categoriaRepo;
-        private readonly IMessagePublisher _messagePublisher; // <-- AÑADIDO
+        private readonly IMessagePublisher _messagePublisher;
 
-        // Constructor con inyección de IMessagePublisher
         public CategoriaService(ICategoriaRepository categoriaRepo, IMessagePublisher messagePublisher)
         {
             _categoriaRepo = categoriaRepo;
             _messagePublisher = messagePublisher;
         }
 
-        // --- Método Auxiliar de Eventos ---
         private Task PublishCategoriaEventAsync(Categoria categoria, string accion)
         {
             var evento = new CategoriaEventDto
@@ -30,8 +28,6 @@ namespace Peluqueria.Application.Services
             string routingKey = $"categoria.{accion.ToLower()}";
             return _messagePublisher.PublishAsync(evento, routingKey, "categoria_exchange");
         }
-        // -----------------------------------
-
         public async Task<IEnumerable<CategoriaDto>> GetAllAsync()
         {
             var categorias = await _categoriaRepo.GetAllAsync();
@@ -39,13 +35,13 @@ namespace Peluqueria.Application.Services
             var categoriaDtos = categorias.Select(c => new CategoriaDto
             {
                 Id = c.Id,
-                Nombre = c.Nombre
+                Nombre = c.Nombre,
+                EstaActiva = c.EstaActiva 
             });
 
             return categoriaDtos;
         }
 
-        // PEL-HU-21: Crear
         public async Task<CategoriaDto> CreateAsync(CreateCategoriaRequestDto requestDto)
         {
             // RN-Categoría-Existe: Validar unicidad (G-ERROR-007)

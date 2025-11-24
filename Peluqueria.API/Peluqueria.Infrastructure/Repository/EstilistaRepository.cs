@@ -16,7 +16,8 @@ namespace Peluqueria.Infrastructure.Repository
 
         public async Task<IEnumerable<Estilista>> GetAllAsync()
         {
-            return await _context.Estilistas
+             return await _context.Estilistas
+                .Where(e => e.IdentityId != AdminUserSeed.ADMIN_ID) // <--- FILTRO POR ID DE IDENTITY
                 .Include(e => e.ServiciosAsociados)
                 .ThenInclude(es => es.Servicio)
                 .ToListAsync();

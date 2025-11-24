@@ -78,6 +78,62 @@ namespace Peluqueria.Infrastructure.Service
             return user == null ? null : MapToMinimalDto(user);
         }
 
+        public async Task<IdentityResult> AdminResetPasswordAsync(string identityId, string newPassword)
+        {
+            var user = await _userManager.FindByIdAsync(identityId);
+            if (user == null)
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "Usuario no encontrado." });
+            }
+
+            // 1. Generamos un token de reseteo de contraseña (interno, no se envía por email)
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            // 2. Usamos ese token para forzar el cambio a la nueva contraseña
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            return result;
+        }
+
+        public async Task<IdentityResult> UpdateUserCredentialsAsync(string identityId, string newUsername, string newEmail)
+        {
+            var user = await _userManager.FindByIdAsync(identityId);
+            if (user == null)
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "Usuario no encontrado." });
+            }
+
+            // 1. Actualizar Username si cambió y no está vacío
+            if (!string.IsNullOrWhiteSpace(newUsername) && user.UserName != newUsername)
+            {
+                // Validar si ya existe otro usuario con ese nombre
+                var existingUser = await _userManager.FindByNameAsync(newUsername);
+                if (existingUser != null && existingUser.Id != identityId)
+                {
+                    return IdentityResult.Failed(new IdentityError { Description = $"El usuario '{newUsername}' ya está en uso." });
+                }
+
+                var setUserNameResult = await _userManager.SetUserNameAsync(user, newUsername);
+                if (!setUserNameResult.Succeeded) return setUserNameResult;
+            }
+
+            // 2. Actualizar Email si cambió y no está vacío
+            if (!string.IsNullOrWhiteSpace(newEmail) && user.Email != newEmail)
+            {
+                // Validar si ya existe
+                var existingEmail = await _userManager.FindByEmailAsync(newEmail);
+                if (existingEmail != null && existingEmail.Id != identityId)
+                {
+                    return IdentityResult.Failed(new IdentityError { Description = $"El email '{newEmail}' ya está registrado." });
+                }
+
+                var setEmailResult = await _userManager.SetEmailAsync(user, newEmail);
+                if (!setEmailResult.Succeeded) return setEmailResult;
+            }
+
+            return IdentityResult.Success;
+        }
+
 
     }
 }

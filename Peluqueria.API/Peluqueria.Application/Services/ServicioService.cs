@@ -34,11 +34,14 @@ namespace Peluqueria.Application.Services
                 Id = servicio.Id,
                 Nombre = servicio.Nombre,
                 DuracionMinutos = servicio.DuracionMinutos,
+                Precio = servicio.Precio,
+                CategoriaId = servicio.CategoriaId,
                 Disponible = servicio.Disponible,
                 Accion = accion
             };
 
             string routingKey = $"servicio.{accion.ToLower()}";
+
             return _messagePublisher.PublishAsync(evento, routingKey, "servicio_exchange");
         }
 
@@ -191,26 +194,6 @@ namespace Peluqueria.Application.Services
             }
         }
 
-
-        private static ServicioDto MapToDto(Servicio servicio)
-        {
-            return new()
-            {
-                Id = servicio.Id,
-                Nombre = servicio.Nombre,
-                Descripcion = servicio.Descripcion,
-                Precio = servicio.Precio,
-                Imagen = servicio.Imagen,
-                FechaCreacion = servicio.FechaCreacion,
-                Disponible = servicio.Disponible,
-                Categoria = servicio.Categoria != null ? new CategoriaDto
-                {
-                    Id = servicio.Categoria.Id,
-                    Nombre = servicio.Categoria.Nombre
-                } : null!
-            };
-        }
-
         public async Task<IEnumerable<ServicioDto>> GetAllAsync()
         {
             var servicios = await _servicioRepo.GetAllAsync();
@@ -227,6 +210,27 @@ namespace Peluqueria.Application.Services
         {
             var servicios = await _servicioRepo.GetByCategoriaIdAsync(categoriaId);
             return servicios.Select(MapToDto);
+        }
+
+        private static ServicioDto MapToDto(Servicio servicio)
+        {
+            return new()
+            {
+                Id = servicio.Id,
+                Nombre = servicio.Nombre,
+                Descripcion = servicio.Descripcion,
+                DuracionMinutos = servicio.DuracionMinutos, // <--- Mapeo de la nueva propiedad
+                Precio = servicio.Precio,
+                Imagen = servicio.Imagen,
+                FechaCreacion = servicio.FechaCreacion,
+                Disponible = servicio.Disponible,
+                Categoria = servicio.Categoria != null ? new CategoriaDto
+                {
+                    Id = servicio.Categoria.Id,
+                    Nombre = servicio.Categoria.Nombre,
+                    EstaActiva = servicio.Categoria.EstaActiva // Incluir EstaActiva en el sub-DTO
+                } : null!
+            };
         }
     }
 }
