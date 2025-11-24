@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Peluqueria.Application.Dtos.Account;
 using Peluqueria.Application.Interfaces;
-
+using Peluqueria.Application.Dtos.Events;
 
 namespace Peluqueria.Application.Services
 {
@@ -9,11 +9,12 @@ namespace Peluqueria.Application.Services
     {
         private readonly IIdentityService _identityService;
         private readonly ITokenService _tokenService;
-
-        public AccountService(IIdentityService identityService, ITokenService tokenService)
+        private readonly IMessagePublisher _messagePublisher;
+        public AccountService(IIdentityService identityService, ITokenService tokenService, IMessagePublisher messagePublisher)
         {
             _identityService = identityService;
             _tokenService = tokenService;
+            _messagePublisher = messagePublisher;
         }
 
         public async Task<NewUserDto?> LoginAsync(LoginDto loginDto)
@@ -58,11 +59,23 @@ namespace Peluqueria.Application.Services
 
                 if (roleResult.Succeeded)
                 {
+                    // Obtener los detalles completos del usuario recién creado
+                    var userDetails = await _identityService.FindByNameAsync(registerDto.Username!);
+
+                    // Crear el DTO de Evento para el MR de Reservas
+                    var clienteEvent = new ClienteRegistradoEventDto
+                    {
+                        IdentityId = userDetails.Id,
+                        Username = userDetails.UserName,
+                        NombreCompleto = registerDto.NombreCompleto!,
+                        Email = userDetails.Email,
+                        Telefono = registerDto.Telefono!
+                    };
+
+                    // Publicar el evento
+                    await _messagePublisher.PublishAsync(clienteEvent, "cliente.registrado", "cliente_exchange");
+
                     return IdentityResult.Success;
-                }
-                else
-                {
-                    return roleResult;
                 }
             }
 

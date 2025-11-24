@@ -21,6 +21,11 @@ namespace Peluqueria.Infrastructure.Data
         public DbSet<EstilistaServicio> EstilistaServicios { get; set; } = null!;
         public DbSet<ParametroSistema> ParametrosSistema { get; set; } = null!;
 
+        public DbSet<HorarioSemanalBase> HorariosSemanalBase { get; set; } = null!;
+        public DbSet<BloqueoRangoDiasLibres> BloqueosRangoDiasLibres { get; set; } = null!;
+        public DbSet<BloqueoDescansoFijoDiario> BloqueosDescansoFijoDiario { get; set; } = null!;
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

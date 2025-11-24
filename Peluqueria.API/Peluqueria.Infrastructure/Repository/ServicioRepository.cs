@@ -67,5 +67,16 @@ namespace Peluqueria.Infrastructure.Repositories
             _context.Servicios.Remove(servicio);
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public async Task<bool> InactivateAsync(int id)
+        {
+            var servicio = await _context.Servicios.FindAsync(id);
+
+            if (servicio == null) return false;
+
+            servicio.Disponible = false;
+
+            return await _context.SaveChangesAsync() > 0;
+        }
     }
 }

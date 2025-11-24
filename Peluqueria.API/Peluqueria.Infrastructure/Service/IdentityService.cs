@@ -16,6 +16,13 @@ namespace Peluqueria.Infrastructure.Service
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
+        public async Task<AppUserMinimalDto?> FindByIdentityIdAsync(string identityId)
+        {
+            var user = await _userManager.FindByIdAsync(identityId);
+            return user == null ? null : MapToMinimalDto(user);
+        }
+
         private static AppUserMinimalDto MapToMinimalDto(AppUser user)
         {
             return new AppUserMinimalDto
@@ -70,5 +77,7 @@ namespace Peluqueria.Infrastructure.Service
             var user = await _userManager.FindByNameAsync(username);
             return user == null ? null : MapToMinimalDto(user);
         }
+
+
     }
 }

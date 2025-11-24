@@ -17,6 +17,8 @@ namespace Peluqueria.Domain.Entities
 
         // Relación M:N con Servicio (PEL-HU-09)
         public ICollection<EstilistaServicio> ServiciosAsociados { get; set; } = new List<EstilistaServicio>();
-
+        public ICollection<HorarioSemanalBase> HorariosBase { get; set; } = new List<HorarioSemanalBase>();
+        public ICollection<BloqueoRangoDiasLibres> BloqueosRangoDiasLibres { get; set; } = new List<BloqueoRangoDiasLibres>(); // <<-- Usar este nombre
+        public ICollection<BloqueoDescansoFijoDiario> BloqueosDescansoFijoDiario { get; set; } = new List<BloqueoDescansoFijoDiario>(); // <<-- Usar este nombre
     }
 }

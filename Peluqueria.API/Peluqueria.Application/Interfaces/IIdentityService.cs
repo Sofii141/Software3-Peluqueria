@@ -11,5 +11,6 @@ namespace Peluqueria.Application.Interfaces
         Task<IdentityResult> AddUserToRoleAsync(string username, string roleName);
         Task<AppUserMinimalDto?> FindByNameAsync(string username);
         Task<IdentityResult> CreateUserAsync(string username, string email, string password, string nombreCompleto, string telefono);
+        Task<AppUserMinimalDto?> FindByIdentityIdAsync(string identityId);
     }
 }

@@ -9,6 +9,6 @@ namespace Peluqueria.Application.Interfaces
         Task<IEnumerable<ServicioDto>> GetByCategoriaIdAsync(int categoriaId);
         Task<ServicioDto> CreateAsync(CreateServicioRequestDto requestDto);
         Task<ServicioDto?> UpdateAsync(int id, UpdateServicioRequestDto requestDto);
-        Task<bool> DeleteAsync(int id);
+        Task<bool> InactivateAsync(int id);
     }
 }

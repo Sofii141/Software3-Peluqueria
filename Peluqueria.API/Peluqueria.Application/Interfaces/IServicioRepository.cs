@@ -9,6 +9,6 @@ namespace Peluqueria.Application.Interfaces
         Task<IEnumerable<Servicio>> GetByCategoriaIdAsync(int categoriaId);
         Task<Servicio> CreateAsync(Servicio servicio);
         Task<Servicio?> UpdateAsync(int id, Servicio servicio);
-        Task<bool> DeleteAsync(int id);
+        Task<bool> InactivateAsync(int id);
     }
 }

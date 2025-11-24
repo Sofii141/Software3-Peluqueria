@@ -128,9 +128,9 @@ namespace Peluqueria.API.Controllers
 
         [HttpDelete("{id:int}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Inactivate(int id)
         {
-            var success = await _servicioService.DeleteAsync(id);
+            var success = await _servicioService.InactivateAsync(id);
             if (!success) return NotFound();
             return NoContent();
         }

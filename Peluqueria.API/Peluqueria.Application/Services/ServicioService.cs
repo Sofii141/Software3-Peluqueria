@@ -27,7 +27,6 @@ namespace Peluqueria.Application.Services
             _messagePublisher = messagePublisher;
         }
 
-        // --- MÉTODO CORREGIDO: PUBLISHSERVICIOSERVICE ---
         private Task PublishServicioEvent(Servicio servicio, string accion)
         {
             var evento = new ServicioEventDto
@@ -39,13 +38,9 @@ namespace Peluqueria.Application.Services
                 Accion = accion
             };
 
-            // CORRECCIÓN APLICADA: Routing Key dinámica (ej: servicio.creado)
             string routingKey = $"servicio.{accion.ToLower()}";
-
-            // Se usa el routingKey dinámico en el PublishAsync
             return _messagePublisher.PublishAsync(evento, routingKey, "servicio_exchange");
         }
-        // ------------------------------------------------
 
         public async Task<ServicioDto> CreateAsync(CreateServicioRequestDto requestDto)
         {
@@ -91,17 +86,18 @@ namespace Peluqueria.Application.Services
             return MapToDto(servicioCompleto!);
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> InactivateAsync(int id) 
         {
-            // OBTENER el servicio antes de eliminarlo para poder enviar el evento.
+           
             var servicio = await _servicioRepo.GetByIdAsync(id);
             if (servicio == null) return false;
 
-            var success = await _servicioRepo.DeleteAsync(id);
+            var success = await _servicioRepo.InactivateAsync(id); 
 
             if (success)
             {
-                await PublishServicioEvent(servicio, "ELIMINADO");
+                servicio.Disponible = false;
+                await PublishServicioEvent(servicio, "INACTIVADO");
             }
 
             return success;
@@ -163,9 +159,6 @@ namespace Peluqueria.Application.Services
 
             return MapToDto(servicioCompleto);
         }
-
-        // --- (Métodos auxiliares y GetAll/GetById/GetByCategoriaIdAsync no se modifican) ---
-
         private bool TryConvertPrecio(string? precioString, out double precioValor)
         {
             precioValor = 0;

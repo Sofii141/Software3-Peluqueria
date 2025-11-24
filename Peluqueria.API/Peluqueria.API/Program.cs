@@ -11,6 +11,7 @@ using Peluqueria.Infrastructure.Repositories;
 using Peluqueria.Infrastructure.Service;
 using System.Text;
 using System.Globalization;
+using Peluqueria.Infrastructure.Repository;
 
 var cultureInfo = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
@@ -95,15 +96,21 @@ builder.Services.AddAuthentication(options => {
 // INYECCION DE DEPENDENCIAS
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IServicioRepository, ServicioRepository>();
+builder.Services.AddScoped<IEstilistaRepository, EstilistaRepository>();
+builder.Services.AddScoped<IEstilistaAgendaRepository, EstilistaAgendaRepository>();
 
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IEstilistaService, EstilistaService>();
 
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IServicioService, ServicioService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddSingleton<IMessagePublisher, RabbitMQMessagePublisher>();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IEstilistaAgendaService, EstilistaAgendaService>();
+
 var app = builder.Build();
 
 app.UseStaticFiles();
