@@ -1,0 +1,114 @@
+{
+    "Routes": [
+        // 1. AUTENTICACIÓN (LOGIN & REGISTRO) - PÚBLICO
+        {
+            "DownstreamPathTemplate": "/api/account/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5034
+                }
+            ],
+            "UpstreamPathTemplate": "/api/account/{everything}",
+            "UpstreamHttpMethod": [ "Post" ],
+            "Priority": 9 // Máxima prioridad para el acceso
+        },
+
+        // 2. [GESTIÓN DE CATEGORÍAS] - CONSULTAS PÚBLICAS
+        // Cubre: GET /api/categorias, GET /api/categorias/{id}
+        {
+            "DownstreamPathTemplate": "/api/categorias/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5034
+                }
+            ],
+            "UpstreamPathTemplate": "/api/categorias/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "Priority": 8
+            // No hay AuthenticationOptions -> PÚBLICO
+        },
+
+        // 3. [GESTIÓN DE CATEGORÍAS] - CREAR/MODIFICAR/ELIMINAR
+        // Cubre: POST/PUT/DELETE /api/categorias
+        {
+            "DownstreamPathTemplate": "/api/categorias/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5034
+                }
+            ],
+            "UpstreamPathTemplate": "/api/categorias/{everything}",
+            "UpstreamHttpMethod": [ "Post", "Put", "Delete" ],
+            "Priority": 8,
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "ApiSecurityScheme",
+                "AllowedScopes": [] // Requiere JWT, Monolito valida el rol "Admin"
+            }
+        },
+
+        // 4. [GESTIÓN DE SERVICIOS] - CONSULTAS PÚBLICAS
+        // Cubre: GET /api/servicios, GET /api/servicios/{id}, GET /api/servicios/categoria/{id}
+        {
+            "DownstreamPathTemplate": "/api/servicios/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5034
+                }
+            ],
+            "UpstreamPathTemplate": "/api/servicios/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "Priority": 7
+            // No hay AuthenticationOptions -> PÚBLICO
+        },
+
+        // 5. [GESTIÓN DE SERVICIOS] - CREAR/MODIFICAR/ELIMINAR
+        // Cubre: POST/PUT/DELETE /api/servicios
+        {
+            "DownstreamPathTemplate": "/api/servicios/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5034
+                }
+            ],
+            "UpstreamPathTemplate": "/api/servicios/{everything}",
+            "UpstreamHttpMethod": [ "Post", "Put", "Delete" ],
+            "Priority": 7,
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "ApiSecurityScheme",
+                "AllowedScopes": [] // Requiere JWT, Monolito valida el rol "Admin"
+            }
+        },
+
+        // 6. [MICROSERVICIO DE RESERVAS] (FUTURO) - PROTEGIDO
+        {
+            "DownstreamPathTemplate": "/api/reservas/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5170
+                }
+            ],
+            "UpstreamPathTemplate": "/api/reservas/{everything}",
+            "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+            "Priority": 5,
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "ApiSecurityScheme",
+                "AllowedScopes": []
+            }
+        }
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "http://localhost:5000"
+    }
+}

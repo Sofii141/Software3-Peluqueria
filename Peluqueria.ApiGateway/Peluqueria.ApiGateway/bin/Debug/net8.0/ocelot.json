@@ -1,0 +1,80 @@
+{
+    "Routes": [
+        // 1. RUTA DE AUTENTICACIÓN (LOGIN & REGISTRO) - (Sin cambios)
+        {
+            "DownstreamPathTemplate": "/api/account/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5034
+                }
+            ],
+            "UpstreamPathTemplate": "/api/auth/{everything}",
+            "UpstreamHttpMethod": [ "Post" ],
+            "Priority": 3
+        },
+
+        // 4. RUTA PÚBLICA (CONSULTAS GET de Categorías y Servicios)
+        // Cubre: GET /api/categorias, GET /api/servicios, GET /api/servicios/{id}, etc.
+        // ESTA RUTA NO LLEVA AuthenticationOptions
+        {
+            "DownstreamPathTemplate": "/api/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5034
+                }
+            ],
+            "UpstreamPathTemplate": "/api/{everything}",
+            "UpstreamHttpMethod": [ "Get" ], // <--- SOLO MÉTODOS GET
+            "Priority": 2 // Mayor prioridad que la ruta protegida
+        },
+
+        // 2. RUTA PARA EL MICROSERVICIO DE RESERVAS (FUTURO)
+        // Se deja aquí para mantener su prioridad. Se asume que /api/reservas/... siempre es privado.
+        {
+            "DownstreamPathTemplate": "/api/reservas/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5170
+                }
+            ],
+            "UpstreamPathTemplate": "/api/reservas/{everything}",
+            "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+            "Priority": 1.5,
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "ApiSecurityScheme",
+                "AllowedScopes": []
+            }
+        },
+
+        // 3. RUTA PROTEGIDA (Operaciones POST/PUT/DELETE del Monolito)
+        // Cubre: POST/PUT/DELETE /api/servicios, POST/PUT/DELETE /api/categorias, etc.
+        // ESTA RUTA SÍ LLEVA AuthenticationOptions
+        {
+            "DownstreamPathTemplate": "/api/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5034
+                }
+            ],
+            "UpstreamPathTemplate": "/api/{everything}",
+            "UpstreamHttpMethod": [ "Post", "Put", "Delete" ], // <--- POST, PUT, DELETE
+            "RouteIsCaseSensitive": false,
+            "Priority": 1, // Baja prioridad
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "ApiSecurityScheme",
+                "AllowedScopes": []
+            }
+        }
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "http://localhost:5000"
+    }
+}

@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "fBQ3VbM4tvRapSMR8EXDS/dMxWDPQsL9fyJS8TgG+sQ=",
+  "Source": "Peluqueria.ApiGateway",
+  "BasePath": "_content/Peluqueria.ApiGateway",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
