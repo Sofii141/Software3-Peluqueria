@@ -2,6 +2,10 @@
 using Peluqueria.Application.Dtos.Events;
 using Peluqueria.Application.Interfaces;
 using Peluqueria.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Peluqueria.Application.Services
 {
@@ -16,11 +20,16 @@ namespace Peluqueria.Application.Services
             _messagePublisher = messagePublisher;
         }
 
-
-        // PEL-HU-12: Actualizar Horario Base
+        // --- HORARIO BASE ---
         public async Task<bool> UpdateHorarioBaseAsync(int estilistaId, List<HorarioDiaDto> horarios)
         {
-            // TODO: VALIDACIÓN RNI-H001. Horas de Cierre (Hora Inicio < Hora Fin)
+            foreach (var h in horarios)
+            {
+                if (h.EsLaborable && h.HoraInicio >= h.HoraFin)
+                {
+                    throw new ArgumentException($"Error en {h.DiaSemana}: La hora de inicio debe ser anterior a la de fin.");
+                }
+            }
 
             var newHorarios = horarios.Select(h => new HorarioSemanalBase
             {
@@ -33,29 +42,55 @@ namespace Peluqueria.Application.Services
 
             await _agendaRepo.UpdateHorarioBaseAsync(estilistaId, newHorarios);
 
-            // Publicación del Evento
-            var evento = new HorarioBaseEstilistaEventDto
-            {
-                EstilistaId = estilistaId,
-                HorariosSemanales = newHorarios.Select(h => new DiaHorarioEventDto
-                {
-                    DiaSemana = h.DiaSemana,
-                    HoraInicio = h.HoraInicioJornada,
-                    HoraFin = h.HoraFinJornada,
-                    EsLaborable = h.EsLaborable
-                }).ToList()
-            };
+            // TODO: Publicar evento 'horario_base.actualizado'
+            return true;
+        }
 
-            await _messagePublisher.PublishAsync(evento, "horario_base.actualizado", "agenda_exchange");
+        // --- DESCANSOS FIJOS ---
+        public async Task<bool> UpdateDescansoFijoAsync(int estilistaId, List<HorarioDiaDto> descansosDto)
+        {
+            var validDescansos = new List<BloqueoDescansoFijoDiario>();
+
+            foreach (var d in descansosDto)
+            {
+                // VALIDACIÓN DE NEGOCIO:
+                // Consultamos al repo si ese día el estilista trabaja.
+                bool esLaborable = await _agendaRepo.IsDiaLaborableAsync(estilistaId, d.DiaSemana);
+
+                if (!esLaborable)
+                {
+                    // Si el día NO es laborable, IGNORAMOS este descanso.
+                    // No lanzamos error para no romper la operación masiva, simplemente no se guarda.
+                    continue;
+                }
+
+                validDescansos.Add(new BloqueoDescansoFijoDiario
+                {
+                    EstilistaId = estilistaId,
+                    DiaSemana = d.DiaSemana,
+                    HoraInicioDescanso = d.HoraInicio,
+                    HoraFinDescanso = d.HoraFin,
+                    Razon = "Pausa/Almuerzo"
+                });
+            }
+
+            if (validDescansos.Count > 0)
+            {
+                await _agendaRepo.UpdateDescansosFijosAsync(estilistaId, validDescansos);
+                // TODO: Publicar evento 'descanso_fijo.actualizado'
+            }
 
             return true;
         }
 
-        // PEL-HU-13: Crear Bloqueo Días Libres (Vacaciones)
+        public async Task DeleteDescansoFijoAsync(int estilistaId, DayOfWeek dia)
+        {
+            await _agendaRepo.DeleteDescansoFijoAsync(estilistaId, dia);
+        }
+
+        // --- BLOQUEOS ---
         public async Task<bool> CreateBloqueoDiasLibresAsync(int estilistaId, BloqueoRangoDto bloqueoDto)
         {
-            // TODO: VALIDACIÓN CRÍTICA (RNI-H003. Bloqueo por Cita (Estricto) - En el Microservicio de Reservas)
-
             var bloqueo = new BloqueoRangoDiasLibres
             {
                 EstilistaId = estilistaId,
@@ -64,95 +99,47 @@ namespace Peluqueria.Application.Services
                 Razon = bloqueoDto.Razon
             };
 
-            var nuevoBloqueo = await _agendaRepo.CreateBloqueoDiasLibresAsync(bloqueo);
-
-            // Publicación del Evento
-            var evento = new BloqueoRangoDiasLibresEventDto
-            {
-                EstilistaId = estilistaId,
-                FechaInicioBloqueo = nuevoBloqueo.FechaInicioBloqueo,
-                FechaFinBloqueo = nuevoBloqueo.FechaFinBloqueo,
-                Accion = "CREADO"
-            };
-            await _messagePublisher.PublishAsync(evento, "bloqueo_dias.creado", "agenda_exchange");
-
+            await _agendaRepo.CreateBloqueoDiasLibresAsync(bloqueo);
+            // TODO: Publicar evento 'bloqueo.creado'
             return true;
         }
 
-        // PEL-HU-13: Actualizar Descansos Fijos Diarios (Almuerzo)
-        public async Task<bool> UpdateDescansoFijoAsync(int estilistaId, List<HorarioDiaDto> descansosDto)
+        public async Task<bool> UpdateBloqueoDiasLibresAsync(int estilistaId, int bloqueoId, BloqueoRangoDto dto)
         {
-            // TODO: VALIDACIÓN RNI-H004: Única Pausa Diaria (si aplica)
-
-            var newDescansos = descansosDto.Select(d => new BloqueoDescansoFijoDiario
+            var bloqueo = new BloqueoRangoDiasLibres
             {
+                Id = bloqueoId,
                 EstilistaId = estilistaId,
-                DiaSemana = d.DiaSemana,
-                HoraInicioDescanso = d.HoraInicio,
-                HoraFinDescanso = d.HoraFin,
-                Razon = "Pausa/Almuerzo"
-            }).ToList();
-
-            await _agendaRepo.UpdateDescansosFijosAsync(estilistaId, newDescansos);
-
-            var evento = new DescansoFijoActualizadoEventDto
-            {
-                EstilistaId = estilistaId,
-                DescansosFijos = newDescansos.Select(d => new DiaHorarioEventDto
-                {
-                    DiaSemana = d.DiaSemana,
-                    HoraInicio = d.HoraInicioDescanso,
-                    HoraFin = d.HoraFinDescanso,
-                    EsLaborable = false // Es un descanso, por lo tanto, no laborable
-                }).ToList()
+                FechaInicioBloqueo = dto.FechaInicio.Date,
+                FechaFinBloqueo = dto.FechaFin.Date,
+                Razon = dto.Razon
             };
 
-            await _messagePublisher.PublishAsync(evento, "descanso_fijo.actualizado", "agenda_exchange");
-
-            return true;
+            return await _agendaRepo.UpdateBloqueoDiasLibresAsync(bloqueo);
         }
 
+        public async Task<bool> DeleteBloqueoDiasLibresAsync(int estilistaId, int bloqueoId)
+        {
+            return await _agendaRepo.DeleteBloqueoDiasLibresAsync(bloqueoId, estilistaId);
+        }
+
+        // --- GETTERS ---
         public async Task<IEnumerable<HorarioDiaDto>> GetHorarioBaseAsync(int estilistaId)
         {
-            var horarios = await _agendaRepo.GetHorarioBaseAsync(estilistaId);
-
-            // Mapeo a DTO
-            return horarios.Select(h => new HorarioDiaDto
-            {
-                DiaSemana = h.DiaSemana,
-                HoraInicio = h.HoraInicioJornada,
-                HoraFin = h.HoraFinJornada,
-                EsLaborable = h.EsLaborable
-            }).ToList();
+            var result = await _agendaRepo.GetHorarioBaseAsync(estilistaId);
+            return result.Select(h => new HorarioDiaDto { DiaSemana = h.DiaSemana, HoraInicio = h.HoraInicioJornada, HoraFin = h.HoraFinJornada, EsLaborable = h.EsLaborable }).ToList();
         }
 
-        // Implementación de Get Bloqueos Días Libres (PEL-HU-13)
         public async Task<IEnumerable<BloqueoRangoDto>> GetBloqueosDiasLibresAsync(int estilistaId)
         {
-            var bloqueos = await _agendaRepo.GetBloqueosDiasLibresAsync(estilistaId);
-
-            // Mapeo a DTO
-            return bloqueos.Select(b => new BloqueoRangoDto
-            {
-                FechaInicio = b.FechaInicioBloqueo,
-                FechaFin = b.FechaFinBloqueo,
-                Razon = b.Razon
-            }).ToList();
+            var result = await _agendaRepo.GetBloqueosDiasLibresAsync(estilistaId);
+            return result.Select(b => new BloqueoRangoDto { FechaInicio = b.FechaInicioBloqueo, FechaFin = b.FechaFinBloqueo, Razon = b.Razon }).ToList();
         }
 
-        // Implementación de Get Descansos Fijos (PEL-HU-13)
         public async Task<IEnumerable<HorarioDiaDto>> GetDescansosFijosAsync(int estilistaId)
         {
-            var descansos = await _agendaRepo.GetDescansosFijosAsync(estilistaId);
-
-            // Mapeo a DTO (reutilizando HorarioDiaDto, marcando como no laborable)
-            return descansos.Select(d => new HorarioDiaDto
-            {
-                DiaSemana = d.DiaSemana,
-                HoraInicio = d.HoraInicioDescanso,
-                HoraFin = d.HoraFinDescanso,
-                EsLaborable = false
-            }).ToList();
+            var result = await _agendaRepo.GetDescansosFijosAsync(estilistaId);
+            return result.Select(d => new HorarioDiaDto { DiaSemana = d.DiaSemana, HoraInicio = d.HoraInicioDescanso, HoraFin = d.HoraFinDescanso, EsLaborable = false }).ToList();
         }
     }
 }

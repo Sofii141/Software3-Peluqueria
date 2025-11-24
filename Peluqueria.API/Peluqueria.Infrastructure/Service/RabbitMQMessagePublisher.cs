@@ -1,120 +1,236 @@
-﻿using Peluqueria.Application.Interfaces;
-using RabbitMQ.Client;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using Peluqueria.Application.Dtos.Estilista;
+using Peluqueria.Application.Dtos.Events;
+using Peluqueria.Application.Interfaces;
+using Peluqueria.Domain.Entities;
 using System;
-using System.Globalization;
-using System.Threading; 
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Peluqueria.Infrastructure.Service
+namespace Peluqueria.Application.Services
 {
-    public class RabbitMQMessagePublisher : IMessagePublisher, IDisposable
+    public class EstilistaAgendaService : IEstilistaAgendaService
     {
-        // Se inicializa a null para satisfacer el constructor que puede fallar.
-        private IConnection? _connection;
-        private readonly ILogger<RabbitMQMessagePublisher> _logger;
-        private bool _disposed = false;
+        private readonly IEstilistaAgendaRepository _agendaRepo;
+        private readonly IMessagePublisher _messagePublisher;
 
-        public RabbitMQMessagePublisher(IConfiguration config, ILogger<RabbitMQMessagePublisher> logger)
+        // Constante para el Exchange de RabbitMQ
+        private const string EXCHANGE_NAME = "agenda_exchange";
+
+        public EstilistaAgendaService(IEstilistaAgendaRepository agendaRepo, IMessagePublisher messagePublisher)
         {
-            _logger = logger;
+            _agendaRepo = agendaRepo;
+            _messagePublisher = messagePublisher;
+        }
 
-            string hostName = config["RabbitMQ:HostName"] ?? "localhost";
-            string portString = config["RabbitMQ:Port"] ?? "5672";
-            string userName = config["RabbitMQ:UserName"] ?? "guest";
-            string password = config["RabbitMQ:Password"] ?? "guest";
-
-            if (!int.TryParse(portString, NumberStyles.None, CultureInfo.InvariantCulture, out int port))
+        // --- HORARIO BASE ---
+        public async Task<bool> UpdateHorarioBaseAsync(int estilistaId, List<HorarioDiaDto> horarios)
+        {
+            // Validaciones
+            foreach (var h in horarios)
             {
-                _logger.LogError("El puerto de RabbitMQ '{Port}' no es un número válido. Usando 5672.", portString);
-                port = 5672;
+                if (h.EsLaborable && h.HoraInicio >= h.HoraFin)
+                {
+                    throw new ArgumentException($"Error en {h.DiaSemana}: La hora de inicio debe ser anterior a la de fin.");
+                }
             }
 
-            var factory = new ConnectionFactory()
+            var newHorarios = horarios.Select(h => new HorarioSemanalBase
             {
-                HostName = hostName,
-                Port = port,
-                UserName = userName,
-                Password = password,
-                // [ELIMINAR ESTA LÍNEA]: DispatchConsumersAsync fue removido en v6+
-                // DispatchConsumersAsync = true // <--- REMOVIDA
+                EstilistaId = estilistaId,
+                DiaSemana = h.DiaSemana,
+                HoraInicioJornada = h.HoraInicio,
+                HoraFinJornada = h.HoraFin,
+                EsLaborable = h.EsLaborable
+            }).ToList();
+
+            // 1. Guardar en BD
+            await _agendaRepo.UpdateHorarioBaseAsync(estilistaId, newHorarios);
+
+            // 2. Publicar Evento de Integración
+            var evento = new HorarioBaseEstilistaEventDto
+            {
+                EstilistaId = estilistaId,
+                HorariosSemanales = newHorarios.Select(h => new DiaHorarioEventDto
+                {
+                    DiaSemana = h.DiaSemana,
+                    HoraInicio = h.HoraInicioJornada,
+                    HoraFin = h.HoraFinJornada,
+                    EsLaborable = h.EsLaborable
+                }).ToList()
             };
 
-            try
-            {
-                // CreateConnection es válido. El error anterior era por la propiedad eliminada.
-                _connection = factory.CreateConnection();
-                _logger.LogInformation("Conectado exitosamente a RabbitMQ en {HostName}:{Port}", hostName, port);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error CRÍTICO al conectar con RabbitMQ. Verificar Docker y configuración.");
-                // No se lanza 'throw' aquí, sino que se registra null. 
-                // La verificación se hace en PublishAsync. (Aunque lanzar es una opción válida para servicios críticos).
-                _connection = null;
-            }
+            // Routing Key: horario_base.actualizado
+            await _messagePublisher.PublishAsync(evento, "horario_base.actualizado", EXCHANGE_NAME);
+
+            return true;
         }
 
-        public Task PublishAsync<T>(T message, string routingKey, string exchangeName) where T : class
+        // --- DESCANSOS FIJOS ---
+        public async Task<bool> UpdateDescansoFijoAsync(int estilistaId, List<HorarioDiaDto> descansosDto)
         {
-            // Se verifica la conexión antes de publicar
-            if (_disposed || _connection == null || !_connection.IsOpen)
+            var validDescansos = new List<BloqueoDescansoFijoDiario>();
+
+            foreach (var d in descansosDto)
             {
-                _logger.LogError("Intento de publicar en RabbitMQ con conexión nula, cerrada o desechada. Mensaje no enviado: {Key}", routingKey);
-                return Task.CompletedTask;
-            }
+                // Validación: Consultamos si el día es laborable
+                bool esLaborable = await _agendaRepo.IsDiaLaborableAsync(estilistaId, d.DiaSemana);
 
-            // Serializa el objeto a bytes JSON (UTF-8)
-            var body = JsonSerializer.SerializeToUtf8Bytes(message);
+                if (!esLaborable) continue; // Ignoramos días no laborables
 
-            // CreateModel y Dispose son válidos
-            using var channel = _connection.CreateModel();
-
-            // 1. Declaración del Exchange 
-            channel.ExchangeDeclare(
-                exchange: exchangeName,
-                type: ExchangeType.Topic,
-                durable: true
-            );
-
-            // 2. Propiedades del mensaje 
-            var properties = channel.CreateBasicProperties();
-            properties.Persistent = true;
-
-            // 3. Publicación
-            channel.BasicPublish(
-                exchange: exchangeName,
-                routingKey: routingKey,
-                basicProperties: properties,
-                body: body
-            );
-
-            _logger.LogDebug("Mensaje publicado con éxito: Exchange={ExchangeName}, Key={RoutingKey}", exchangeName, routingKey);
-
-            return Task.CompletedTask;
-        }
-
-        public void Dispose()
-        {
-            if (_disposed) return;
-
-            _logger.LogInformation("Cerrando la conexión de RabbitMQ.");
-
-            // Se verifica que _connection no sea null antes de intentar usarlo
-            if (_connection != null)
-            {
-                if (_connection.IsOpen)
+                validDescansos.Add(new BloqueoDescansoFijoDiario
                 {
-                    _connection.Close();
-                }
-                _connection.Dispose();
+                    EstilistaId = estilistaId,
+                    DiaSemana = d.DiaSemana,
+                    HoraInicioDescanso = d.HoraInicio,
+                    HoraFinDescanso = d.HoraFin,
+                    Razon = "Pausa/Almuerzo"
+                });
             }
 
-            _disposed = true;
-            GC.SuppressFinalize(this);
+            if (validDescansos.Count > 0)
+            {
+                // 1. Guardar en BD
+                await _agendaRepo.UpdateDescansosFijosAsync(estilistaId, validDescansos);
+
+                // 2. Publicar Evento
+                var evento = new DescansoFijoActualizadoEventDto
+                {
+                    EstilistaId = estilistaId,
+                    DescansosFijos = validDescansos.Select(d => new DiaHorarioEventDto
+                    {
+                        DiaSemana = d.DiaSemana,
+                        HoraInicio = d.HoraInicioDescanso,
+                        HoraFin = d.HoraFinDescanso,
+                        EsLaborable = false // Es descanso
+                    }).ToList()
+                };
+
+                await _messagePublisher.PublishAsync(evento, "descanso_fijo.actualizado", EXCHANGE_NAME);
+            }
+
+            return true;
+        }
+
+        public async Task DeleteDescansoFijoAsync(int estilistaId, DayOfWeek dia)
+        {
+            // 1. Eliminar en BD
+            await _agendaRepo.DeleteDescansoFijoAsync(estilistaId, dia);
+
+            // 2. Publicar Evento de Eliminación
+            // Enviamos un objeto anónimo o un DTO simple indicando qué día se liberó
+            var eventoEliminacion = new
+            {
+                EstilistaId = estilistaId,
+                DiaSemana = dia,
+                Accion = "ELIMINADO"
+            };
+
+            await _messagePublisher.PublishAsync(eventoEliminacion, "descanso_fijo.eliminado", EXCHANGE_NAME);
+        }
+
+        // --- BLOQUEOS (VACACIONES) ---
+        public async Task<bool> CreateBloqueoDiasLibresAsync(int estilistaId, BloqueoRangoDto bloqueoDto)
+        {
+            var bloqueo = new BloqueoRangoDiasLibres
+            {
+                EstilistaId = estilistaId,
+                FechaInicioBloqueo = bloqueoDto.FechaInicio.Date,
+                FechaFinBloqueo = bloqueoDto.FechaFin.Date,
+                Razon = bloqueoDto.Razon
+            };
+
+            // 1. Guardar
+            var nuevoBloqueo = await _agendaRepo.CreateBloqueoDiasLibresAsync(bloqueo);
+
+            // 2. Publicar Evento (Accion: CREADO)
+            var evento = new BloqueoRangoDiasLibresEventDto
+            {
+                EstilistaId = estilistaId,
+                FechaInicioBloqueo = nuevoBloqueo.FechaInicioBloqueo,
+                FechaFinBloqueo = nuevoBloqueo.FechaFinBloqueo,
+                Accion = "CREADO"
+            };
+
+            await _messagePublisher.PublishAsync(evento, "bloqueo_dias.creado", EXCHANGE_NAME);
+
+            return true;
+        }
+
+        public async Task<bool> UpdateBloqueoDiasLibresAsync(int estilistaId, int bloqueoId, BloqueoRangoDto dto)
+        {
+            var bloqueo = new BloqueoRangoDiasLibres
+            {
+                Id = bloqueoId,
+                EstilistaId = estilistaId,
+                FechaInicioBloqueo = dto.FechaInicio.Date,
+                FechaFinBloqueo = dto.FechaFin.Date,
+                Razon = dto.Razon
+            };
+
+            // 1. Actualizar
+            var success = await _agendaRepo.UpdateBloqueoDiasLibresAsync(bloqueo);
+            if (!success) return false;
+
+            // 2. Publicar Evento (Accion: ACTUALIZADO)
+            var evento = new BloqueoRangoDiasLibresEventDto
+            {
+                EstilistaId = estilistaId,
+                FechaInicioBloqueo = bloqueo.FechaInicioBloqueo,
+                FechaFinBloqueo = bloqueo.FechaFinBloqueo,
+                Accion = "ACTUALIZADO"
+            };
+
+            await _messagePublisher.PublishAsync(evento, "bloqueo_dias.actualizado", EXCHANGE_NAME);
+
+            return true;
+        }
+
+        public async Task<bool> DeleteBloqueoDiasLibresAsync(int estilistaId, int bloqueoId)
+        {
+            // TRUCO: Antes de borrar, necesitamos saber las fechas para avisar a Reservas que libere esos días.
+            // Buscamos el bloqueo en la lista actual (ya que el Repo solo devuelve bool al borrar)
+            var bloqueosActuales = await _agendaRepo.GetBloqueosDiasLibresAsync(estilistaId);
+            var bloqueoAEliminar = bloqueosActuales.FirstOrDefault(b => b.Id == bloqueoId);
+
+            // 1. Eliminar en BD
+            var success = await _agendaRepo.DeleteBloqueoDiasLibresAsync(bloqueoId, estilistaId);
+            if (!success) return false;
+
+            // 2. Publicar Evento (Accion: ELIMINADO)
+            if (bloqueoAEliminar != null)
+            {
+                var evento = new BloqueoRangoDiasLibresEventDto
+                {
+                    EstilistaId = estilistaId,
+                    // Enviamos las fechas originales para que el otro servicio sepa qué rango liberar
+                    FechaInicioBloqueo = bloqueoAEliminar.FechaInicioBloqueo,
+                    FechaFinBloqueo = bloqueoAEliminar.FechaFinBloqueo,
+                    Accion = "ELIMINADO"
+                };
+
+                await _messagePublisher.PublishAsync(evento, "bloqueo_dias.eliminado", EXCHANGE_NAME);
+            }
+
+            return true;
+        }
+
+        public async Task<IEnumerable<HorarioDiaDto>> GetHorarioBaseAsync(int estilistaId)
+        {
+            var result = await _agendaRepo.GetHorarioBaseAsync(estilistaId);
+            return result.Select(h => new HorarioDiaDto { DiaSemana = h.DiaSemana, HoraInicio = h.HoraInicioJornada, HoraFin = h.HoraFinJornada, EsLaborable = h.EsLaborable }).ToList();
+        }
+
+        public async Task<IEnumerable<BloqueoRangoDto>> GetBloqueosDiasLibresAsync(int estilistaId)
+        {
+            var result = await _agendaRepo.GetBloqueosDiasLibresAsync(estilistaId);
+            return result.Select(b => new BloqueoRangoDto { FechaInicio = b.FechaInicioBloqueo, FechaFin = b.FechaFinBloqueo, Razon = b.Razon }).ToList();
+        }
+
+        public async Task<IEnumerable<HorarioDiaDto>> GetDescansosFijosAsync(int estilistaId)
+        {
+            var result = await _agendaRepo.GetDescansosFijosAsync(estilistaId);
+            return result.Select(d => new HorarioDiaDto { DiaSemana = d.DiaSemana, HoraInicio = d.HoraInicioDescanso, HoraFin = d.HoraFinDescanso, EsLaborable = false }).ToList();
         }
     }
 }

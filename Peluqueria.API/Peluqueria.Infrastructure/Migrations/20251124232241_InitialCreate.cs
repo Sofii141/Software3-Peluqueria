@@ -339,9 +339,9 @@ namespace Peluqueria.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NombreCompleto", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Telefono", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "a18be9c0-aa65-4af8-bd17-00bd9344e575", 0, "00000000-0000-0000-0000-000000000000", "admin@test.com", true, false, null, "Administrador Principal", "ADMIN@TEST.COM", "ADMIN", "AQAAAAIAAYagAAAAEBijLS+itQ0VaPgIjuFO3RbRX0RrP9A4P8PsTkyb+7yq/3CtTrpKaNS2X5Vd5PwLrA==", null, false, "00000000-0000-0000-0000-000000000000", "3001234567", false, "admin" },
-                    { "b7e289d1-d21a-4c9f-8d7e-00bd9344e575", 0, "00000000-0000-0000-0000-000000000000", "laura.e@pelu.com", true, false, null, "Laura Valencia", "LAURA.E@PELU.COM", "LAURA.E", "AQAAAAIAAYagAAAAEN1ZM6AS7ujCjxfYMwuIP1aNfIq0QgD5t0szfgsBJNjWZ+djEq6R035umMj9GhU8WA==", null, false, "00000000-0000-0000-0000-000000000000", "3001234568", false, "laura.e" },
-                    { "c7e289d1-d21a-4c9f-8d7e-00bd9344e575", 0, "00000000-0000-0000-0000-000000000000", "juan.c@mail.com", true, false, null, "Juan Cliente", "JUAN.C@MAIL.COM", "JUAN.C", "AQAAAAIAAYagAAAAEEQH4FDWPbE6VKuvgUdxdLwYkdBaqKucgj2WhCouQ7uGTijcA0KU4EekJQpvtv1s8A==", null, false, "00000000-0000-0000-0000-000000000000", "3109876543", false, "juan.c" }
+                    { "a18be9c0-aa65-4af8-bd17-00bd9344e575", 0, "00000000-0000-0000-0000-000000000000", "admin@test.com", true, false, null, "Administrador Principal", "ADMIN@TEST.COM", "ADMIN", "AQAAAAIAAYagAAAAELE7EUiQXrw+aCro/sc0YrgueeqB+qFkaQ5MXg9oomqzhesiq9XJxqeYYXaUom1slA==", null, false, "00000000-0000-0000-0000-000000000000", "3001234567", false, "admin" },
+                    { "b7e289d1-d21a-4c9f-8d7e-00bd9344e575", 0, "9769f6ea-d3b1-4734-b2c3-60e854c2cfe6", "laura.e@pelu.com", true, false, null, "Laura Valencia", "LAURA.E@PELU.COM", "LAURA.E", "AQAAAAIAAYagAAAAEBfk5VEqndwuGJTJJQUGONX9YEUaGQ2CwoC/1C9W9AeUxtfWq2963cu1/pBnyfHfKw==", null, false, "a0ff912a-acd1-4574-9782-45529ffd1eda", "3001234568", false, "laura.e" },
+                    { "c7e289d1-d21a-4c9f-8d7e-00bd9344e575", 0, "fe1e8649-edca-478d-a35e-2ce3a50ead90", "juan.c@mail.com", true, false, null, "Juan Cliente", "JUAN.C@MAIL.COM", "JUAN.C", "AQAAAAIAAYagAAAAENDiwYDXqNGLalxbCNuRjtAmMypgJxqE/R/bXHGdy6VhFaV6Ii5jjgGZ2t4W6zylew==", null, false, "6e020fbf-665b-4bcb-aea3-914a8e6bded0", "3109876543", false, "juan.c" }
                 });
 
             migrationBuilder.InsertData(
@@ -409,10 +409,10 @@ namespace Peluqueria.Infrastructure.Migrations
                 columns: new[] { "Id", "CategoriaId", "Descripcion", "Disponible", "DuracionMinutos", "FechaCreacion", "Imagen", "Nombre", "Precio" },
                 values: new object[,]
                 {
-                    { 1, 1, "Un corte clásico y elegante por encima de los hombros.", true, 60, new DateTime(2025, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7274/images/bobCut.png", "Corte Estilo Bob", 50000m },
-                    { 2, 2, "Tratamiento a base de keratina para revitalizar tu cabello.", true, 90, new DateTime(2025, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7274/images/hidratacion.jpg", "Hidratación Profunda", 80000m },
-                    { 3, 3, "Una experiencia relajante que dejará tus manos suaves y perfectas.", true, 75, new DateTime(2025, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7274/images/manicura.jpg", "Manicura SPA Completa", 80000m },
-                    { 4, 1, "Corte clásico para caballero.", true, 45, new DateTime(2025, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7274/images/manCut.png", "Corte para hombre", 30000m }
+                    { 1, 1, "Un corte clásico...", true, 60, new DateTime(2025, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7274/images/bobCut.png", "Corte Estilo Bob", 50000m },
+                    { 2, 2, "Tratamiento keratina...", true, 90, new DateTime(2025, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7274/images/hidratacion.jpg", "Hidratación Profunda", 80000m },
+                    { 3, 3, "Experiencia relajante...", true, 75, new DateTime(2025, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7274/images/manicura.jpg", "Manicura SPA Completa", 80000m },
+                    { 4, 1, "Corte clásico...", true, 45, new DateTime(2025, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7274/images/manCut.png", "Corte para hombre", 30000m }
                 });
 
             migrationBuilder.InsertData(

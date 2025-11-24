@@ -1,25 +1,28 @@
 ﻿using Peluqueria.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Peluqueria.Application.Interfaces
 {
-    public interface IEstilistaAgendaRepository // CAMBIADO a public
+    public interface IEstilistaAgendaRepository
     {
-        // PEL-HU-12: Horario Base
+        // HORARIO BASE
         Task UpdateHorarioBaseAsync(int estilistaId, List<HorarioSemanalBase> horarios);
+        Task<IEnumerable<HorarioSemanalBase>> GetHorarioBaseAsync(int estilistaId);
 
-        // PEL-HU-13: Bloqueo de Días Libres (Rango)
-        Task<BloqueoRangoDiasLibres> CreateBloqueoDiasLibresAsync(BloqueoRangoDiasLibres bloqueo);
-
-        // PEL-HU-13: Descansos Fijos Diarios (Pausas)
+        // DESCANSOS
         Task UpdateDescansosFijosAsync(int estilistaId, List<BloqueoDescansoFijoDiario> descansos);
+        Task DeleteDescansoFijoAsync(int estilistaId, DayOfWeek dia); 
+        Task<IEnumerable<BloqueoDescansoFijoDiario>> GetDescansosFijosAsync(int estilistaId);
 
-        Task<IEnumerable<HorarioSemanalBase>> GetHorarioBaseAsync(int estilistaId); // PEL-HU-12
-        Task<IEnumerable<BloqueoRangoDiasLibres>> GetBloqueosDiasLibresAsync(int estilistaId); // PEL-HU-13
-        Task<IEnumerable<BloqueoDescansoFijoDiario>> GetDescansosFijosAsync(int estilistaId); // PEL-HU-13
+        // BLOQUEOS (VACACIONES)
+        Task<BloqueoRangoDiasLibres> CreateBloqueoDiasLibresAsync(BloqueoRangoDiasLibres bloqueo);
+        Task<bool> UpdateBloqueoDiasLibresAsync(BloqueoRangoDiasLibres bloqueo);
+        Task<bool> DeleteBloqueoDiasLibresAsync(int id, int estilistaId); 
+        Task<IEnumerable<BloqueoRangoDiasLibres>> GetBloqueosDiasLibresAsync(int estilistaId);
+
+        // HELPER VALIDACIÓN
+        Task<bool> IsDiaLaborableAsync(int estilistaId, DayOfWeek dia);
     }
 }

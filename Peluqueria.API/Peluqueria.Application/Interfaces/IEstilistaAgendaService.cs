@@ -1,22 +1,24 @@
 ﻿using Peluqueria.Application.Dtos.Estilista;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Peluqueria.Application.Interfaces
 {
     public interface IEstilistaAgendaService
     {
-        // CONSULTAS DE AGENDA (AÑADIDOS)
-        Task<IEnumerable<HorarioDiaDto>> GetHorarioBaseAsync(int estilistaId); // PEL-HU-12
-        Task<IEnumerable<BloqueoRangoDto>> GetBloqueosDiasLibresAsync(int estilistaId); // PEL-HU-13
-        Task<IEnumerable<HorarioDiaDto>> GetDescansosFijosAsync(int estilistaId); // PEL-HU-13
+        // CONSULTAS
+        Task<IEnumerable<HorarioDiaDto>> GetHorarioBaseAsync(int estilistaId);
+        Task<IEnumerable<BloqueoRangoDto>> GetBloqueosDiasLibresAsync(int estilistaId);
+        Task<IEnumerable<HorarioDiaDto>> GetDescansosFijosAsync(int estilistaId);
 
-        // OPERACIONES DE AGENDA
+        // OPERACIONES - HORARIO
         Task<bool> UpdateHorarioBaseAsync(int estilistaId, List<HorarioDiaDto> horarios);
-        Task<bool> CreateBloqueoDiasLibresAsync(int estilistaId, BloqueoRangoDto bloqueoDto);
+
+        // OPERACIONES - DESCANSOS
         Task<bool> UpdateDescansoFijoAsync(int estilistaId, List<HorarioDiaDto> descansos);
+        Task DeleteDescansoFijoAsync(int estilistaId, DayOfWeek dia); 
+
+        // OPERACIONES - BLOQUEOS (VACACIONES)
+        Task<bool> CreateBloqueoDiasLibresAsync(int estilistaId, BloqueoRangoDto bloqueoDto);
+        Task<bool> UpdateBloqueoDiasLibresAsync(int estilistaId, int bloqueoId, BloqueoRangoDto dto); 
+        Task<bool> DeleteBloqueoDiasLibresAsync(int estilistaId, int bloqueoId);
     }
 }
