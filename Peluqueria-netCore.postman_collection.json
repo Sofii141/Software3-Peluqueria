@@ -145,6 +145,85 @@
 			]
 		},
 		{
+			"name": "Login Estilista",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"cliente_test2\",\r\n  \"password\": \"password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/account/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login de Usuario",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"cliente_test4\",\r\n  \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/account/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"account",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Length",
+							"value": "495"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 02 Nov 2025 14:26:47 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"userName\": \"cliente_test4\",\n    \"email\": \"cliente@test4.com\",\n    \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiY2xpZW50ZV90ZXN0NCIsIm5hbWVpZCI6Ijg5ZGFlZmNhLWY2OTQtNDM3OS1iNzQ1LWI5MzVjYmIzZjgwMSIsImVtYWlsIjoiY2xpZW50ZUB0ZXN0NC5jb20iLCJyb2xlIjoiQ2xpZW50ZSIsIm5iZiI6MTc2MjA5MzYwOCwiZXhwIjoxNzYyNjk4NDA4LCJpYXQiOjE3NjIwOTM2MDgsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTE2NyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTE2NyJ9.xa3uAoIw-xSgIfqEZ0jUX8PexbFE395XkeIAAwBhaj7dbLfDpcEmuuMEGiNe5mPjMe38mGFjQumHv9RzuMPmFQ\"\n}"
+				}
+			]
+		},
+		{
 			"name": "Login de Administrador",
 			"request": {
 				"method": "POST",
@@ -283,6 +362,100 @@
 			]
 		},
 		{
+			"name": "Crear nueva Categoría",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"nombre\": \"Masajes Faciales\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/categorias",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"categorias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar Categoria",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Masajes y SPA\", \r\n    \"estaActiva\": true\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/categorias/5",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"categorias",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inactivar Categoria",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/categorias/5",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"categorias",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Crear Servicio",
 			"request": {
 				"auth": {
@@ -302,7 +475,7 @@
 					"formdata": [
 						{
 							"key": "Nombre",
-							"value": "Tinte Completo2",
+							"value": "Tinte Completo prueba 2",
 							"type": "text"
 						},
 						{
@@ -311,8 +484,13 @@
 							"type": "text"
 						},
 						{
+							"key": "DuracionMinutos",
+							"value": "45",
+							"type": "text"
+						},
+						{
 							"key": "Precio",
-							"value": "1200",
+							"value": "1300",
 							"type": "text"
 						},
 						{
@@ -322,13 +500,13 @@
 						},
 						{
 							"key": "CategoriaId",
-							"value": "2",
+							"value": "4",
 							"type": "text"
 						},
 						{
 							"key": "Imagen",
 							"type": "file",
-							"src": "/C:/Users/Ana_Sofia/Downloads/PixVerse_Image_Effect_prompt_hazme la imagen d.jpg"
+							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (7).png"
 						}
 					]
 				},
@@ -954,6 +1132,598 @@
 					"body": null
 				}
 			]
+		},
+		{
+			"name": "Consultar Estilistas",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar estilista ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas/2",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Nuevo Estilista",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Username",
+							"value": "estilista1",
+							"type": "text"
+						},
+						{
+							"key": "Email",
+							"value": "juan@email.com",
+							"type": "text"
+						},
+						{
+							"key": "Password",
+							"value": "Peluqueria123!",
+							"type": "text"
+						},
+						{
+							"key": "NombreCompleto",
+							"value": "Juan Pérez",
+							"type": "text"
+						},
+						{
+							"key": "Telefono",
+							"value": "3001234567",
+							"type": "text"
+						},
+						{
+							"key": "ServiciosIds",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "ServiciosIds",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "Imagen",
+							"type": "file",
+							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (3).png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar Estilista",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Password",
+							"value": "NuevaClave2025!",
+							"type": "text"
+						},
+						{
+							"key": "NombreCompleto",
+							"value": "Juan Pérez",
+							"type": "text"
+						},
+						{
+							"key": "Telefono",
+							"value": "3100202020",
+							"type": "text"
+						},
+						{
+							"key": "ServiciosIds",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "Imagen",
+							"type": "file",
+							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (3).png"
+						},
+						{
+							"key": "Username",
+							"value": "juan.nuevo",
+							"type": "text"
+						},
+						{
+							"key": "Email",
+							"value": "nuevo@email.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inactivar Estilista",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Password",
+							"value": "NuevaClave2025!",
+							"type": "text"
+						},
+						{
+							"key": "NombreCompleto",
+							"value": "Juan Pérez",
+							"type": "text"
+						},
+						{
+							"key": "Telefono",
+							"value": "3100202020",
+							"type": "text"
+						},
+						{
+							"key": "ServiciosIds",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "Imagen",
+							"type": "file",
+							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (3).png"
+						},
+						{
+							"key": "Username",
+							"value": "juan.nuevo",
+							"type": "text"
+						},
+						{
+							"key": "Email",
+							"value": "nuevo@email.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas/2",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Horario Base",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Password",
+							"value": "NuevaClave2025!",
+							"type": "text"
+						},
+						{
+							"key": "NombreCompleto",
+							"value": "Juan Pérez",
+							"type": "text"
+						},
+						{
+							"key": "Telefono",
+							"value": "3100202020",
+							"type": "text"
+						},
+						{
+							"key": "ServiciosIds",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "Imagen",
+							"type": "file",
+							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (3).png"
+						},
+						{
+							"key": "Username",
+							"value": "juan.nuevo",
+							"type": "text"
+						},
+						{
+							"key": "Email",
+							"value": "nuevo@email.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas/agenda/2/horario-base",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas",
+						"agenda",
+						"2",
+						"horario-base"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Descansos Fijos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Password",
+							"value": "NuevaClave2025!",
+							"type": "text"
+						},
+						{
+							"key": "NombreCompleto",
+							"value": "Juan Pérez",
+							"type": "text"
+						},
+						{
+							"key": "Telefono",
+							"value": "3100202020",
+							"type": "text"
+						},
+						{
+							"key": "ServiciosIds",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "Imagen",
+							"type": "file",
+							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (3).png"
+						},
+						{
+							"key": "Username",
+							"value": "juan.nuevo",
+							"type": "text"
+						},
+						{
+							"key": "Email",
+							"value": "nuevo@email.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas/agenda/2/descanso-fijo",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas",
+						"agenda",
+						"2",
+						"descanso-fijo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Bloqueos Rango",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Password",
+							"value": "NuevaClave2025!",
+							"type": "text"
+						},
+						{
+							"key": "NombreCompleto",
+							"value": "Juan Pérez",
+							"type": "text"
+						},
+						{
+							"key": "Telefono",
+							"value": "3100202020",
+							"type": "text"
+						},
+						{
+							"key": "ServiciosIds",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "Imagen",
+							"type": "file",
+							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (3).png"
+						},
+						{
+							"key": "Username",
+							"value": "juan.nuevo",
+							"type": "text"
+						},
+						{
+							"key": "Email",
+							"value": "nuevo@email.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas/agenda/2/bloqueo-dias-libres",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas",
+						"agenda",
+						"2",
+						"bloqueo-dias-libres"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Horario",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"diaSemana\": 1, \r\n        \"horaInicio\": \"08:00:00\", \r\n        \"horaFin\": \"16:00:00\", \r\n        \"esLaborable\": true\r\n    }, \r\n    {\r\n        \"diaSemana\": 4, \r\n        \"horaInicio\": \"10:00:00\", \r\n        \"horaFin\": \"19:00:00\", \r\n        \"esLaborable\": true\r\n    }\r\n]\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas/agenda/2/horario-base",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas",
+						"agenda",
+						"2",
+						"horario-base"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Descanso",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\"diaSemana\": 4, \"horaInicio\": \"14:00:00\", \"horaFin\": \"15:00:00\"}\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas/agenda/2/descanso-fijo",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas",
+						"agenda",
+						"2",
+						"descanso-fijo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Bloqueo Rango",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fechaInicio\": \"2025-12-01T00:00:00\", \r\n    \"fechaFin\": \"2025-12-01T23:59:59\", \r\n    \"razon\": \"Curso Especial\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas/agenda/2/bloqueo-dias-libres",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas",
+						"agenda",
+						"2",
+						"bloqueo-dias-libres"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
