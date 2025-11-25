@@ -9,8 +9,28 @@
 		{
 			"name": "Registrar Usuario",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"Sofiaa\",\r\n  \"nombreCompleto\": \"Sofia Arango\",\r\n  \"email\": \"SofiaArango@gmail.com\",\r\n  \"password\": \"password123A$\",\r\n  \"telefono\": \"3106683378\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/account/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"register"
+					]
+				}
 			},
 			"response": [
 				{
@@ -456,6 +476,191 @@
 			"response": []
 		},
 		{
+			"name": "Obtener Todos los Servicios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/servicios/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"servicios",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Obtener Todos los Servicios",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/servicios/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"servicios",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Length",
+							"value": "2209"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 02 Nov 2025 14:27:38 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"Corte Estilo Bob\",\n        \"descripcion\": \"Un corte clásico y elegante por encima de los hombros.\",\n        \"precio\": 50000,\n        \"imagen\": \"https://localhost:7274/images/bobCut.png\",\n        \"fechaCreacion\": \"2025-10-23T00:00:00\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 1,\n            \"nombre\": \"Cortes de Cabello\"\n        }\n    },\n    {\n        \"id\": 2,\n        \"nombre\": \"Hidratación Profunda\",\n        \"descripcion\": \"Tratamiento a base de keratina para revitalizar tu cabello.\",\n        \"precio\": 80000,\n        \"imagen\": \"https://localhost:7274/images/hidratacion.jpg\",\n        \"fechaCreacion\": \"2025-10-23T00:00:00\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 3,\n        \"nombre\": \"Manicura SPA Completa\",\n        \"descripcion\": \"Una experiencia relajante que dejará tus manos suaves y perfectas.\",\n        \"precio\": 80000,\n        \"imagen\": \"https://localhost:7274/images/manicura.jpg\",\n        \"fechaCreacion\": \"2025-10-23T00:00:00\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 3,\n            \"nombre\": \"Manicura y Pedicura\"\n        }\n    },\n    {\n        \"id\": 6,\n        \"nombre\": \"mascarilla\",\n        \"descripcion\": \"es una mascarilla de aguacate\",\n        \"precio\": 6000,\n        \"imagen\": \"4f6baa9a-ce85-4ec9-b5cf-07097ec4eeca.jpg\",\n        \"fechaCreacion\": \"2025-10-30T16:38:59.564043\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 21,\n        \"nombre\": \"Tinte Completo2\",\n        \"descripcion\": \"Cambio de color permanente con producto orgánico.\",\n        \"precio\": 1200,\n        \"imagen\": \"7c0ea874-bcec-4637-a21f-f90353d5bb0c.jpg\",\n        \"fechaCreacion\": \"2025-11-02T02:40:33.4377366\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 22,\n        \"nombre\": \"Tinte Completo edit\",\n        \"descripcion\": \"Cambio de color edit\",\n        \"precio\": 50,\n        \"imagen\": \"2fae2097-d8e3-4ce8-b602-e65c83daddf9.jpg\",\n        \"fechaCreacion\": \"2025-11-02T02:56:33.1547392\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 1,\n            \"nombre\": \"Cortes de Cabello\"\n        }\n    },\n    {\n        \"id\": 23,\n        \"nombre\": \"Corte Estilo Bob\",\n        \"descripcion\": \"df\",\n        \"precio\": 232323,\n        \"imagen\": \"9b10660a-5b36-43d8-a04a-ab5e1e96f03c.jpg\",\n        \"fechaCreacion\": \"2025-11-02T02:58:10.4080995\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 24,\n        \"nombre\": \"Tinte Completo prueba \",\n        \"descripcion\": \"Cambio de color permanente con producto orgánico.\",\n        \"precio\": 1300,\n        \"imagen\": \"\",\n        \"fechaCreacion\": \"2025-11-02T14:27:25.1641903\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Obtener Servicio por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/servicios/{{servicioId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"servicios",
+						"{{servicioId}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Obtener Servicio por ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/servicios/{{servicioId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"servicios",
+								"{{servicioId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Length",
+							"value": "257"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 02 Nov 2025 14:28:17 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 24,\n    \"nombre\": \"Tinte Completo prueba \",\n    \"descripcion\": \"Cambio de color permanente con producto orgánico.\",\n    \"precio\": 1300,\n    \"imagen\": \"\",\n    \"fechaCreacion\": \"2025-11-02T14:27:25.1641903\",\n    \"disponible\": true,\n    \"categoria\": {\n        \"id\": 2,\n        \"nombre\": \"Tratamientos Capilares\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Obtener Servicios por Categoría",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/servicios/categoria/2",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"servicios",
+						"categoria",
+						"2"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Obtener Servicios por Categoría",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/servicios/categoria/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"servicios",
+								"categoria",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Length",
+							"value": "1362"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 02 Nov 2025 14:28:25 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 2,\n        \"nombre\": \"Hidratación Profunda\",\n        \"descripcion\": \"Tratamiento a base de keratina para revitalizar tu cabello.\",\n        \"precio\": 80000,\n        \"imagen\": \"https://localhost:7274/images/hidratacion.jpg\",\n        \"fechaCreacion\": \"2025-10-23T00:00:00\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 6,\n        \"nombre\": \"mascarilla\",\n        \"descripcion\": \"es una mascarilla de aguacate\",\n        \"precio\": 6000,\n        \"imagen\": \"4f6baa9a-ce85-4ec9-b5cf-07097ec4eeca.jpg\",\n        \"fechaCreacion\": \"2025-10-30T16:38:59.564043\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 21,\n        \"nombre\": \"Tinte Completo2\",\n        \"descripcion\": \"Cambio de color permanente con producto orgánico.\",\n        \"precio\": 1200,\n        \"imagen\": \"7c0ea874-bcec-4637-a21f-f90353d5bb0c.jpg\",\n        \"fechaCreacion\": \"2025-11-02T02:40:33.4377366\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 23,\n        \"nombre\": \"Corte Estilo Bob\",\n        \"descripcion\": \"df\",\n        \"precio\": 232323,\n        \"imagen\": \"9b10660a-5b36-43d8-a04a-ab5e1e96f03c.jpg\",\n        \"fechaCreacion\": \"2025-11-02T02:58:10.4080995\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 24,\n        \"nombre\": \"Tinte Completo prueba \",\n        \"descripcion\": \"Cambio de color permanente con producto orgánico.\",\n        \"precio\": 1300,\n        \"imagen\": \"\",\n        \"fechaCreacion\": \"2025-11-02T14:27:25.1641903\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    }\n]"
+				}
+			]
+		},
+		{
 			"name": "Crear Servicio",
 			"request": {
 				"auth": {
@@ -675,191 +880,6 @@
 					],
 					"cookie": [],
 					"body": "La categoría con ID 4 no existe."
-				}
-			]
-		},
-		{
-			"name": "Obtener Todos los Servicios",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/api/servicios/",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"api",
-						"servicios",
-						""
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Obtener Todos los Servicios",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/servicios/",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"servicios",
-								""
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": null,
-					"header": [
-						{
-							"key": "Content-Length",
-							"value": "2209"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Date",
-							"value": "Sun, 02 Nov 2025 14:27:38 GMT"
-						},
-						{
-							"key": "Server",
-							"value": "Kestrel"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"Corte Estilo Bob\",\n        \"descripcion\": \"Un corte clásico y elegante por encima de los hombros.\",\n        \"precio\": 50000,\n        \"imagen\": \"https://localhost:7274/images/bobCut.png\",\n        \"fechaCreacion\": \"2025-10-23T00:00:00\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 1,\n            \"nombre\": \"Cortes de Cabello\"\n        }\n    },\n    {\n        \"id\": 2,\n        \"nombre\": \"Hidratación Profunda\",\n        \"descripcion\": \"Tratamiento a base de keratina para revitalizar tu cabello.\",\n        \"precio\": 80000,\n        \"imagen\": \"https://localhost:7274/images/hidratacion.jpg\",\n        \"fechaCreacion\": \"2025-10-23T00:00:00\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 3,\n        \"nombre\": \"Manicura SPA Completa\",\n        \"descripcion\": \"Una experiencia relajante que dejará tus manos suaves y perfectas.\",\n        \"precio\": 80000,\n        \"imagen\": \"https://localhost:7274/images/manicura.jpg\",\n        \"fechaCreacion\": \"2025-10-23T00:00:00\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 3,\n            \"nombre\": \"Manicura y Pedicura\"\n        }\n    },\n    {\n        \"id\": 6,\n        \"nombre\": \"mascarilla\",\n        \"descripcion\": \"es una mascarilla de aguacate\",\n        \"precio\": 6000,\n        \"imagen\": \"4f6baa9a-ce85-4ec9-b5cf-07097ec4eeca.jpg\",\n        \"fechaCreacion\": \"2025-10-30T16:38:59.564043\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 21,\n        \"nombre\": \"Tinte Completo2\",\n        \"descripcion\": \"Cambio de color permanente con producto orgánico.\",\n        \"precio\": 1200,\n        \"imagen\": \"7c0ea874-bcec-4637-a21f-f90353d5bb0c.jpg\",\n        \"fechaCreacion\": \"2025-11-02T02:40:33.4377366\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 22,\n        \"nombre\": \"Tinte Completo edit\",\n        \"descripcion\": \"Cambio de color edit\",\n        \"precio\": 50,\n        \"imagen\": \"2fae2097-d8e3-4ce8-b602-e65c83daddf9.jpg\",\n        \"fechaCreacion\": \"2025-11-02T02:56:33.1547392\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 1,\n            \"nombre\": \"Cortes de Cabello\"\n        }\n    },\n    {\n        \"id\": 23,\n        \"nombre\": \"Corte Estilo Bob\",\n        \"descripcion\": \"df\",\n        \"precio\": 232323,\n        \"imagen\": \"9b10660a-5b36-43d8-a04a-ab5e1e96f03c.jpg\",\n        \"fechaCreacion\": \"2025-11-02T02:58:10.4080995\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 24,\n        \"nombre\": \"Tinte Completo prueba \",\n        \"descripcion\": \"Cambio de color permanente con producto orgánico.\",\n        \"precio\": 1300,\n        \"imagen\": \"\",\n        \"fechaCreacion\": \"2025-11-02T14:27:25.1641903\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    }\n]"
-				}
-			]
-		},
-		{
-			"name": "Obtener Servicio por ID",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/api/servicios/{{servicioId}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"api",
-						"servicios",
-						"{{servicioId}}"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Obtener Servicio por ID",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/servicios/{{servicioId}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"servicios",
-								"{{servicioId}}"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": null,
-					"header": [
-						{
-							"key": "Content-Length",
-							"value": "257"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Date",
-							"value": "Sun, 02 Nov 2025 14:28:17 GMT"
-						},
-						{
-							"key": "Server",
-							"value": "Kestrel"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"id\": 24,\n    \"nombre\": \"Tinte Completo prueba \",\n    \"descripcion\": \"Cambio de color permanente con producto orgánico.\",\n    \"precio\": 1300,\n    \"imagen\": \"\",\n    \"fechaCreacion\": \"2025-11-02T14:27:25.1641903\",\n    \"disponible\": true,\n    \"categoria\": {\n        \"id\": 2,\n        \"nombre\": \"Tratamientos Capilares\"\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Obtener Servicios por Categoría",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/api/servicios/categoria/2",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"api",
-						"servicios",
-						"categoria",
-						"2"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Obtener Servicios por Categoría",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/servicios/categoria/2",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"servicios",
-								"categoria",
-								"2"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": null,
-					"header": [
-						{
-							"key": "Content-Length",
-							"value": "1362"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Date",
-							"value": "Sun, 02 Nov 2025 14:28:25 GMT"
-						},
-						{
-							"key": "Server",
-							"value": "Kestrel"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 2,\n        \"nombre\": \"Hidratación Profunda\",\n        \"descripcion\": \"Tratamiento a base de keratina para revitalizar tu cabello.\",\n        \"precio\": 80000,\n        \"imagen\": \"https://localhost:7274/images/hidratacion.jpg\",\n        \"fechaCreacion\": \"2025-10-23T00:00:00\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 6,\n        \"nombre\": \"mascarilla\",\n        \"descripcion\": \"es una mascarilla de aguacate\",\n        \"precio\": 6000,\n        \"imagen\": \"4f6baa9a-ce85-4ec9-b5cf-07097ec4eeca.jpg\",\n        \"fechaCreacion\": \"2025-10-30T16:38:59.564043\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 21,\n        \"nombre\": \"Tinte Completo2\",\n        \"descripcion\": \"Cambio de color permanente con producto orgánico.\",\n        \"precio\": 1200,\n        \"imagen\": \"7c0ea874-bcec-4637-a21f-f90353d5bb0c.jpg\",\n        \"fechaCreacion\": \"2025-11-02T02:40:33.4377366\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 23,\n        \"nombre\": \"Corte Estilo Bob\",\n        \"descripcion\": \"df\",\n        \"precio\": 232323,\n        \"imagen\": \"9b10660a-5b36-43d8-a04a-ab5e1e96f03c.jpg\",\n        \"fechaCreacion\": \"2025-11-02T02:58:10.4080995\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    },\n    {\n        \"id\": 24,\n        \"nombre\": \"Tinte Completo prueba \",\n        \"descripcion\": \"Cambio de color permanente con producto orgánico.\",\n        \"precio\": 1300,\n        \"imagen\": \"\",\n        \"fechaCreacion\": \"2025-11-02T14:27:25.1641903\",\n        \"disponible\": true,\n        \"categoria\": {\n            \"id\": 2,\n            \"nombre\": \"Tratamientos Capilares\"\n        }\n    }\n]"
 				}
 			]
 		},
@@ -1622,7 +1642,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[\r\n    {\r\n        \"diaSemana\": 1, \r\n        \"horaInicio\": \"08:00:00\", \r\n        \"horaFin\": \"16:00:00\", \r\n        \"esLaborable\": true\r\n    }, \r\n    {\r\n        \"diaSemana\": 4, \r\n        \"horaInicio\": \"10:00:00\", \r\n        \"horaFin\": \"19:00:00\", \r\n        \"esLaborable\": true\r\n    }\r\n]\r\n\r\n\r\n",
+					"raw": "[\r\n    {\r\n    \"DiaSemana\": 1, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"16:00:00\",\r\n    \"EsLaborable\": true\r\n  },\r\n  {\r\n    \"DiaSemana\": 1, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"16:00:00\",\r\n    \"EsLaborable\": true\r\n  },\r\n  \r\n  {\r\n    \"DiaSemana\": 2, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"16:00:00\",\r\n    \"EsLaborable\": true\r\n  },\r\n  {\r\n    \"DiaSemana\": 2, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"16:00:00\",\r\n    \"EsLaborable\": true\r\n  },\r\n  {\r\n    \"DiaSemana\": 3, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"16:00:00\",\r\n    \"EsLaborable\": true\r\n  }\r\n]\r\n\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1630,7 +1650,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/estilistas/agenda/2/horario-base",
+					"raw": "{{baseUrl}}/api/estilistas/agenda/3/horario-base",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -1638,7 +1658,7 @@
 						"api",
 						"estilistas",
 						"agenda",
-						"2",
+						"3",
 						"horario-base"
 					]
 				}
@@ -1720,6 +1740,83 @@
 						"agenda",
 						"2",
 						"bloqueo-dias-libres"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Bloqueo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"FechaInicio\": \"2026-02-01\",\r\n  \"FechaFin\": \"2026-02-05\",\r\n  \"Razon\": \"Vacaciones Reprogramadas\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas/agenda/2/bloqueo-dias-libres/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas",
+						"agenda",
+						"2",
+						"bloqueo-dias-libres",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Bloqueo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fechaInicio\": \"2025-12-01T00:00:00\", \r\n    \"fechaFin\": \"2025-12-01T23:59:59\", \r\n    \"razon\": \"Curso Especial\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/estilistas/agenda/2/bloqueo-dias-libres/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"estilistas",
+						"agenda",
+						"2",
+						"bloqueo-dias-libres",
+						"1"
 					]
 				}
 			},
