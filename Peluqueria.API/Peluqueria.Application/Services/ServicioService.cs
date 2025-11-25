@@ -1,25 +1,22 @@
-using Peluqueria.Application.Dtos.Categoria;
 using Peluqueria.Application.Dtos.Servicio;
+using Peluqueria.Application.Dtos.Categoria;
+using Peluqueria.Application.Dtos.Events;
+using Peluqueria.Application.Exceptions;
 using Peluqueria.Application.Interfaces;
 using Peluqueria.Domain.Entities;
 using System.Globalization;
-using Peluqueria.Application.Dtos.Events;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Peluqueria.Application.Services
 {
     public class ServicioService : IServicioService
     {
-
         private readonly IServicioRepository _servicioRepo;
         private readonly IFileStorageService _fileStorage;
         private readonly ICategoriaRepository _categoriaRepo;
         private readonly IMessagePublisher _messagePublisher;
 
-        public ServicioService(IServicioRepository servicioRepo, IFileStorageService fileStorage
-            , ICategoriaRepository categoriaRepo, IMessagePublisher messagePublisher)
+        public ServicioService(IServicioRepository servicioRepo, IFileStorageService fileStorage,
+            ICategoriaRepository categoriaRepo, IMessagePublisher messagePublisher)
         {
             _servicioRepo = servicioRepo;
             _fileStorage = fileStorage;
@@ -27,41 +24,34 @@ namespace Peluqueria.Application.Services
             _messagePublisher = messagePublisher;
         }
 
-        private Task PublishServicioEvent(Servicio servicio, string accion)
-        {
-            var evento = new ServicioEventDto
-            {
-                Id = servicio.Id,
-                Nombre = servicio.Nombre,
-                DuracionMinutos = servicio.DuracionMinutos,
-                Precio = servicio.Precio,
-                CategoriaId = servicio.CategoriaId,
-                Disponible = servicio.Disponible,
-                Accion = accion
-            };
-
-            string routingKey = $"servicio.{accion.ToLower()}";
-
-            return _messagePublisher.PublishAsync(evento, routingKey, "servicio_exchange");
-        }
-
         public async Task<ServicioDto> CreateAsync(CreateServicioRequestDto requestDto)
         {
+            // 1. VALIDAR DURACIÓN (Regla de Negocio RNI-S001 y Política Operativa)
+            ValidateDuracion(requestDto.DuracionMinutos);
+
+            // 2. VALIDACIÓN IMAGEN (G-ERROR-013)
             if (requestDto.Imagen != null)
             {
                 ValidateImageFile(requestDto.Imagen.Length, requestDto.Imagen.ContentType);
             }
 
+            // 3. VALIDACIÓN CATEGORÍA EXISTENTE (G-ERROR-012)
             var categoriaExistente = await _categoriaRepo.GetByIdAsync(requestDto.CategoriaId);
-
             if (categoriaExistente == null)
             {
-                throw new ArgumentException($"La categoría con ID {requestDto.CategoriaId} no existe.");
+                throw new EntidadNoExisteException(CodigoError.CATEGORIA_NO_ENCONTRADA);
             }
 
+            // 4. VALIDACIÓN NOMBRE DUPLICADO (G-ERROR-010)
+            if (await _servicioRepo.ExistsByNameAsync(requestDto.Nombre))
+            {
+                throw new EntidadYaExisteException(CodigoError.SERVICIO_NOMBRE_DUPLICADO);
+            }
+
+            // 5. VALIDACIÓN PRECIO (G-ERROR-003)
             if (!TryConvertPrecio(requestDto.Precio, out double precioValor))
             {
-                throw new ArgumentException("El precio debe ser un valor numérico válido mayor o igual a 1. Utiliza el punto como separador decimal (ej: 50000.00).");
+                throw new ReglaNegocioException(CodigoError.PRECIO_INVALIDO);
             }
 
             var servicio = new Servicio
@@ -82,55 +72,54 @@ namespace Peluqueria.Application.Services
             }
 
             var nuevoServicio = await _servicioRepo.CreateAsync(servicio);
+
+            await PublishServicioEvent(nuevoServicio, "CREADO");
+
             var servicioCompleto = await _servicioRepo.GetByIdAsync(nuevoServicio.Id);
-
-            await PublishServicioEvent(servicioCompleto!, "CREADO");
-
             return MapToDto(servicioCompleto!);
-        }
-
-        public async Task<bool> InactivateAsync(int id) 
-        {
-           
-            var servicio = await _servicioRepo.GetByIdAsync(id);
-            if (servicio == null) return false;
-
-            var success = await _servicioRepo.InactivateAsync(id); 
-
-            if (success)
-            {
-                servicio.Disponible = false;
-                await PublishServicioEvent(servicio, "INACTIVADO");
-            }
-
-            return success;
         }
 
         public async Task<ServicioDto?> UpdateAsync(int id, UpdateServicioRequestDto requestDto)
         {
+            // 1. VALIDACIÓN EXISTENCIA (G-ERROR-011)
+            var servicioExistente = await _servicioRepo.GetByIdAsync(id);
+            if (servicioExistente == null)
+            {
+                throw new EntidadNoExisteException(CodigoError.SERVICIO_NO_ENCONTRADO);
+            }
+
+            // 2. VALIDACIÓN BLOQUEO POR CITAS (G-ERROR-004)
+            // bool tieneCitasFuturas = await _servicioRepo.HasFutureAppointmentsAsync(id);
+            bool tieneCitasFuturas = false; // TODO: Conectar repo real
+
+            if (tieneCitasFuturas)
+            {
+                throw new ReglaNegocioException(CodigoError.SERVICIO_BLOQUEADO_POR_CITAS);
+            }
+
+            // 3. VALIDAR DURACIÓN (Regla de Negocio)
+            ValidateDuracion(requestDto.DuracionMinutos);
+
+            // 4. VALIDACIÓN CATEGORÍA (G-ERROR-012)
+            var categoriaExistente = await _categoriaRepo.GetByIdAsync(requestDto.CategoriaId);
+            if (categoriaExistente == null)
+            {
+                throw new EntidadNoExisteException(CodigoError.CATEGORIA_NO_ENCONTRADA);
+            }
+
+            // 5. VALIDACIÓN IMAGEN (G-ERROR-013)
             if (requestDto.Imagen != null)
             {
                 ValidateImageFile(requestDto.Imagen.Length, requestDto.Imagen.ContentType);
             }
 
-            var categoriaExistente = await _categoriaRepo.GetByIdAsync(requestDto.CategoriaId);
-
-            if (categoriaExistente == null)
-            {
-                throw new ArgumentException($"La categoría con ID {requestDto.CategoriaId} no existe.");
-            }
-
+            // 6. VALIDACIÓN PRECIO (G-ERROR-003)
             if (!TryConvertPrecio(requestDto.Precio, out double precioValor))
             {
-                throw new ArgumentException("El precio debe ser un valor numérico válido mayor o igual a 1. Utiliza el punto como separador decimal (ej: 50000.00).");
+                throw new ReglaNegocioException(CodigoError.PRECIO_INVALIDO);
             }
 
-            var servicioExistente = await _servicioRepo.GetByIdAsync(id);
-            if (servicioExistente == null)
-            {
-                return null;
-            }
-
+            // Actualización
             servicioExistente.Nombre = requestDto.Nombre;
             servicioExistente.Descripcion = requestDto.Descripcion;
             servicioExistente.Precio = precioValor;
@@ -146,22 +135,57 @@ namespace Peluqueria.Application.Services
 
             var servicioGuardado = await _servicioRepo.UpdateAsync(id, servicioExistente);
 
-            if (servicioGuardado == null)
-            {
-                return null;
-            }
+            await PublishServicioEvent(servicioGuardado!, "ACTUALIZADO");
 
-            var servicioCompleto = await _servicioRepo.GetByIdAsync(servicioGuardado.Id);
-
-            await PublishServicioEvent(servicioCompleto!, "ACTUALIZADO");
-
-            if (servicioCompleto == null)
-            {
-                return MapToDto(servicioGuardado);
-            }
-
-            return MapToDto(servicioCompleto);
+            return MapToDto(servicioGuardado!);
         }
+
+        public async Task<bool> InactivateAsync(int id)
+        {
+            var servicio = await _servicioRepo.GetByIdAsync(id);
+            if (servicio == null)
+            {
+                throw new EntidadNoExisteException(CodigoError.SERVICIO_NO_ENCONTRADO);
+            }
+
+            // bool tieneCitasFuturas = await _servicioRepo.HasFutureAppointmentsAsync(id);
+            bool tieneCitasFuturas = false;
+
+            if (tieneCitasFuturas)
+            {
+                throw new ReglaNegocioException(CodigoError.SERVICIO_BLOQUEADO_POR_CITAS);
+            }
+
+            var success = await _servicioRepo.InactivateAsync(id);
+
+            if (success)
+            {
+                servicio.Disponible = false;
+                await PublishServicioEvent(servicio, "INACTIVADO");
+            }
+
+            return success;
+        }
+
+        // --- MÉTODOS PRIVADOS ---
+
+        // Validar Regla de Negocio de Duración
+        private void ValidateDuracion(int minutos)
+        {
+            // RNI-S001: Mínimo 45 minutos
+            if (minutos < 45)
+            {
+                // Usamos el constructor que acepta mensaje personalizado
+                throw new ReglaNegocioException(CodigoError.FORMATO_INVALIDO, "La duración mínima permitida es de 45 minutos.");
+            }
+
+            // Política Operativa: Máximo 8 horas (480 min)
+            if (minutos > 480)
+            {
+                throw new ReglaNegocioException(CodigoError.FORMATO_INVALIDO, "La duración no puede exceder las 8 horas (480 minutos).");
+            }
+        }
+
         private bool TryConvertPrecio(string? precioString, out double precioValor)
         {
             precioValor = 0;
@@ -169,28 +193,22 @@ namespace Peluqueria.Application.Services
 
             string cleanedString = precioString.Replace(',', '.');
 
-            if (double.TryParse(cleanedString, NumberStyles.Any, CultureInfo.InvariantCulture, out double result) && result >= 1)
+            if (double.TryParse(cleanedString, NumberStyles.Any, CultureInfo.InvariantCulture, out double result) && result > 0)
             {
                 precioValor = result;
                 return true;
             }
-
             return false;
         }
 
         private void ValidateImageFile(long fileSize, string contentType)
         {
-            const int maxFileSize = 5 * 1024 * 1024;
-            var allowedContentTypes = new[] { "image/jpeg", "image/png" };
+            const int maxFileSize = 5 * 1024 * 1024; // 5MB
+            var allowedContentTypes = new[] { "image/jpeg", "image/png", "image/jpg" };
 
-            if (fileSize > maxFileSize)
+            if (fileSize > maxFileSize || !allowedContentTypes.Contains(contentType.ToLower()))
             {
-                throw new ArgumentException("El archivo de imagen no puede exceder los 5 MB.");
-            }
-
-            if (!allowedContentTypes.Contains(contentType.ToLower()))
-            {
-                throw new ArgumentException("Formato de archivo no válido. Solo se permiten imágenes JPEG o PNG.");
+                throw new ReglaNegocioException(CodigoError.IMAGEN_INVALIDA);
             }
         }
 
@@ -212,14 +230,30 @@ namespace Peluqueria.Application.Services
             return servicios.Select(MapToDto);
         }
 
+        private Task PublishServicioEvent(Servicio servicio, string accion)
+        {
+            var evento = new ServicioEventDto
+            {
+                Id = servicio.Id,
+                Nombre = servicio.Nombre,
+                DuracionMinutos = servicio.DuracionMinutos,
+                Precio = servicio.Precio,
+                CategoriaId = servicio.CategoriaId,
+                Disponible = servicio.Disponible,
+                Accion = accion
+            };
+            string routingKey = $"servicio.{accion.ToLower()}";
+            return _messagePublisher.PublishAsync(evento, routingKey, "servicio_exchange");
+        }
+
         private static ServicioDto MapToDto(Servicio servicio)
         {
-            return new()
+            return new ServicioDto
             {
                 Id = servicio.Id,
                 Nombre = servicio.Nombre,
                 Descripcion = servicio.Descripcion,
-                DuracionMinutos = servicio.DuracionMinutos, // <--- Mapeo de la nueva propiedad
+                DuracionMinutos = servicio.DuracionMinutos,
                 Precio = servicio.Precio,
                 Imagen = servicio.Imagen,
                 FechaCreacion = servicio.FechaCreacion,
@@ -228,7 +262,7 @@ namespace Peluqueria.Application.Services
                 {
                     Id = servicio.Categoria.Id,
                     Nombre = servicio.Categoria.Nombre,
-                    EstaActiva = servicio.Categoria.EstaActiva // Incluir EstaActiva en el sub-DTO
+                    EstaActiva = servicio.Categoria.EstaActiva
                 } : null!
             };
         }

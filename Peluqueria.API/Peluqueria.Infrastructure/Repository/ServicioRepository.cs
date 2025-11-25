@@ -78,5 +78,10 @@ namespace Peluqueria.Infrastructure.Repositories
 
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public async Task<bool> ExistsByNameAsync(string nombre)
+        {
+            return await _context.Servicios.AnyAsync(s => s.Nombre.ToLower() == nombre.ToLower());
+        }
     }
 }

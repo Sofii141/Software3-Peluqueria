@@ -10,5 +10,8 @@ namespace Peluqueria.Application.Interfaces
         Task<Servicio> CreateAsync(Servicio servicio);
         Task<Servicio?> UpdateAsync(int id, Servicio servicio);
         Task<bool> InactivateAsync(int id);
+        Task<bool> ExistsByNameAsync(string nombre);
+
+        // Task<bool> HasFutureAppointmentsAsync(int id); // TODO: Agregar cuando conectes con Reservas
     }
 }

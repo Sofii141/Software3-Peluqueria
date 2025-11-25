@@ -25,21 +25,14 @@ namespace Peluqueria.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            try
-            {
-                var nuevoServicioDto = await _servicioService.CreateAsync(requestDto);
+            var nuevoServicioDto = await _servicioService.CreateAsync(requestDto);
 
-                if (!string.IsNullOrEmpty(nuevoServicioDto.Imagen))
-                {
-                    nuevoServicioDto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{nuevoServicioDto.Imagen}";
-                }
-
-                return CreatedAtAction(nameof(GetById), new { id = nuevoServicioDto.Id }, nuevoServicioDto);
-            }
-            catch (ArgumentException ex)
+            if (!string.IsNullOrEmpty(nuevoServicioDto.Imagen))
             {
-                return BadRequest(ex.Message);
+                nuevoServicioDto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{nuevoServicioDto.Imagen}";
             }
+
+            return CreatedAtAction(nameof(GetById), new { id = nuevoServicioDto.Id }, nuevoServicioDto);
         }
 
         [HttpPut("{id:int}")]
@@ -51,30 +44,23 @@ namespace Peluqueria.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            try
-            {
-                var servicioActualizadoDto = await _servicioService.UpdateAsync(id, requestDto);
+            var servicioActualizadoDto = await _servicioService.UpdateAsync(id, requestDto);
 
-                if (servicioActualizadoDto == null)
-                {
-                    return NotFound();
-                }
-
-                if (!string.IsNullOrEmpty(servicioActualizadoDto.Imagen))
-                {
-                    servicioActualizadoDto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{servicioActualizadoDto.Imagen}";
-                }
-
-                return Ok(servicioActualizadoDto);
-            }
-            catch (ArgumentException ex)
+            if (!string.IsNullOrEmpty(servicioActualizadoDto.Imagen))
             {
-                return BadRequest(ex.Message);
+                servicioActualizadoDto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{servicioActualizadoDto.Imagen}";
             }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
+
+            return Ok(servicioActualizadoDto);
+        }
+
+        [HttpDelete("{id:int}")] 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Inactivate(int id)
+        {
+            await _servicioService.InactivateAsync(id);
+
+            return NoContent();
         }
 
         [HttpGet]
@@ -110,7 +96,6 @@ namespace Peluqueria.API.Controllers
             return Ok(servicio);
         }
 
-
         [HttpGet("categoria/{categoriaId:int}")]
         public async Task<IActionResult> GetByCategoria(int categoriaId)
         {
@@ -124,15 +109,6 @@ namespace Peluqueria.API.Controllers
                 }
             }
             return Ok(servicios);
-        }
-
-        [HttpDelete("{id:int}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Inactivate(int id)
-        {
-            var success = await _servicioService.InactivateAsync(id);
-            if (!success) return NotFound();
-            return NoContent();
         }
     }
 }

@@ -12,6 +12,10 @@ using Peluqueria.Infrastructure.Service;
 using System.Text;
 using System.Globalization;
 using Peluqueria.Infrastructure.Repository;
+using Peluqueria.API.Middleware;
+using Microsoft.AspNetCore.Mvc;
+using Peluqueria.API.Errors;
+using Peluqueria.Application.Exceptions;
 
 var cultureInfo = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
@@ -30,7 +34,34 @@ builder.Services.AddControllers()
         options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
             _ => "El valor es requerido.");
     });
-// FIN DE LA MODIFICACIÓN DE CULTURA
+
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        // Esta opción intercepta los errores de validación del Modelo (DTOs)
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            // 1. Recolectamos los errores
+            var errores = context.ModelState
+                .Where(e => e.Value.Errors.Count > 0)
+                .SelectMany(x => x.Value.Errors)
+                .Select(x => x.ErrorMessage)
+                .ToList();
+
+            var mensajeUnido = string.Join("; ", errores);
+
+            // 2. Usamos el código G-ERROR-002 (Campos Obligatorios/Inválidos)
+            var errorResponse = ErrorUtils.CrearError(
+                CodigoError.CAMPOS_OBLIGATORIOS.Codigo,
+                mensajeUnido, // Ej: "El nombre es obligatorio; El precio debe ser mayor a 0"
+                400,
+                context.HttpContext.Request.Path,
+                context.HttpContext.Request.Method
+            );
+
+            return new BadRequestObjectResult(errorResponse);
+        };
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -126,6 +157,8 @@ if (app.Environment.IsDevelopment())
         config.ConfigObject.PersistAuthorization = true;
     });
 }
+
+app.UseMiddleware<Peluqueria.API.Middleware.ExceptionMiddleware>();
 
 app.UseCors(corsBuilder => corsBuilder
     .WithOrigins("http://localhost:4200", "https://localhost:4200")
