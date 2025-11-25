@@ -1,5 +1,6 @@
 ﻿using Peluqueria.Application.Dtos.Estilista;
 using Peluqueria.Application.Dtos.Events;
+using Peluqueria.Application.Exceptions;
 using Peluqueria.Application.Interfaces;
 using Peluqueria.Domain.Entities;
 
@@ -14,7 +15,12 @@ namespace Peluqueria.Application.Services
         private readonly IEstilistaAgendaService _agendaService;
         private readonly IFileStorageService _fileStorage;
 
-        public EstilistaService(IEstilistaRepository estilistaRepo, IMessagePublisher messagePublisher, IIdentityService identityService, IServicioRepository servicioRepo, IEstilistaAgendaService agendaService, IFileStorageService fileStorage)
+        public EstilistaService(IEstilistaRepository estilistaRepo,
+                                IMessagePublisher messagePublisher,
+                                IIdentityService identityService,
+                                IServicioRepository servicioRepo,
+                                IEstilistaAgendaService agendaService,
+                                IFileStorageService fileStorage)
         {
             _estilistaRepo = estilistaRepo;
             _messagePublisher = messagePublisher;
@@ -27,7 +33,6 @@ namespace Peluqueria.Application.Services
         public async Task<IEnumerable<EstilistaDto>> GetAllAsync()
         {
             var estilistas = await _estilistaRepo.GetAllAsync();
-
             var dtos = new List<EstilistaDto>();
 
             foreach (var estilista in estilistas)
@@ -37,7 +42,6 @@ namespace Peluqueria.Application.Services
                 dto.Email = userDetails?.Email ?? string.Empty;
                 dtos.Add(dto);
             }
-
             return dtos;
         }
 
@@ -53,73 +57,50 @@ namespace Peluqueria.Application.Services
             return dto;
         }
 
-        private EstilistaDto MapToDto(Estilista estilista)
-        {
-            return new EstilistaDto
-            {
-                Id = estilista.Id,
-                NombreCompleto = estilista.NombreCompleto,
-                Telefono = estilista.Telefono,
-                EstaActivo = estilista.EstaActivo,
-                Imagen = estilista.Imagen,
-                ServiciosIds = estilista.ServiciosAsociados.Select(es => es.ServicioId).ToList()
-            };
-        }
-        private async Task PublishEstilistaEventAsync(Estilista estilista, string accion)
-        {
-            var userDetails = await _identityService.FindByIdentityIdAsync(estilista.IdentityId);
-
-            var evento = new EstilistaEventDto
-            {
-                Id = estilista.Id,
-                IdentityId = estilista.IdentityId,
-                NombreCompleto = estilista.NombreCompleto,
-                Email = userDetails?.Email ?? string.Empty,
-                Telefono = estilista.Telefono,
-                EstaActivo = estilista.EstaActivo,
-                ImagenUrl = estilista.Imagen,
-                Accion = accion,
-                ServiciosAsociados = estilista.ServiciosAsociados.Select(es => new EstilistaServicioMinimalEventDto
-                {
-                    ServicioId = es.ServicioId,
-                    DuracionMinutos = es.Servicio.DuracionMinutos
-                }).ToList()
-            };
-
-            await _messagePublisher.PublishAsync(evento, $"estilista.{accion.ToLower()}", "estilista_exchange");
-        }
-
         public async Task<EstilistaDto> CreateAsync(CreateEstilistaRequestDto requestDto)
         {
-            if (requestDto.ServiciosIds.Count == 0)
+            if (requestDto.ServiciosIds == null || requestDto.ServiciosIds.Count == 0)
             {
-                throw new ArgumentException("Un estilista debe tener al menos un servicio asociado. (G-ERROR-006)");
+                throw new ReglaNegocioException(CodigoError.ESTILISTA_SIN_SERVICIOS);
+            }
+
+            requestDto.ServiciosIds = requestDto.ServiciosIds.Distinct().ToList();
+
+            foreach (var servicioId in requestDto.ServiciosIds)
+            {
+                var servicio = await _servicioRepo.GetByIdAsync(servicioId);
+                if (servicio == null)
+                {
+                    throw new EntidadNoExisteException(CodigoError.SERVICIO_NO_ENCONTRADO, $"El servicio con ID {servicioId} no existe.");
+                }
             }
 
             var createIdentity = await _identityService.CreateUserAsync(
-                requestDto.Username, 
-                requestDto.Email, 
-                requestDto.Password, 
-                requestDto.NombreCompleto, 
+                requestDto.Username,
+                requestDto.Email,
+                requestDto.Password,
+                requestDto.NombreCompleto,
                 requestDto.Telefono
             );
 
             if (!createIdentity.Succeeded)
             {
-                throw new Exception("Fallo en la creación de credenciales: " + string.Join(", ", createIdentity.Errors.Select(e => e.Description)));
+                if (createIdentity.Errors.Any(e => e.Code == "DuplicateUserName" || e.Code == "DuplicateEmail"))
+                {
+                    throw new EntidadYaExisteException(CodigoError.ENTIDAD_YA_EXISTE);
+                }
+
+                var errorMsg = string.Join("; ", createIdentity.Errors.Select(e => e.Description));
+                throw new ReglaNegocioException(CodigoError.ERROR_GENERICO, $"Fallo creando usuario: {errorMsg}");
             }
 
             var roleResult = await _identityService.AddUserToRoleAsync(requestDto.Username, "Estilista");
             if (!roleResult.Succeeded)
             {
-                throw new Exception("Fallo al asignar el rol Estilista.");
+                throw new ReglaNegocioException(CodigoError.ERROR_GENERICO, "Fallo al asignar rol de Estilista.");
             }
 
             var userDetails = await _identityService.FindByNameAsync(requestDto.Username);
-            if (userDetails == null)
-            {
-                throw new Exception("Error interno: No se pudo encontrar el usuario después de la creación.");
-            }
 
             string? imageName = null;
             if (requestDto.Imagen != null)
@@ -129,49 +110,45 @@ namespace Peluqueria.Application.Services
 
             var estilista = new Estilista
             {
-                IdentityId = userDetails.Id,
+                IdentityId = userDetails!.Id,
                 NombreCompleto = requestDto.NombreCompleto,
                 Telefono = requestDto.Telefono,
                 EstaActivo = true,
                 Imagen = imageName ?? string.Empty
             };
+
             var nuevoEstilista = await _estilistaRepo.CreateAsync(estilista, requestDto.ServiciosIds);
             var estilistaCompleto = await _estilistaRepo.GetFullEstilistaByIdAsync(nuevoEstilista.Id);
 
             await PublishEstilistaEventAsync(estilistaCompleto!, "CREADO");
 
             var estilistaDto = MapToDto(estilistaCompleto!);
-            estilistaDto.Email = userDetails.Email;
+            estilistaDto.Email = userDetails.Email!;
             return estilistaDto;
-        }
-
-        public async Task<bool> InactivateAsync(int id)
-        {
-            var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(id);
-            if (estilista == null) return false;
-
-            estilista.EstaActivo = false;
-            var updated = await _estilistaRepo.UpdateAsync(estilista, estilista.ServiciosAsociados.Select(es => es.ServicioId).ToList());
-
-            var estilistaCompleto = await _estilistaRepo.GetFullEstilistaByIdAsync(id);
-            if (estilistaCompleto != null)
-            {
-                await PublishEstilistaEventAsync(estilistaCompleto, "INACTIVADO");
-            }
-
-            return true;
         }
 
         public async Task<EstilistaDto?> UpdateAsync(int id, UpdateEstilistaRequestDto requestDto)
         {
-            if (requestDto.ServiciosIds.Count == 0) throw new ArgumentException("G-ERROR-006");
+            if (requestDto.ServiciosIds.Count == 0)
+                throw new ReglaNegocioException(CodigoError.ESTILISTA_SIN_SERVICIOS);
 
             var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(id);
-            if (estilista == null) return null;
+            if (estilista == null)
+                throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
+
+            requestDto.ServiciosIds = requestDto.ServiciosIds.Distinct().ToList();
+
+            foreach (var servicioId in requestDto.ServiciosIds)
+            {
+                var servicio = await _servicioRepo.GetByIdAsync(servicioId);
+                if (servicio == null)
+                {
+                    throw new EntidadNoExisteException(CodigoError.SERVICIO_NO_ENCONTRADO, $"El servicio con ID {servicioId} no existe.");
+                }
+            }
 
             if (!string.IsNullOrWhiteSpace(requestDto.Username) || !string.IsNullOrWhiteSpace(requestDto.Email))
             {
-
                 var identityResult = await _identityService.UpdateUserCredentialsAsync(
                     estilista.IdentityId,
                     requestDto.Username ?? "",
@@ -180,15 +157,23 @@ namespace Peluqueria.Application.Services
 
                 if (!identityResult.Succeeded)
                 {
-                    var errores = string.Join(", ", identityResult.Errors.Select(e => e.Description));
-                    throw new Exception($"Error al actualizar credenciales: {errores}");
+                    if (identityResult.Errors.Any(e => e.Code == "DuplicateUserName" || e.Code == "DuplicateEmail"))
+                        throw new EntidadYaExisteException(CodigoError.ENTIDAD_YA_EXISTE);
+
+                    var errorMsg = string.Join("; ", identityResult.Errors.Select(e => e.Description));
+                    throw new ReglaNegocioException(CodigoError.ERROR_GENERICO, $"Error credenciales: {errorMsg}");
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(requestDto.Password))
             {
                 var passResult = await _identityService.AdminResetPasswordAsync(estilista.IdentityId, requestDto.Password);
-                if (!passResult.Succeeded) throw new Exception("Error al actualizar contraseña.");
+
+                if (!passResult.Succeeded)
+                {
+                    var errorMsg = string.Join("; ", passResult.Errors.Select(e => e.Description));
+                    throw new ReglaNegocioException(CodigoError.SEGURIDAD_CUENTA, $"La contraseña no es válida: {errorMsg}");
+                }
             }
 
             string? imageName = estilista.Imagen;
@@ -207,7 +192,7 @@ namespace Peluqueria.Application.Services
                 Imagen = imageName ?? string.Empty
             };
 
-            var updatedResult = await _estilistaRepo.UpdateAsync(estilistaToUpdate, requestDto.ServiciosIds);
+            await _estilistaRepo.UpdateAsync(estilistaToUpdate, requestDto.ServiciosIds);
 
             var estilistaCompleto = await _estilistaRepo.GetFullEstilistaByIdAsync(id);
             await PublishEstilistaEventAsync(estilistaCompleto!, "ACTUALIZADO");
@@ -217,6 +202,65 @@ namespace Peluqueria.Application.Services
             dto.Email = userDetails?.Email ?? string.Empty;
 
             return dto;
+        }
+
+
+        public async Task<bool> InactivateAsync(int id)
+        {
+            var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(id);
+            if (estilista == null)
+                throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
+
+            bool tieneCitas = false;
+
+            if (tieneCitas)
+            {
+                throw new ReglaNegocioException(CodigoError.OPERACION_BLOQUEADA_POR_CITAS);
+            }
+
+            estilista.EstaActivo = false;
+            var serviciosIds = estilista.ServiciosAsociados.Select(s => s.ServicioId).ToList();
+
+            await _estilistaRepo.UpdateAsync(estilista, serviciosIds);
+
+            await PublishEstilistaEventAsync(estilista, "INACTIVADO");
+
+            return true;
+        }
+
+        private EstilistaDto MapToDto(Estilista estilista)
+        {
+            return new EstilistaDto
+            {
+                Id = estilista.Id,
+                NombreCompleto = estilista.NombreCompleto,
+                Telefono = estilista.Telefono,
+                EstaActivo = estilista.EstaActivo,
+                Imagen = estilista.Imagen,
+                ServiciosIds = estilista.ServiciosAsociados.Select(es => es.ServicioId).ToList()
+            };
+        }
+
+        private async Task PublishEstilistaEventAsync(Estilista estilista, string accion)
+        {
+            var userDetails = await _identityService.FindByIdentityIdAsync(estilista.IdentityId);
+            var evento = new EstilistaEventDto
+            {
+                Id = estilista.Id,
+                IdentityId = estilista.IdentityId,
+                NombreCompleto = estilista.NombreCompleto,
+                Email = userDetails?.Email ?? string.Empty,
+                Telefono = estilista.Telefono,
+                EstaActivo = estilista.EstaActivo,
+                ImagenUrl = estilista.Imagen,
+                Accion = accion,
+                ServiciosAsociados = estilista.ServiciosAsociados.Select(es => new EstilistaServicioMinimalEventDto
+                {
+                    ServicioId = es.ServicioId,
+                    DuracionMinutos = es.Servicio.DuracionMinutos
+                }).ToList()
+            };
+            await _messagePublisher.PublishAsync(evento, $"estilista.{accion.ToLower()}", "estilista_exchange");
         }
     }
 }

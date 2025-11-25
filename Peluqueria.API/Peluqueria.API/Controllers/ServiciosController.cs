@@ -20,17 +20,9 @@ namespace Peluqueria.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm] CreateServicioRequestDto requestDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var nuevoServicioDto = await _servicioService.CreateAsync(requestDto);
 
-            if (!string.IsNullOrEmpty(nuevoServicioDto.Imagen))
-            {
-                nuevoServicioDto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{nuevoServicioDto.Imagen}";
-            }
+            AsignarUrlImagen(nuevoServicioDto);
 
             return CreatedAtAction(nameof(GetById), new { id = nuevoServicioDto.Id }, nuevoServicioDto);
         }
@@ -39,22 +31,16 @@ namespace Peluqueria.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromForm] UpdateServicioRequestDto requestDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var servicioActualizadoDto = await _servicioService.UpdateAsync(id, requestDto);
 
-            if (!string.IsNullOrEmpty(servicioActualizadoDto.Imagen))
-            {
-                servicioActualizadoDto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{servicioActualizadoDto.Imagen}";
-            }
+            if (servicioActualizadoDto == null) return NotFound();
+
+            AsignarUrlImagen(servicioActualizadoDto);
 
             return Ok(servicioActualizadoDto);
         }
 
-        [HttpDelete("{id:int}")] 
+        [HttpDelete("{id:int}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Inactivate(int id)
         {
@@ -70,10 +56,7 @@ namespace Peluqueria.API.Controllers
 
             foreach (var servicio in servicios)
             {
-                if (!string.IsNullOrEmpty(servicio.Imagen))
-                {
-                    servicio.Imagen = $"{Request.Scheme}://{Request.Host}/images/{servicio.Imagen}";
-                }
+                AsignarUrlImagen(servicio);
             }
             return Ok(servicios);
         }
@@ -82,16 +65,10 @@ namespace Peluqueria.API.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var servicio = await _servicioService.GetByIdAsync(id);
+
             if (servicio == null) return NotFound();
 
-            if (!string.IsNullOrEmpty(servicio.Imagen))
-            {
-                if (!servicio.Imagen.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
-                    !servicio.Imagen.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-                {
-                    servicio.Imagen = $"{Request.Scheme}://{Request.Host}/images/{servicio.Imagen}";
-                }
-            }
+            AsignarUrlImagen(servicio);
 
             return Ok(servicio);
         }
@@ -103,12 +80,20 @@ namespace Peluqueria.API.Controllers
 
             foreach (var servicio in servicios)
             {
-                if (!string.IsNullOrEmpty(servicio.Imagen))
-                {
-                    servicio.Imagen = $"{Request.Scheme}://{Request.Host}/images/{servicio.Imagen}";
-                }
+                AsignarUrlImagen(servicio);
             }
             return Ok(servicios);
+        }
+
+        private void AsignarUrlImagen(ServicioDto dto)
+        {
+            if (!string.IsNullOrEmpty(dto.Imagen))
+            {
+                if (!dto.Imagen.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                {
+                    dto.Imagen = $"{Request.Scheme}://{Request.Host}/images/{dto.Imagen}";
+                }
+            }
         }
     }
 }

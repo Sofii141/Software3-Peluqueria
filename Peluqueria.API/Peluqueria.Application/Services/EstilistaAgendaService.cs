@@ -1,37 +1,43 @@
 ﻿using Peluqueria.Application.Dtos.Estilista;
 using Peluqueria.Application.Dtos.Events;
+using Peluqueria.Application.Exceptions;
 using Peluqueria.Application.Interfaces;
 using Peluqueria.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Peluqueria.Application.Services
 {
     public class EstilistaAgendaService : IEstilistaAgendaService
     {
         private readonly IEstilistaAgendaRepository _agendaRepo;
+        private readonly IEstilistaRepository _estilistaRepo;
         private readonly IMessagePublisher _messagePublisher;
 
-        // Constante para el Exchange de RabbitMQ
         private const string EXCHANGE_NAME = "agenda_exchange";
 
-        public EstilistaAgendaService(IEstilistaAgendaRepository agendaRepo, IMessagePublisher messagePublisher)
+        public EstilistaAgendaService(IEstilistaAgendaRepository agendaRepo,
+                                      IEstilistaRepository estilistaRepo,
+                                      IMessagePublisher messagePublisher)
         {
             _agendaRepo = agendaRepo;
+            _estilistaRepo = estilistaRepo;
             _messagePublisher = messagePublisher;
         }
 
         // --- HORARIO BASE ---
         public async Task<bool> UpdateHorarioBaseAsync(int estilistaId, List<HorarioDiaDto> horarios)
         {
-            // Validaciones
+            // 1. Validar existencia del Estilista
+            var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(estilistaId);
+            if (estilista == null)
+                throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
+
+            // 2. Validar Coherencia (Inicio < Fin)
             foreach (var h in horarios)
             {
                 if (h.EsLaborable && h.HoraInicio >= h.HoraFin)
                 {
-                    throw new ArgumentException($"Error en {h.DiaSemana}: La hora de inicio debe ser anterior a la de fin.");
+                    throw new ReglaNegocioException(CodigoError.FORMATO_INVALIDO,
+                        $"Error en {h.DiaSemana}: La hora de inicio debe ser anterior a la de fin.");
                 }
             }
 
@@ -44,10 +50,9 @@ namespace Peluqueria.Application.Services
                 EsLaborable = h.EsLaborable
             }).ToList();
 
-            // 1. Guardar en BD
             await _agendaRepo.UpdateHorarioBaseAsync(estilistaId, newHorarios);
 
-            // 2. Publicar Evento de Integración
+            // Publicar Evento
             var evento = new HorarioBaseEstilistaEventDto
             {
                 EstilistaId = estilistaId,
@@ -59,24 +64,36 @@ namespace Peluqueria.Application.Services
                     EsLaborable = h.EsLaborable
                 }).ToList()
             };
-
-            // Routing Key: horario_base.actualizado
             await _messagePublisher.PublishAsync(evento, "horario_base.actualizado", EXCHANGE_NAME);
 
             return true;
         }
 
-        // --- DESCANSOS FIJOS ---
+        // --- DESCANSOS FIJOS (Corrección "Doble Click") ---
         public async Task<bool> UpdateDescansoFijoAsync(int estilistaId, List<HorarioDiaDto> descansosDto)
         {
+            // 1. Validar Estilista
+            var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(estilistaId);
+            if (estilista == null) throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
+
             var validDescansos = new List<BloqueoDescansoFijoDiario>();
 
             foreach (var d in descansosDto)
             {
-                // Validación: Consultamos si el día es laborable
+                // 2. Validar lógica de horas
+                if (d.HoraInicio >= d.HoraFin)
+                    throw new ReglaNegocioException(CodigoError.FORMATO_INVALIDO, $"Error en {d.DiaSemana}: Inicio del descanso debe ser antes del fin.");
+
+                // 3. Validar si el día es laborable (CORREGIDO)
+                // Antes: if (!esLaborable) continue; (Esto ocultaba el error)
+                // Ahora: Lanzamos excepción si intentan poner descanso en día no configurado/no laborable.
                 bool esLaborable = await _agendaRepo.IsDiaLaborableAsync(estilistaId, d.DiaSemana);
 
-                if (!esLaborable) continue; // Ignoramos días no laborables
+                if (!esLaborable)
+                {
+                    throw new ReglaNegocioException(CodigoError.REGLA_NEGOCIO_VIOLADA,
+                        $"No se puede asignar descanso el {d.DiaSemana} porque no está configurado como laborable en el Horario Base.");
+                }
 
                 validDescansos.Add(new BloqueoDescansoFijoDiario
                 {
@@ -90,10 +107,8 @@ namespace Peluqueria.Application.Services
 
             if (validDescansos.Count > 0)
             {
-                // 1. Guardar en BD
                 await _agendaRepo.UpdateDescansosFijosAsync(estilistaId, validDescansos);
 
-                // 2. Publicar Evento
                 var evento = new DescansoFijoActualizadoEventDto
                 {
                     EstilistaId = estilistaId,
@@ -102,36 +117,42 @@ namespace Peluqueria.Application.Services
                         DiaSemana = d.DiaSemana,
                         HoraInicio = d.HoraInicioDescanso,
                         HoraFin = d.HoraFinDescanso,
-                        EsLaborable = false // Es descanso
+                        EsLaborable = false
                     }).ToList()
                 };
-
                 await _messagePublisher.PublishAsync(evento, "descanso_fijo.actualizado", EXCHANGE_NAME);
             }
 
             return true;
         }
 
-        public async Task DeleteDescansoFijoAsync(int estilistaId, DayOfWeek dia)
-        {
-            // 1. Eliminar en BD
-            await _agendaRepo.DeleteDescansoFijoAsync(estilistaId, dia);
-
-            // 2. Publicar Evento de Eliminación
-            // Enviamos un objeto anónimo o un DTO simple indicando qué día se liberó
-            var eventoEliminacion = new
-            {
-                EstilistaId = estilistaId,
-                DiaSemana = dia,
-                Accion = "ELIMINADO"
-            };
-
-            await _messagePublisher.PublishAsync(eventoEliminacion, "descanso_fijo.eliminado", EXCHANGE_NAME);
-        }
-
         // --- BLOQUEOS (VACACIONES) ---
         public async Task<bool> CreateBloqueoDiasLibresAsync(int estilistaId, BloqueoRangoDto bloqueoDto)
         {
+            // 1. Validar Estilista
+            var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(estilistaId);
+            if (estilista == null) throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
+
+            // 2. Validar Fechas
+            if (bloqueoDto.FechaInicio > bloqueoDto.FechaFin)
+                throw new ReglaNegocioException(CodigoError.FORMATO_INVALIDO, "La fecha de inicio debe ser anterior o igual a la fecha de fin.");
+
+            if (bloqueoDto.FechaInicio.Date < DateTime.UtcNow.Date)
+                throw new ReglaNegocioException(CodigoError.FORMATO_INVALIDO, "No se pueden bloquear fechas en el pasado.");
+
+            // 3. Validar Superposición (Solapamiento)
+            var bloqueosExistentes = await _agendaRepo.GetBloqueosDiasLibresAsync(estilistaId);
+            bool haySolapamiento = bloqueosExistentes.Any(b =>
+                bloqueoDto.FechaInicio.Date <= b.FechaFinBloqueo.Date &&
+                bloqueoDto.FechaFin.Date >= b.FechaInicioBloqueo.Date
+            );
+
+            if (haySolapamiento)
+                throw new ReglaNegocioException(CodigoError.OPERACION_BLOQUEADA_POR_CITAS, "El rango seleccionado choca con otro bloqueo existente.");
+
+            // 4. Validar Citas (Simulado)
+            // if (tieneCitas) throw ...
+
             var bloqueo = new BloqueoRangoDiasLibres
             {
                 EstilistaId = estilistaId,
@@ -140,10 +161,8 @@ namespace Peluqueria.Application.Services
                 Razon = bloqueoDto.Razon
             };
 
-            // 1. Guardar
             var nuevoBloqueo = await _agendaRepo.CreateBloqueoDiasLibresAsync(bloqueo);
 
-            // 2. Publicar Evento (Accion: CREADO)
             var evento = new BloqueoRangoDiasLibresEventDto
             {
                 EstilistaId = estilistaId,
@@ -151,7 +170,6 @@ namespace Peluqueria.Application.Services
                 FechaFinBloqueo = nuevoBloqueo.FechaFinBloqueo,
                 Accion = "CREADO"
             };
-
             await _messagePublisher.PublishAsync(evento, "bloqueo_dias.creado", EXCHANGE_NAME);
 
             return true;
@@ -159,6 +177,27 @@ namespace Peluqueria.Application.Services
 
         public async Task<bool> UpdateBloqueoDiasLibresAsync(int estilistaId, int bloqueoId, BloqueoRangoDto dto)
         {
+            // 1. Validar Estilista PRIMERO (Esto arregla tu error 404 confuso)
+            var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(estilistaId);
+            if (estilista == null)
+                throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
+
+            // 2. Validar Fechas
+            if (dto.FechaInicio > dto.FechaFin)
+                throw new ReglaNegocioException(CodigoError.FORMATO_INVALIDO, "Fechas incoherentes.");
+
+            // 3. Validar Superposición (Excluyendo el propio ID)
+            var bloqueosExistentes = await _agendaRepo.GetBloqueosDiasLibresAsync(estilistaId);
+            bool haySolapamiento = bloqueosExistentes.Any(b =>
+                b.Id != bloqueoId && // Ignorar el que estoy editando
+                dto.FechaInicio.Date <= b.FechaFinBloqueo.Date &&
+                dto.FechaFin.Date >= b.FechaInicioBloqueo.Date
+            );
+
+            if (haySolapamiento)
+                throw new ReglaNegocioException(CodigoError.OPERACION_BLOQUEADA_POR_CITAS, "El rango seleccionado choca con otro bloqueo existente.");
+
+            // 4. Actualizar
             var bloqueo = new BloqueoRangoDiasLibres
             {
                 Id = bloqueoId,
@@ -168,11 +207,12 @@ namespace Peluqueria.Application.Services
                 Razon = dto.Razon
             };
 
-            // 1. Actualizar
             var success = await _agendaRepo.UpdateBloqueoDiasLibresAsync(bloqueo);
-            if (!success) return false;
 
-            // 2. Publicar Evento (Accion: ACTUALIZADO)
+            // Si el repo devuelve false, significa que el ID del bloqueo no existe o no es de este estilista
+            if (!success)
+                throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA, "El bloqueo no existe o no pertenece al estilista.");
+
             var evento = new BloqueoRangoDiasLibresEventDto
             {
                 EstilistaId = estilistaId,
@@ -180,7 +220,6 @@ namespace Peluqueria.Application.Services
                 FechaFinBloqueo = bloqueo.FechaFinBloqueo,
                 Accion = "ACTUALIZADO"
             };
-
             await _messagePublisher.PublishAsync(evento, "bloqueo_dias.actualizado", EXCHANGE_NAME);
 
             return true;
@@ -188,47 +227,82 @@ namespace Peluqueria.Application.Services
 
         public async Task<bool> DeleteBloqueoDiasLibresAsync(int estilistaId, int bloqueoId)
         {
-            // TRUCO: Antes de borrar, necesitamos saber las fechas para avisar a Reservas que libere esos días.
-            // Buscamos el bloqueo en la lista actual (ya que el Repo solo devuelve bool al borrar)
+            // 1. Validar Estilista PRIMERO
+            var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(estilistaId);
+            if (estilista == null)
+                throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
+
+            // 2. Buscar Bloqueo específico (Para tener datos para el evento)
             var bloqueosActuales = await _agendaRepo.GetBloqueosDiasLibresAsync(estilistaId);
             var bloqueoAEliminar = bloqueosActuales.FirstOrDefault(b => b.Id == bloqueoId);
 
-            // 1. Eliminar en BD
-            var success = await _agendaRepo.DeleteBloqueoDiasLibresAsync(bloqueoId, estilistaId);
-            if (!success) return false;
+            if (bloqueoAEliminar == null)
+                throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA, "El bloqueo no existe.");
 
-            // 2. Publicar Evento (Accion: ELIMINADO)
-            if (bloqueoAEliminar != null)
+            // 3. Borrar
+            await _agendaRepo.DeleteBloqueoDiasLibresAsync(bloqueoId, estilistaId);
+
+            var evento = new BloqueoRangoDiasLibresEventDto
             {
-                var evento = new BloqueoRangoDiasLibresEventDto
-                {
-                    EstilistaId = estilistaId,
-                    // Enviamos las fechas originales para que el otro servicio sepa qué rango liberar
-                    FechaInicioBloqueo = bloqueoAEliminar.FechaInicioBloqueo,
-                    FechaFinBloqueo = bloqueoAEliminar.FechaFinBloqueo,
-                    Accion = "ELIMINADO"
-                };
-
-                await _messagePublisher.PublishAsync(evento, "bloqueo_dias.eliminado", EXCHANGE_NAME);
-            }
+                EstilistaId = estilistaId,
+                FechaInicioBloqueo = bloqueoAEliminar.FechaInicioBloqueo,
+                FechaFinBloqueo = bloqueoAEliminar.FechaFinBloqueo,
+                Accion = "ELIMINADO"
+            };
+            await _messagePublisher.PublishAsync(evento, "bloqueo_dias.eliminado", EXCHANGE_NAME);
 
             return true;
         }
 
+        public async Task DeleteDescansoFijoAsync(int estilistaId, DayOfWeek dia)
+        {
+            // Validar Estilista
+            var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(estilistaId);
+            if (estilista == null) throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
+
+            await _agendaRepo.DeleteDescansoFijoAsync(estilistaId, dia);
+
+            var eventoEliminacion = new
+            {
+                EstilistaId = estilistaId,
+                DiaSemana = dia,
+                Accion = "ELIMINADO"
+            };
+            await _messagePublisher.PublishAsync(eventoEliminacion, "descanso_fijo.eliminado", EXCHANGE_NAME);
+        }
+
+        // --- GETTERS (Validando Estilista) ---
+
         public async Task<IEnumerable<HorarioDiaDto>> GetHorarioBaseAsync(int estilistaId)
         {
+            var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(estilistaId);
+            if (estilista == null) throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
+
             var result = await _agendaRepo.GetHorarioBaseAsync(estilistaId);
             return result.Select(h => new HorarioDiaDto { DiaSemana = h.DiaSemana, HoraInicio = h.HoraInicioJornada, HoraFin = h.HoraFinJornada, EsLaborable = h.EsLaborable }).ToList();
         }
 
-        public async Task<IEnumerable<BloqueoRangoDto>> GetBloqueosDiasLibresAsync(int estilistaId)
+        public async Task<IEnumerable<BloqueoResponseDto>> GetBloqueosDiasLibresAsync(int estilistaId)
         {
+            var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(estilistaId);
+            if (estilista == null) throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
+
             var result = await _agendaRepo.GetBloqueosDiasLibresAsync(estilistaId);
-            return result.Select(b => new BloqueoRangoDto { FechaInicio = b.FechaInicioBloqueo, FechaFin = b.FechaFinBloqueo, Razon = b.Razon }).ToList();
+
+            return result.Select(b => new BloqueoResponseDto
+            {
+                Id = b.Id, // Aquí se devuelve el ID correcto (ej: 8)
+                FechaInicio = b.FechaInicioBloqueo,
+                FechaFin = b.FechaFinBloqueo,
+                Razon = b.Razon
+            }).ToList();
         }
 
         public async Task<IEnumerable<HorarioDiaDto>> GetDescansosFijosAsync(int estilistaId)
         {
+            var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(estilistaId);
+            if (estilista == null) throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
+
             var result = await _agendaRepo.GetDescansosFijosAsync(estilistaId);
             return result.Select(d => new HorarioDiaDto { DiaSemana = d.DiaSemana, HoraInicio = d.HoraInicioDescanso, HoraFin = d.HoraFinDescanso, EsLaborable = false }).ToList();
         }

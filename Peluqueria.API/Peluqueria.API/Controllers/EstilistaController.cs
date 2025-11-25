@@ -16,21 +16,16 @@ namespace Peluqueria.API.Controllers
             _estilistaService = estilistaService;
         }
 
-        private void SetImageUrl(EstilistaDto dto)
-        {
-            if (!string.IsNullOrEmpty(dto.Imagen))
-            {
-                dto.Imagen = $"{Request.Scheme}://{Request.Host}/images/estilistas/{dto.Imagen}";
-            }
-        }
-
         [HttpGet]
-        [AllowAnonymous] 
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var estilistas = await _estilistaService.GetAllAsync();
-            estilistas.ToList().ForEach(SetImageUrl);
-            return Ok(estilistas);
+
+            var lista = estilistas.ToList();
+            lista.ForEach(SetImageUrl);
+
+            return Ok(lista);
         }
 
         [HttpGet("{id:int}")]
@@ -41,7 +36,6 @@ namespace Peluqueria.API.Controllers
             if (estilista == null) return NotFound();
 
             SetImageUrl(estilista);
-
             return Ok(estilista);
         }
 
@@ -49,73 +43,43 @@ namespace Peluqueria.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromForm] CreateEstilistaRequestDto requestDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var newEstilista = await _estilistaService.CreateAsync(requestDto);
 
-            try
-            {
-                var newEstilista = await _estilistaService.CreateAsync(requestDto);
+            SetImageUrl(newEstilista);
 
-                SetImageUrl(newEstilista); 
-
-                return CreatedAtAction(nameof(GetById), new { id = newEstilista.Id }, newEstilista);
-            }
-            catch (ArgumentException ex) when (ex.Message.Contains("G-ERROR-006"))
-            {
-                return BadRequest(ex.Message); 
-            }
-            catch (Exception ex) when (ex.Message.Contains("Fallo en la creación de credenciales"))
-            {
-                return BadRequest("El correo/usuario ya se encuentra registrado. (G-ERROR-005)");
-            }
+            return CreatedAtAction(nameof(GetById), new { id = newEstilista.Id }, newEstilista);
         }
 
         [HttpPut("{id:int}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromForm] UpdateEstilistaRequestDto requestDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState); 
-            }
+            var updatedEstilista = await _estilistaService.UpdateAsync(id, requestDto);
 
-            try
-            {
-                var updatedEstilista = await _estilistaService.UpdateAsync(id, requestDto);
+            if (updatedEstilista == null) return NotFound();
 
-                if (updatedEstilista == null) return NotFound();
+            SetImageUrl(updatedEstilista);
 
-                SetImageUrl(updatedEstilista); 
-
-                return Ok(updatedEstilista);
-            }
-            catch (ArgumentException ex) when (ex.Message.Contains("G-ERROR-006"))
-            {
-                return BadRequest(ex.Message); 
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Error interno al actualizar el estilista.");
-            }
+            return Ok(updatedEstilista);
         }
 
         [HttpDelete("{id:int}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Inactivate(int id)
         {
-            try
-            {
-                var success = await _estilistaService.InactivateAsync(id);
+            await _estilistaService.InactivateAsync(id);
 
-                if (!success) return NotFound();
+            return NoContent();
+        }
 
-                return NoContent();
-            }
-            catch (ArgumentException ex) when (ex.Message.Contains("G-ERROR-009"))
+        private void SetImageUrl(EstilistaDto dto)
+        {
+            if (!string.IsNullOrEmpty(dto.Imagen))
             {
-                return BadRequest(ex.Message); 
+                if (!dto.Imagen.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                {
+                    dto.Imagen = $"{Request.Scheme}://{Request.Host}/images/estilistas/{dto.Imagen}";
+                }
             }
         }
     }

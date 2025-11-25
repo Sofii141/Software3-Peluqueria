@@ -20,14 +20,9 @@ namespace Peluqueria.API.Controllers
         [HttpPut("{estilistaId:int}/horario-base")]
         public async Task<IActionResult> UpdateHorarioBase(int estilistaId, [FromBody] List<HorarioDiaDto> horarios)
         {
-            if (!ModelState.IsValid || horarios == null || horarios.Count == 0) return BadRequest("Datos inválidos.");
+            await _agendaService.UpdateHorarioBaseAsync(estilistaId, horarios);
 
-            try
-            {
-                await _agendaService.UpdateHorarioBaseAsync(estilistaId, horarios);
-                return Ok(new { message = "Horario base actualizado correctamente." });
-            }
-            catch (ArgumentException ex) { return BadRequest(ex.Message); }
+            return Ok(new { message = "Horario base actualizado correctamente." });
         }
 
         [HttpGet("{estilistaId:int}/horario-base")]
@@ -40,12 +35,8 @@ namespace Peluqueria.API.Controllers
         [HttpPut("{estilistaId:int}/descanso-fijo")]
         public async Task<IActionResult> UpdateDescansoFijo(int estilistaId, [FromBody] List<HorarioDiaDto> descansos)
         {
-            try
-            {
-                await _agendaService.UpdateDescansoFijoAsync(estilistaId, descansos);
-                return Ok(new { message = "Descansos actualizados (se ignoraron días no laborables)." });
-            }
-            catch (ArgumentException ex) { return BadRequest(ex.Message); }
+            await _agendaService.UpdateDescansoFijoAsync(estilistaId, descansos);
+            return Ok(new { message = "Descansos actualizados." });
         }
 
         [HttpGet("{estilistaId:int}/descanso-fijo")]
@@ -65,35 +56,22 @@ namespace Peluqueria.API.Controllers
         [HttpPost("{estilistaId:int}/bloqueo-dias-libres")]
         public async Task<IActionResult> CreateBloqueoDiasLibres(int estilistaId, [FromBody] BloqueoRangoDto bloqueoDto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            await _agendaService.CreateBloqueoDiasLibresAsync(estilistaId, bloqueoDto);
 
-            try
-            {
-                var success = await _agendaService.CreateBloqueoDiasLibresAsync(estilistaId, bloqueoDto);
-                if (!success) return NotFound("Estilista no encontrado.");
-
-                return Created("", new { message = "Bloqueo creado correctamente." });
-            }
-            catch (ArgumentException ex) { return BadRequest(ex.Message); }
+            return Created("", new { message = "Bloqueo creado correctamente." });
         }
 
         [HttpPut("{estilistaId:int}/bloqueo-dias-libres/{bloqueoId:int}")]
         public async Task<IActionResult> UpdateBloqueo(int estilistaId, int bloqueoId, [FromBody] BloqueoRangoDto dto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var success = await _agendaService.UpdateBloqueoDiasLibresAsync(estilistaId, bloqueoId, dto);
-            if (!success) return NotFound("Bloqueo no encontrado o no pertenece al estilista.");
-
+            await _agendaService.UpdateBloqueoDiasLibresAsync(estilistaId, bloqueoId, dto);
             return Ok(new { message = "Bloqueo actualizado correctamente." });
         }
 
         [HttpDelete("{estilistaId:int}/bloqueo-dias-libres/{bloqueoId:int}")]
         public async Task<IActionResult> DeleteBloqueo(int estilistaId, int bloqueoId)
         {
-            var success = await _agendaService.DeleteBloqueoDiasLibresAsync(estilistaId, bloqueoId);
-            if (!success) return NotFound("Bloqueo no encontrado.");
-
+            await _agendaService.DeleteBloqueoDiasLibresAsync(estilistaId, bloqueoId);
             return NoContent();
         }
 
@@ -103,5 +81,6 @@ namespace Peluqueria.API.Controllers
             var bloqueos = await _agendaService.GetBloqueosDiasLibresAsync(estilistaId);
             return Ok(bloqueos);
         }
+
     }
 }
