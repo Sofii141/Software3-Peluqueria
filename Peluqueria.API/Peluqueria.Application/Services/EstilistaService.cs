@@ -45,10 +45,15 @@ namespace Peluqueria.Application.Services
             return dtos;
         }
 
-        public async Task<EstilistaDto?> GetByIdAsync(int id)
+        public async Task<EstilistaDto> GetByIdAsync(int id) 
         {
             var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(id);
-            if (estilista == null) return null;
+
+            if (estilista == null)
+            {
+               
+                throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
+            }
 
             var userDetails = await _identityService.FindByIdentityIdAsync(estilista.IdentityId);
             var dto = MapToDto(estilista);

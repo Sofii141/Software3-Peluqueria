@@ -33,7 +33,6 @@ namespace Peluqueria.API.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var estilista = await _estilistaService.GetByIdAsync(id);
-            if (estilista == null) return NotFound();
 
             SetImageUrl(estilista);
             return Ok(estilista);
@@ -55,8 +54,6 @@ namespace Peluqueria.API.Controllers
         public async Task<IActionResult> Update(int id, [FromForm] UpdateEstilistaRequestDto requestDto)
         {
             var updatedEstilista = await _estilistaService.UpdateAsync(id, requestDto);
-
-            if (updatedEstilista == null) return NotFound();
 
             SetImageUrl(updatedEstilista);
 

@@ -33,8 +33,6 @@ namespace Peluqueria.API.Controllers
         {
             var servicioActualizadoDto = await _servicioService.UpdateAsync(id, requestDto);
 
-            if (servicioActualizadoDto == null) return NotFound();
-
             AsignarUrlImagen(servicioActualizadoDto);
 
             return Ok(servicioActualizadoDto);
@@ -65,8 +63,6 @@ namespace Peluqueria.API.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var servicio = await _servicioService.GetByIdAsync(id);
-
-            if (servicio == null) return NotFound();
 
             AsignarUrlImagen(servicio);
 

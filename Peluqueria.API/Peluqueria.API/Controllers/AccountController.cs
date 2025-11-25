@@ -25,15 +25,9 @@ namespace Peluqueria.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            var result = await _accountService.RegisterAsync(registerDto);
+            var newUserDto = await _accountService.RegisterAsync(registerDto);
 
-            if (result.Succeeded)
-            {
-                var newUserDto = await _accountService.GetNewUserDto(registerDto.Username, registerDto.Password);
-                return Ok(newUserDto);
-            }
-
-            return BadRequest(result.Errors);
+            return Ok(newUserDto);
         }
     }
 }

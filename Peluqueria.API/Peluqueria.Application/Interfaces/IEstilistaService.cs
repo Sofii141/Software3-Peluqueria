@@ -9,14 +9,11 @@ namespace Peluqueria.Application.Interfaces
 {
     public interface IEstilistaService
     {
-        // CRUD
         Task<EstilistaDto> CreateAsync(CreateEstilistaRequestDto requestDto);
         Task<EstilistaDto?> UpdateAsync(int id, UpdateEstilistaRequestDto requestDto);
         Task<bool> InactivateAsync(int id);
-
-        // CONSULTAS (AÑADIDOS)
-        Task<IEnumerable<EstilistaDto>> GetAllAsync(); // PEL-HU-08
-        Task<EstilistaDto?> GetByIdAsync(int id);
+        Task<EstilistaDto> GetByIdAsync(int id);
+        Task<IEnumerable<EstilistaDto>> GetAllAsync(); 
 
     }
 }

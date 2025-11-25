@@ -221,12 +221,26 @@ namespace Peluqueria.Application.Services
         public async Task<ServicioDto?> GetByIdAsync(int id)
         {
             var servicio = await _servicioRepo.GetByIdAsync(id);
-            return servicio == null ? null : MapToDto(servicio);
+
+            if (servicio == null)
+            {
+                throw new EntidadNoExisteException(CodigoError.SERVICIO_NO_ENCONTRADO);
+            }
+
+            return MapToDto(servicio);
         }
 
         public async Task<IEnumerable<ServicioDto>> GetByCategoriaIdAsync(int categoriaId)
         {
+            var categoria = await _categoriaRepo.GetByIdAsync(categoriaId);
+
+            if (categoria == null)
+            {
+                throw new EntidadNoExisteException(CodigoError.CATEGORIA_NO_ENCONTRADA);
+            }
+
             var servicios = await _servicioRepo.GetByCategoriaIdAsync(categoriaId);
+
             return servicios.Select(MapToDto);
         }
 
