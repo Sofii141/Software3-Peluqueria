@@ -1,0 +1,6 @@
+@peluqueria.reservaciones_HostAddress = http://localhost:5288
+
+GET {{peluqueria.reservaciones_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
