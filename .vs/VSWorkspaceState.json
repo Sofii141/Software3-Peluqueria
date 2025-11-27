@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\peluqueria.reservaciones",
+    "\\peluqueria.reservaciones\\Aplicacion",
+    "\\peluqueria.reservaciones\\Aplicacion\\Plantilla",
+    "\\peluqueria.reservaciones\\Infraestructura",
+    "\\peluqueria.reservaciones\\Infraestructura\\Controladores"
+  ],
+  "SelectedNode": "\\peluqueria.reservaciones\\Infraestructura\\Controladores\\ReservacionesController.cs",
+  "PreviewInSolutionExplorer": false
+}
