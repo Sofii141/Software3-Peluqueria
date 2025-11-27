@@ -45,10 +45,7 @@ namespace peluqueria.reservaciones.Migrations
             modelBuilder.Entity("peluqueria.reservaciones.Core.Dominio.Categoria", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("EstaActiva")
                         .HasColumnType("bit");
@@ -83,10 +80,7 @@ namespace peluqueria.reservaciones.Migrations
             modelBuilder.Entity("peluqueria.reservaciones.Core.Dominio.DescansoFijo", b =>
                 {
                     b.Property<int>("EstilistaId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstilistaId"));
 
                     b.HasKey("EstilistaId");
 
@@ -96,10 +90,7 @@ namespace peluqueria.reservaciones.Migrations
             modelBuilder.Entity("peluqueria.reservaciones.Core.Dominio.Estilista", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("EstaActivo")
                         .HasColumnType("bit");
@@ -120,10 +111,7 @@ namespace peluqueria.reservaciones.Migrations
             modelBuilder.Entity("peluqueria.reservaciones.Core.Dominio.HorarioBase", b =>
                 {
                     b.Property<int>("EstilistaId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstilistaId"));
 
                     b.HasKey("EstilistaId");
 
@@ -178,10 +166,7 @@ namespace peluqueria.reservaciones.Migrations
             modelBuilder.Entity("peluqueria.reservaciones.Core.Dominio.Servicio", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoriaId")
                         .HasColumnType("int");
@@ -197,6 +182,7 @@ namespace peluqueria.reservaciones.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Precio")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");

@@ -20,6 +20,27 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
 
         public async Task<Reservacion> GuardarAsync(Reservacion reservacion)
         {
+
+            var existeCliente = await _context.Clientes
+                    .AsNoTracking()
+                    .AnyAsync(c => c.Identificacion == reservacion.ClienteIdentificacion);
+
+            if (existeCliente)
+            {
+                reservacion.Cliente = null;
+            }
+            else
+            {
+
+                if (reservacion.Cliente != null)
+                {
+
+                    reservacion.Cliente.Identificacion = reservacion.ClienteIdentificacion;
+
+                    _context.Clientes.Add(reservacion.Cliente);
+                }
+            }
+
             await _context.Reservaciones.AddAsync(reservacion);
             await _context.SaveChangesAsync();
             return reservacion;

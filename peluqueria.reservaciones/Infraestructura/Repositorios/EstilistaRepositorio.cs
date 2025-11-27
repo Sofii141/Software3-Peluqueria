@@ -1,9 +1,8 @@
-// Archivo: Infraestructura/Repositorios/EstilistaRepositorio.cs
-
 using Microsoft.EntityFrameworkCore;
 using peluqueria.reservaciones.Core.Dominio;
 using peluqueria.reservaciones.Core.Puertos.Salida;
 using peluqueria.reservaciones.Infraestructura.Persistencia;
+using System.Collections.Generic;
 
 namespace peluqueria.reservaciones.Infraestructura.Repositorios
 {
@@ -28,6 +27,21 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
             if (existing == null)
             {
                 _context.Estilistas.Add(stylist);
+
+                var horarioBase = new HorarioBase
+                {
+                    EstilistaId = stylist.Id,
+                    HorariosSemanales = new List<DiaHorario>() // Lista vacía inicial
+                };
+
+                var descansoFijo = new DescansoFijo
+                {
+                    EstilistaId = stylist.Id,
+                    DescansosFijos = new List<DiaHorario>() // Lista vacía inicial
+                };
+
+                _context.Horarios.Add(horarioBase);
+                _context.DescansoFijo.Add(descansoFijo);
             }
             else
             {

@@ -177,6 +177,7 @@ namespace peluqueria.reservaciones.Aplicacion.Plantilla
             var duracionServicio = reservacion.Servicio.DuracionMinutos;
             var tiempoPreparacion = 15;
             reservacion.TiempoAtencion = duracionServicio+tiempoPreparacion; // 60 minutos
+            reservacion.HoraFin = reservacion.HoraInicio.AddMinutes(reservacion.TiempoAtencion);
 
             return Task.FromResult(reservacion);
         }

@@ -25,6 +25,26 @@ namespace peluqueria.reservaciones.Infraestructura.Persistencia
             // 1. Mapeo de la relación 1:N entre HorarioBase y DiaHorario
             modelBuilder.Entity<HorarioBase>().HasKey(h => h.EstilistaId);
 
+            modelBuilder.Entity<HorarioBase>()
+            .Property(h => h.EstilistaId)
+            .ValueGeneratedNever();
+
+            modelBuilder.Entity<Categoria>()
+        .Property(c => c.Id)
+        .ValueGeneratedNever();
+
+            modelBuilder.Entity<Servicio>()
+                .Property(s => s.Precio)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Servicio>()
+            .Property(s => s.Id)
+            .ValueGeneratedNever();
+
+            modelBuilder.Entity<Estilista>()
+                .Property(e => e.Id)
+                .ValueGeneratedNever();
+
             // Configura HorariosSemanales como una colección de Tipos Poseídos
             modelBuilder.Entity<HorarioBase>()
                 .OwnsMany(h => h.HorariosSemanales, dh =>
@@ -42,6 +62,10 @@ namespace peluqueria.reservaciones.Infraestructura.Persistencia
 
             // 2. Mapeo de la relación 1:N entre DescansoFijo y DiaHorario
             modelBuilder.Entity<DescansoFijo>().HasKey(d => d.EstilistaId);
+
+            modelBuilder.Entity<DescansoFijo>()
+            .Property(d => d.EstilistaId)
+            .ValueGeneratedNever();
 
             // Configura DescansosFijos como una colección de Tipos Poseídos
             modelBuilder.Entity<DescansoFijo>()
