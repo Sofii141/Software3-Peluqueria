@@ -44,19 +44,16 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
 
         public async Task SetFixedBreaksAsync(int stylistId, List<DiaHorario> fixedBreaks)
         {
-            // Nota: Se requiere un método similar para DescansoFijo
-            var existing = await _context.DescansoFijo
-                .Include(d => d.DescansosFijos)
-                .FirstOrDefaultAsync(d => d.EstilistaId == stylistId);
+            var existing = await GetDescanso(stylistId);
 
             if (existing == null)
             {
+                // Creado
                 var newBreak = new DescansoFijo { EstilistaId = stylistId, DescansosFijos = fixedBreaks };
                 _context.DescansoFijo.Add(newBreak);
             }
             else
             {
-                // Reemplazamos la colección de Descansos Fijos
                 existing.DescansosFijos = fixedBreaks;
             }
 
@@ -83,6 +80,21 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
                 // Ignoramos duplicados si el bloque ya existía con la misma clave compuesta
                 Console.WriteLine($"Error al añadir bloqueo (posible duplicado o manejo de Delete pendiente): {ex.Message}");
             }
+        }
+
+        public async Task<BloqueoRangoDiasLibres?> GetRangoDiasLibres(int stylistId)
+        {
+
+            return await _context.BloqueoRangoDias
+                .FirstOrDefaultAsync(b => b.EstilistaId == stylistId);
+        }
+
+
+        public async Task<DescansoFijo?> GetDescanso(int stylistId)
+        {
+            return await _context.DescansoFijo
+                .Include(d => d.DescansosFijos)
+                .FirstOrDefaultAsync(d => d.EstilistaId == stylistId);
         }
     }
 }

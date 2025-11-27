@@ -1,0 +1,19 @@
+using peluqueria.reservaciones.Aplicacion.Comandos;
+using peluqueria.reservaciones.Infraestructura.DTO.Comunicacion;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace peluqueria.reservaciones.Core.Puertos.Entrada
+{
+    public interface IReservacionManejador
+    {
+
+        Task<ReservacionRespuestaDTO> CrearReservacionAsync(CrearReservacionComando comando);
+
+        Task<ReservacionRespuestaDTO> ReprogramarReservacionAsync(int reservacionId, ReservacionPeticionDTO peticion);
+
+        Task CancelarReservacionAsync(int reservacionId);
+
+        Task<List<ReservacionRespuestaDTO>> ConsultarReservacionesClienteAsync(string clienteIdentificacion);
+    }
+}

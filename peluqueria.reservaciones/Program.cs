@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 // Usings para las Interfaces (Puertos de Salida)
 using peluqueria.reservaciones.Core.Puertos.Salida;
+using peluqueria.reservaciones.Core.Puertos.Entrada;
 
 // Repositorios e Infraestructura
 using peluqueria.reservaciones.Infraestructura.Persistencia;
@@ -12,6 +13,11 @@ using peluqueria.reservaciones.Core.Dominio;
 // Consumidores de Mensajes
 using peluqueria.reservaciones.Infraestructura.Mensajes;
 using peluqueria.reservaciones.Infraestructura.DTO.Eventos;
+
+// Servicios de Aplicación
+using peluqueria.reservaciones.Aplicacion.Plantilla;
+using peluqueria.reservaciones.Infraestructura.Controladores;
+using peluqueria.reservaciones.Aplicacion.Fachada;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +30,9 @@ builder.Services.AddHostedService<EstilistaConsumer>();
 builder.Services.AddHostedService<AgendaConsumer>();
 builder.Services.AddHostedService<ClienteConsumer>();
 
-// 1. Registro del DbContext para SQL Server
+builder.Services.AddScoped<ReservacionPlantillaBase, ReservacionEstandar>();
+
+// Registro del DbContext para SQL Server
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ReservacionesDbContext>(options =>
@@ -37,14 +45,22 @@ builder.Services.AddScoped<IServicioRepositorio, ServicioRepositorio>();
 builder.Services.AddScoped<IEstilistaRepositorio, EstilistaRepositorio>();
 builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IHorarioRepositorio, HorarioRepositorio>();
+builder.Services.AddScoped<IReservacionRepositorio, ReservacionRepositorio>();
 
 
+builder.Services.AddScoped<IReservacionManejador, ReservacionManejador>();
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    });
+
 
 
 var app = builder.Build();
+
+app.MapControllers();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

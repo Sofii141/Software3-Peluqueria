@@ -10,5 +10,7 @@ namespace peluqueria.reservaciones.Core.Puertos.Salida
 		Task SetFixedBreaksAsync(int stylistId, List<DiaHorario> fixedBreaks);
 		Task AddBlockoutRangeAsync(BloqueoRangoDiasLibres blockout);
 		Task<HorarioBase?> GetStylistScheduleAsync(int stylistId);
+		Task<BloqueoRangoDiasLibres?> GetRangoDiasLibres(int stylistId);
+		Task<DescansoFijo?> GetDescanso(int stylistId);
 	}
 }
