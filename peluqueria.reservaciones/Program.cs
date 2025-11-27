@@ -30,7 +30,6 @@ builder.Services.AddHostedService<EstilistaConsumer>();
 builder.Services.AddHostedService<AgendaConsumer>();
 builder.Services.AddHostedService<ClienteConsumer>();
 
-builder.Services.AddScoped<ReservacionPlantillaBase, ReservacionEstandar>();
 
 // Registro del DbContext para SQL Server
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -47,6 +46,9 @@ builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 builder.Services.AddScoped<IHorarioRepositorio, HorarioRepositorio>();
 builder.Services.AddScoped<IReservacionRepositorio, ReservacionRepositorio>();
 
+builder.Services.AddScoped<ReservacionEstandar>();
+
+builder.Services.AddScoped<ReservacionReprogramar>();
 
 builder.Services.AddScoped<IReservacionManejador, ReservacionManejador>();
 

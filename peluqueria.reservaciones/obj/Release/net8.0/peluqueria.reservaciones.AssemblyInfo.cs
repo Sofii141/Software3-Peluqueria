@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("peluqueria.reservaciones")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9f97c21d707632d1412d2b7768747640801402c7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e7b81f6286cc913918b257132bd79b4dbf675ea0")]
 [assembly: System.Reflection.AssemblyProductAttribute("peluqueria.reservaciones")]
 [assembly: System.Reflection.AssemblyTitleAttribute("peluqueria.reservaciones")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

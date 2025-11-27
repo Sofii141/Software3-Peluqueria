@@ -1,6 +1,5 @@
 using peluqueria.reservaciones.Core.Dominio;
 using System.Threading.Tasks;
-using peluqueria.reservaciones.Core.Dominio;
 using peluqueria.reservaciones.Core.Excepciones;
 using peluqueria.reservaciones.Core.Puertos.Salida;
 using System.Threading.Tasks;

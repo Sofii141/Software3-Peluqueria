@@ -16,15 +16,18 @@ namespace peluqueria.reservaciones.Aplicacion.Fachada
     public class ReservacionManejador : IReservacionManejador
     {
         private readonly ReservacionPlantillaBase _creacionPlantilla;
+        private readonly ReservacionReprogramar _reprogramacionPlantilla;   
         private readonly IReservacionRepositorio _reservacionRepositorio;
         private readonly IHorarioRepositorio _horarioRepositorio;
 
         public ReservacionManejador(
-            ReservacionPlantillaBase creacionPlantilla,
+            ReservacionEstandar creacionPlantilla,
+            ReservacionReprogramar reprogramacionPlantilla,
             IReservacionRepositorio reservacionRepositorio,
             IHorarioRepositorio horarioRepositorio)
         {
-            _creacionPlantilla = creacionPlantilla; // Instancia de ReservacionEstandar
+            _creacionPlantilla = creacionPlantilla; 
+            _reprogramacionPlantilla = reprogramacionPlantilla;
             _reservacionRepositorio = reservacionRepositorio;
             _horarioRepositorio = horarioRepositorio;
         }
@@ -53,46 +56,21 @@ namespace peluqueria.reservaciones.Aplicacion.Fachada
 
         // Reprogramar reservacion
         public async Task<ReservacionRespuestaDTO> ReprogramarReservacionAsync(
-            int reservacionId, ReservacionPeticionDTO peticion) 
+            int reservacionId, ReservacionPeticionDTO peticion)
         {
-            // 1. Obtener la reservación existente
             var reservacion = await _reservacionRepositorio.ObtenerPorIdAsync(reservacionId);
             if (reservacion == null)
             {
                 throw new ValidacionDatosExeption($"Reservación ID {reservacionId} no encontrada.");
             }
 
-            var nuevaFecha = peticion.Fecha;
-            var nuevaHoraInicio = peticion.HoraInicio;
+            reservacion.Fecha = peticion.Fecha;
+            reservacion.HoraInicio = peticion.HoraInicio;
 
-            // 2. Establecer la nueva hora final (asume que TiempoAtencion no cambia)
-            var nuevaHoraFin = nuevaHoraInicio.AddMinutes(reservacion.TiempoAtencion);
 
-            // 3. VALIDACIÓN DE DISPONIBILIDAD para el nuevo slot (la lógica restante es la misma)
-            var conflictos = await _reservacionRepositorio.ObtenerReservasConflictivasAsync(
-                reservacion.EstilistaId,
-                nuevaFecha,
-                nuevaHoraInicio,
-                nuevaHoraFin
-            );
+            Reservacion reservacionActualizada = await _reprogramacionPlantilla.ProcesarReservacionAsync(reservacion);
 
-            var conflictosReales = conflictos.Where(r => r.Id != reservacionId).ToList();
-
-            if (conflictosReales.Any())
-            {
-                throw new ValidacionDisponibilidadExeption("El nuevo horario se superpone con otra reserva existente.");
-            }
-
-            // 4. Actualizar la entidad
-            reservacion.Fecha = nuevaFecha;
-            reservacion.HoraInicio = nuevaHoraInicio;
-            reservacion.HoraFin = nuevaHoraFin;
-
-            // 5. Persistir el cambio
-            await _reservacionRepositorio.ActualizarAsync(reservacion);
-
-            // 6. Mapeo: Entidad -> DTO de Respuesta
-            return ReservacionMapper.ToRespuestaDTO(reservacion);
+            return ReservacionMapper.ToRespuestaDTO(reservacionActualizada);
         }
 
         // cancelar reservacion
