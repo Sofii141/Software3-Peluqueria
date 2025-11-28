@@ -139,23 +139,23 @@
 
 
         // 8. [MICROSERVICIO DE RESERVAS] (FUTURO) - PROTEGIDO (Ruta Original 6)
-        {
-            "DownstreamPathTemplate": "/api/reservas/{everything}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 5170
-                }
-            ],
-            "UpstreamPathTemplate": "/api/reservas/{everything}",
-            "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-            "Priority": 5,
-            "AuthenticationOptions": {
-                "AuthenticationProviderKey": "ApiSecurityScheme",
-                "AllowedScopes": []
-            }
+      {
+        "DownstreamPathTemplate": "/api/reservaciones/{everything}",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5288
+          }
+        ],
+        "UpstreamPathTemplate": "/api/reservaciones/{everything}",
+        "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete", "Patch" ],
+        "Priority": 5,
+        "AuthenticationOptions": {
+          "AuthenticationProviderKey": "ApiSecurityScheme",
+          "AllowedScopes": []
         }
+      }
     ],
     "GlobalConfiguration": {
         "BaseUrl": "http://localhost:5000"
