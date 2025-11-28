@@ -20,7 +20,10 @@ namespace peluqueria.reservaciones.Aplicacion.Mapeo
                 EstilistaNombre = reservacion.Estilista?.NombreCompleto ?? "N/A",
                 ServicioNombre = reservacion.Servicio?.Nombre ?? "N/A",
                 ServicioPrecio = reservacion.Servicio?.Precio ?? 0,
-                TiempoAtencion = reservacion.TiempoAtencion
+                TiempoAtencion = reservacion.TiempoAtencion,
+                Estado = reservacion.Estado,
+                NombreIdentificacion = reservacion.Cliente?.Identificacion ?? "N/A"
+
             };
         }
     }

@@ -87,5 +87,41 @@ namespace peluqueria.reservaciones.Aplicacion.Fachada
             // 2. Mapear la lista de Entidades a la lista de DTOs de Respuesta
             return listaReservaciones.Select(ReservacionMapper.ToRespuestaDTO).ToList();
         }
+
+        // cambiar estado de una reservacion
+        public async Task CambiarEstadoReservacionAsync(CambioEstadoDTO peticion)
+        {
+            // Validamos que la reserva exista
+            var reservacion = await _reservacionRepositorio.ObtenerPorIdAsync(peticion.ReservacionId);
+            if (reservacion == null)
+            {
+                throw new ValidacionDatosExeption($"Reservación ID {peticion.ReservacionId} no encontrada.");
+            }
+
+            // Llamamos al repositorio para cambiar el estado
+            await _reservacionRepositorio.CambiarEstadoAsync(peticion.ReservacionId, peticion.NuevoEstado);
+        }
+
+        // consultar reservas de un estilista en un rango de fechas
+        public async Task<List<ReservacionRespuestaDTO>> ConsultarReservasEstilistaRangoAsync(PeticionReservasEstilistaDTO peticion)
+        {
+            var lista = await _reservacionRepositorio.BuscarReservasEstilistaRangoAsync(
+                peticion.EstilistaId,
+                peticion.FechaInicio,
+                peticion.FechaFin);
+
+            return lista.Select(ReservacionMapper.ToRespuestaDTO).ToList();
+        }
+
+        // consultar reservas de un estilista en una fecha específica
+        public async Task<List<ReservacionRespuestaDTO>> ConsultarReservasEstilistaFechaAsync(PeticionReservaEstilistaFechaDTO peticion)
+        {
+            var lista = await _reservacionRepositorio.BuscarReservasPorEstilistaAsync(
+                peticion.EstilistaId,
+                peticion.Fecha);
+
+            return lista.Select(ReservacionMapper.ToRespuestaDTO).ToList();
+        }
+
     }
 }

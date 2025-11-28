@@ -17,6 +17,10 @@ namespace peluqueria.reservaciones.Core.Puertos.Salida
 
         Task<List<Reservacion>> BuscarReservasPorEstilistaAsync(int estilistaId, DateOnly fecha);
 
+        Task CambiarEstadoAsync(int reservacionId, string nuevoEstado);
+
+        Task<List<Reservacion>> BuscarReservasEstilistaRangoAsync(int estilistaId, DateOnly fechaInicio, DateOnly fechaFin);
+
         // Busca si ya existen reservas que choquen con el horario propuesto
         Task<List<Reservacion>> ObtenerReservasConflictivasAsync(int estilistaId, DateOnly fecha, TimeOnly horaInicio, TimeOnly horaFin);
     }

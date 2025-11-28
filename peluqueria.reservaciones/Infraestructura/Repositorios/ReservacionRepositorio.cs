@@ -88,7 +88,7 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
             return await _context.Reservaciones
                 .Include(r => r.Cliente)
                 .Include(r => r.Servicio)
-                .Where(r => r.EstilistaId == estilistaId && r.Fecha == fecha && r.Estado != "CANCELADA")
+                .Where(r => r.EstilistaId == estilistaId && r.Fecha == fecha && r.Estado == "PENDIENTE")
                 .OrderBy(r => r.HoraInicio)
                 .ToListAsync();
         }
@@ -107,5 +107,31 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
                     horaFin > r.HoraInicio)
                 .ToListAsync();
         }
+
+        public async Task CambiarEstadoAsync(int reservacionId, string nuevoEstado)
+        {
+            var reservacion = await _context.Reservaciones.FindAsync(reservacionId);
+            if (reservacion != null)
+            {
+                reservacion.Estado = nuevoEstado;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<List<Reservacion>> BuscarReservasEstilistaRangoAsync(int estilistaId, DateOnly fechaInicio, DateOnly fechaFin)
+        {
+            return await _context.Reservaciones
+                .Include(r => r.Cliente)
+                .Include(r => r.Servicio)
+                .Where(r =>
+                    r.EstilistaId == estilistaId &&
+                    r.Fecha >= fechaInicio &&
+                    r.Fecha <= fechaFin &&
+                    r.Estado != "PENDIENTE")
+                .OrderBy(r => r.Fecha)
+                .ThenBy(r => r.HoraInicio)
+                .ToListAsync();
+        }
+
     }
 }

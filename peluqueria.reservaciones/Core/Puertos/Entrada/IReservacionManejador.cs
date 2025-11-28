@@ -15,5 +15,11 @@ namespace peluqueria.reservaciones.Core.Puertos.Entrada
         Task CancelarReservacionAsync(int reservacionId);
 
         Task<List<ReservacionRespuestaDTO>> ConsultarReservacionesClienteAsync(string clienteIdentificacion);
+
+        Task CambiarEstadoReservacionAsync(CambioEstadoDTO peticion);
+
+        Task<List<ReservacionRespuestaDTO>> ConsultarReservasEstilistaRangoAsync(PeticionReservasEstilistaDTO peticion);
+
+        Task<List<ReservacionRespuestaDTO>> ConsultarReservasEstilistaFechaAsync(PeticionReservaEstilistaFechaDTO peticion);
     }
 }

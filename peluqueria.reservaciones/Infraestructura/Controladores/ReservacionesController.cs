@@ -119,5 +119,43 @@ namespace peluqueria.reservaciones.Infraestructura.Controladores
 
             return Ok(listaReservaciones);
         }
+
+        // cambiar estado de una reservacion
+        [HttpPatch("cambiar-estado")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> CambiarEstado([FromBody] CambioEstadoDTO peticion)
+        {
+            try
+            {
+                await _manejador.CambiarEstadoReservacionAsync(peticion);
+                return NoContent();
+            }
+            catch (ValidacionDatosExeption ex)
+            {
+                return NotFound(new { error = "NoEncontrado", mensaje = ex.Message });
+            }
+        }
+
+        // Buscar reservas de estilista por rango de fechas
+        [HttpPost("buscar/estilista-rango")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> BuscarPorRango([FromBody] PeticionReservasEstilistaDTO peticion)
+        {
+            var lista = await _manejador.ConsultarReservasEstilistaRangoAsync(peticion);
+
+            // Retorna lista vacía [] si no hay datos, código 200 OK
+            return Ok(lista);
+        }
+
+        // Buscar reservas de estilista por fecha específica
+        [HttpPost("buscar/estilista-fecha")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> BuscarPorFecha([FromBody] PeticionReservaEstilistaFechaDTO peticion)
+        {
+            var lista = await _manejador.ConsultarReservasEstilistaFechaAsync(peticion);
+
+            return Ok(lista);
+        }
     }
 }
