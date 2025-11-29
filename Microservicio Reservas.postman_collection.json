@@ -1,0 +1,274 @@
+{
+	"info": {
+		"_postman_id": "80d4d03c-f2a5-45f6-bb18-74de68ee9262",
+		"name": "Microservicio Reservas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43216293"
+	},
+	"item": [
+		{
+			"name": "Crear Reservacion",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJuYW1laWQiOiJhMThiZTljMC1hYTY1LTRhZjgtYmQxNy0wMGJkOTM0NGU1NzUiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzY0MzQ4MzI2LCJleHAiOjE3NjQ5NTMxMjYsImlhdCI6MTc2NDM0ODMyNiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3In0.-btH4M7ULyqD4oIBrlNYTJjbUKDO6vNSYgvM4jpLOWFOwSVWFoY36-3joIVzlHoAky4L6JWYlD-9m_ydE1Hvrg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"servicioId\": 8,\r\n    \"estilistaId\": 7,\r\n    \"clienteIdentificacion\": \"123\",\r\n    \"fecha\": \"2025-12-02\",\r\n    \"horaInicio\": \"10:00:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5002/api/reservaciones",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"api",
+						"reservaciones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reprogramar Reservacion",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJuYW1laWQiOiJhMThiZTljMC1hYTY1LTRhZjgtYmQxNy0wMGJkOTM0NGU1NzUiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzY0MzQ4MzI2LCJleHAiOjE3NjQ5NTMxMjYsImlhdCI6MTc2NDM0ODMyNiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3In0.-btH4M7ULyqD4oIBrlNYTJjbUKDO6vNSYgvM4jpLOWFOwSVWFoY36-3joIVzlHoAky4L6JWYlD-9m_ydE1Hvrg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"servicioId\": 8,\r\n    \"estilistaId\": 7,\r\n    \"clienteIdentificacion\": \"123\",\r\n    \"fecha\": \"2025-12-03\",\r\n    \"horaInicio\": \"10:00:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5002/api/reservaciones/9/reprogramar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"api",
+						"reservaciones",
+						"9",
+						"reprogramar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Reservacion de cliente (se usa la Identificacion del usuario)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJuYW1laWQiOiJhMThiZTljMC1hYTY1LTRhZjgtYmQxNy0wMGJkOTM0NGU1NzUiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzY0MzQ4MzI2LCJleHAiOjE3NjQ5NTMxMjYsImlhdCI6MTc2NDM0ODMyNiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3In0.-btH4M7ULyqD4oIBrlNYTJjbUKDO6vNSYgvM4jpLOWFOwSVWFoY36-3joIVzlHoAky4L6JWYlD-9m_ydE1Hvrg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5002/api/reservaciones/123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"api",
+						"reservaciones",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancelar reservacion",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJuYW1laWQiOiJhMThiZTljMC1hYTY1LTRhZjgtYmQxNy0wMGJkOTM0NGU1NzUiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzY0MzQ4MzI2LCJleHAiOjE3NjQ5NTMxMjYsImlhdCI6MTc2NDM0ODMyNiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3In0.-btH4M7ULyqD4oIBrlNYTJjbUKDO6vNSYgvM4jpLOWFOwSVWFoY36-3joIVzlHoAky4L6JWYlD-9m_ydE1Hvrg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5002/api/reservaciones/9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"api",
+						"reservaciones",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar reservas de estilista Fecha",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJuYW1laWQiOiJhMThiZTljMC1hYTY1LTRhZjgtYmQxNy0wMGJkOTM0NGU1NzUiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzY0MzQ4MzI2LCJleHAiOjE3NjQ5NTMxMjYsImlhdCI6MTc2NDM0ODMyNiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3In0.-btH4M7ULyqD4oIBrlNYTJjbUKDO6vNSYgvM4jpLOWFOwSVWFoY36-3joIVzlHoAky4L6JWYlD-9m_ydE1Hvrg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"estilistaId\": 7,\r\n    \"fecha\": \"2025-12-02\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5002/api/reservaciones/buscar/estilista-fecha",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"api",
+						"reservaciones",
+						"buscar",
+						"estilista-fecha"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar reservas estilista rango fechas",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJuYW1laWQiOiJhMThiZTljMC1hYTY1LTRhZjgtYmQxNy0wMGJkOTM0NGU1NzUiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzY0MzQ4MzI2LCJleHAiOjE3NjQ5NTMxMjYsImlhdCI6MTc2NDM0ODMyNiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3In0.-btH4M7ULyqD4oIBrlNYTJjbUKDO6vNSYgvM4jpLOWFOwSVWFoY36-3joIVzlHoAky4L6JWYlD-9m_ydE1Hvrg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"estilistaId\": 7,\r\n    \"fechaInicio\": \"2025-12-01\",\r\n    \"fechaFin\": \"2025-12-03\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5002/api/reservaciones/buscar/estilista-rango",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"api",
+						"reservaciones",
+						"buscar",
+						"estilista-rango"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cambiar Estado Reservacion",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRtaW4iLCJuYW1laWQiOiJhMThiZTljMC1hYTY1LTRhZjgtYmQxNy0wMGJkOTM0NGU1NzUiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzY0MzQ4MzI2LCJleHAiOjE3NjQ5NTMxMjYsImlhdCI6MTc2NDM0ODMyNiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MTY3In0.-btH4M7ULyqD4oIBrlNYTJjbUKDO6vNSYgvM4jpLOWFOwSVWFoY36-3joIVzlHoAky4L6JWYlD-9m_ydE1Hvrg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reservacionId\": 8,\r\n    \"nuevoEstado\": \"CANCELADA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5002/api/reservaciones/cambiar-estado",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5002",
+					"path": [
+						"api",
+						"reservaciones",
+						"cambiar-estado"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
