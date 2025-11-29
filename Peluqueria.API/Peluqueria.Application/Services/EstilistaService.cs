@@ -14,13 +14,15 @@ namespace Peluqueria.Application.Services
         private readonly IServicioRepository _servicioRepo;
         private readonly IEstilistaAgendaService _agendaService;
         private readonly IFileStorageService _fileStorage;
+        private readonly IReservacionClient _reservacionClient;
 
         public EstilistaService(IEstilistaRepository estilistaRepo,
                                 IMessagePublisher messagePublisher,
                                 IIdentityService identityService,
                                 IServicioRepository servicioRepo,
                                 IEstilistaAgendaService agendaService,
-                                IFileStorageService fileStorage)
+                                IFileStorageService fileStorage,
+                                IReservacionClient reservacionClient)
         {
             _estilistaRepo = estilistaRepo;
             _messagePublisher = messagePublisher;
@@ -28,6 +30,7 @@ namespace Peluqueria.Application.Services
             _servicioRepo = servicioRepo;
             _agendaService = agendaService;
             _fileStorage = fileStorage;
+            _reservacionClient = reservacionClient;
         }
 
         public async Task<IEnumerable<EstilistaDto>> GetAllAsync()
@@ -45,13 +48,12 @@ namespace Peluqueria.Application.Services
             return dtos;
         }
 
-        public async Task<EstilistaDto> GetByIdAsync(int id) 
+        public async Task<EstilistaDto> GetByIdAsync(int id)
         {
             var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(id);
 
             if (estilista == null)
             {
-               
                 throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
             }
 
@@ -209,19 +211,23 @@ namespace Peluqueria.Application.Services
             return dto;
         }
 
-
         public async Task<bool> InactivateAsync(int id)
         {
             var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(id);
             if (estilista == null)
                 throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
 
-            bool tieneCitas = false;
+            // --- VALIDACIÓN CON MICROSERVICIO ---
+            // Consultamos al microservicio si existen reservas futuras
+            bool tieneCitas = await _reservacionClient.TieneReservasEstilista(id);
 
             if (tieneCitas)
             {
-                throw new ReglaNegocioException(CodigoError.OPERACION_BLOQUEADA_POR_CITAS);
+                // Si tiene citas, lanzamos la excepción con tu código de error G-ERROR-009
+                throw new ReglaNegocioException(CodigoError.OPERACION_BLOQUEADA_POR_CITAS,
+                    "El estilista tiene reservaciones futuras pendientes y no puede ser inactivado.");
             }
+            // ------------------------------------
 
             estilista.EstaActivo = false;
             var serviciosIds = estilista.ServiciosAsociados.Select(s => s.ServicioId).ToList();

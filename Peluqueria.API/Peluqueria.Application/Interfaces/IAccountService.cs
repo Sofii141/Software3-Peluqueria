@@ -8,5 +8,6 @@ namespace Peluqueria.Application.Interfaces
         Task<NewUserDto?> LoginAsync(LoginDto loginDto);
         Task<IdentityResult> RegisterAsync(RegisterDto registerDto);
         Task<NewUserDto?> GetNewUserDto(string username, string password);
+        Task<IEnumerable<ClienteResponseDto>> GetAllClientesAsync();
     }
 }

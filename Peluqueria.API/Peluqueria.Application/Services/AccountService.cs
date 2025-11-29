@@ -106,5 +106,11 @@ namespace Peluqueria.Application.Services
                 Token = _tokenService.CreateToken(userMinimal, roles)
             };
         }
+
+        public async Task<IEnumerable<ClienteResponseDto>> GetAllClientesAsync()
+        {
+            // Llamamos a IdentityService pidiendo explícitamente el rol "Cliente"
+            return await _identityService.GetUsersByRoleAsync("Cliente");
+        }
     }
 }

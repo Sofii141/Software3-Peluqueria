@@ -14,5 +14,6 @@ namespace Peluqueria.Application.Interfaces
         Task<AppUserMinimalDto?> FindByIdentityIdAsync(string identityId);
         Task<IdentityResult> AdminResetPasswordAsync(string identityId, string newPassword);
         Task<IdentityResult> UpdateUserCredentialsAsync(string identityId, string newUsername, string newEmail);
+        Task<IEnumerable<ClienteResponseDto>> GetUsersByRoleAsync(string roleName);
     }
 }

@@ -134,6 +134,21 @@ namespace Peluqueria.Infrastructure.Service
             return IdentityResult.Success;
         }
 
+        public async Task<IEnumerable<ClienteResponseDto>> GetUsersByRoleAsync(string roleName)
+        {
+            // Este método de Identity trae todos los usuarios de ese rol
+            var users = await _userManager.GetUsersInRoleAsync(roleName);
+
+            // Mapeamos a nuestro DTO
+            return users.Select(u => new ClienteResponseDto
+            {
+                Id = u.Id,
+                Username = u.UserName!,
+                Email = u.Email!,
+                NombreCompleto = u.NombreCompleto, // Propiedad personalizada de tu AppUser
+                Telefono = u.Telefono              // Propiedad personalizada de tu AppUser
+            }).ToList();
+        }
 
     }
 }

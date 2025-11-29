@@ -1,6 +1,6 @@
 ﻿using Peluqueria.Application.Dtos.Categoria;
 using Peluqueria.Application.Dtos.Events;
-using Peluqueria.Application.Exceptions; 
+using Peluqueria.Application.Exceptions;
 using Peluqueria.Application.Interfaces;
 using Peluqueria.Domain.Entities;
 
@@ -9,16 +9,20 @@ namespace Peluqueria.Application.Services
     public class CategoriaService : ICategoriaService
     {
         private readonly ICategoriaRepository _categoriaRepo;
-        private readonly IServicioRepository _servicioRepo; 
+        private readonly IServicioRepository _servicioRepo;
         private readonly IMessagePublisher _messagePublisher;
+        // Inyectamos el cliente para validación externa
+        private readonly IReservacionClient _reservacionClient;
 
         public CategoriaService(ICategoriaRepository categoriaRepo,
                                 IServicioRepository servicioRepo,
-                                IMessagePublisher messagePublisher)
+                                IMessagePublisher messagePublisher,
+                                IReservacionClient reservacionClient) // <--- INYECCIÓN
         {
             _categoriaRepo = categoriaRepo;
             _servicioRepo = servicioRepo;
             _messagePublisher = messagePublisher;
+            _reservacionClient = reservacionClient;
         }
 
         public async Task<IEnumerable<CategoriaDto>> GetAllAsync()
@@ -85,12 +89,17 @@ namespace Peluqueria.Application.Services
                 throw new EntidadNoExisteException(CodigoError.CATEGORIA_NO_ENCONTRADA);
             }
 
-            bool tieneServiciosAsociados = false; 
+            // --- VALIDACIÓN CON MICROSERVICIO ---
+            // Consultamos si existen reservas futuras que involucren servicios de esta categoría
+            bool tieneReservasAsociadas = await _reservacionClient.TieneReservasCategoria(id);
 
-            if (tieneServiciosAsociados)
+            if (tieneReservasAsociadas)
             {
-                throw new ReglaNegocioException(CodigoError.CATEGORIA_CON_SERVICIOS);
+                // Usamos G-ERROR-008: Categoría con Servicios (y por ende reservas)
+                throw new ReglaNegocioException(CodigoError.CATEGORIA_CON_SERVICIOS,
+                    "No se puede inactivar la categoría porque tiene servicios con reservaciones futuras activas.");
             }
+            // ------------------------------------
 
             var success = await _categoriaRepo.InactivateAsync(id);
 

@@ -16,6 +16,7 @@ using Peluqueria.API.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using Peluqueria.API.Errors;
 using Peluqueria.Application.Exceptions;
+using Peluqueria.Infrastructure.External;
 
 var cultureInfo = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
@@ -28,7 +29,6 @@ builder.Services.AddControllers()
     {
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
     })
-    // Opcional: Para asegurar que el Model Binding use la cultura correcta
     .AddMvcOptions(options =>
     {
         options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
@@ -38,10 +38,8 @@ builder.Services.AddControllers()
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
     {
-        // Esta opción intercepta los errores de validación del Modelo (DTOs)
         options.InvalidModelStateResponseFactory = context =>
         {
-            // 1. Recolectamos los errores
             var errores = context.ModelState
                 .Where(e => e.Value.Errors.Count > 0)
                 .SelectMany(x => x.Value.Errors)
@@ -50,10 +48,9 @@ builder.Services.AddControllers()
 
             var mensajeUnido = string.Join("; ", errores);
 
-            // 2. Usamos el código G-ERROR-002 (Campos Obligatorios/Inválidos)
             var errorResponse = ErrorUtils.CrearError(
                 CodigoError.CAMPOS_OBLIGATORIOS.Codigo,
-                mensajeUnido, // Ej: "El nombre es obligatorio; El precio debe ser mayor a 0"
+                mensajeUnido,
                 400,
                 context.HttpContext.Request.Path,
                 context.HttpContext.Request.Method
@@ -91,14 +88,13 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
     options.SignIn.RequireConfirmedAccount = false;
-    options.User.RequireUniqueEmail = true; // Unicidad de Correo
-    // (8 caracteres, Mayús, Minús, Número, Especial)**
-    options.Password.RequireDigit = true; // Requiere Número
-    options.Password.RequiredLength = 8;  // Requiere 8 caracteres (o más)
-    options.Password.RequireNonAlphanumeric = true; // Requiere Carácter Especial
-    options.Password.RequireUppercase = true; // Requiere Mayúscula
-    options.Password.RequireLowercase = true; // Requiere Minúscula
-    options.Password.RequiredUniqueChars = 1; // Un carácter especial es suficiente
+    options.User.RequireUniqueEmail = true;
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 8;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequiredUniqueChars = 1;
 })
 .AddEntityFrameworkStores<ApplicationDBContext>()
 .AddDefaultTokenProviders();
@@ -116,8 +112,6 @@ builder.Services.AddAuthentication(options => {
         ValidateAudience = true,
         ValidAudience = builder.Configuration["JWT:Audience"],
         ValidateIssuerSigningKey = true,
-        // Uso del operador de nulidad (!) ya que la clave se valida y se lanza 
-        // una excepción en TokenService.cs, garantizando que esté presente en runtime.
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]!)
         )
@@ -125,23 +119,35 @@ builder.Services.AddAuthentication(options => {
 });
 
 
-// INYECCION DE DEPENDENCIAS
+// --- INYECCION DE DEPENDENCIAS ---
+
+// Repositorios
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IServicioRepository, ServicioRepository>();
 builder.Services.AddScoped<IEstilistaRepository, EstilistaRepository>();
 builder.Services.AddScoped<IEstilistaAgendaRepository, EstilistaAgendaRepository>();
 
+// Servicios de Infraestructura
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
-builder.Services.AddScoped<IEstilistaService, EstilistaService>();
+builder.Services.AddSingleton<IMessagePublisher, RabbitMQMessagePublisher>();
 
+// Servicios de Aplicación
+builder.Services.AddScoped<IEstilistaService, EstilistaService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IServicioService, ServicioService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddSingleton<IMessagePublisher, RabbitMQMessagePublisher>();
-builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IEstilistaAgendaService, EstilistaAgendaService>();
+
+// Esto permite inyectar IReservacionClient en los servicios
+builder.Services.AddHttpClient<IReservacionClient, ReservacionClient>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5288/");
+
+    // Timeout de seguridad para que el monolito no se quede colgado si el microservicio no responde
+    client.Timeout = TimeSpan.FromSeconds(5);
+});
 
 var app = builder.Build();
 
@@ -153,7 +159,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(config =>
     {
-        // Esta línea indica a Swagger UI que guarde las claves de autenticación
         config.ConfigObject.PersistAuthorization = true;
     });
 }

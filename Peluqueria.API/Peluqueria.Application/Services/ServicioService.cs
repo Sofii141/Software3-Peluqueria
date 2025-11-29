@@ -14,14 +14,21 @@ namespace Peluqueria.Application.Services
         private readonly IFileStorageService _fileStorage;
         private readonly ICategoriaRepository _categoriaRepo;
         private readonly IMessagePublisher _messagePublisher;
+        // Inyectamos el cliente HTTP para validaciones
+        private readonly IReservacionClient _reservacionClient;
 
-        public ServicioService(IServicioRepository servicioRepo, IFileStorageService fileStorage,
-            ICategoriaRepository categoriaRepo, IMessagePublisher messagePublisher)
+        public ServicioService(
+            IServicioRepository servicioRepo,
+            IFileStorageService fileStorage,
+            ICategoriaRepository categoriaRepo,
+            IMessagePublisher messagePublisher,
+            IReservacionClient reservacionClient) // <--- INYECCIÓN
         {
             _servicioRepo = servicioRepo;
             _fileStorage = fileStorage;
             _categoriaRepo = categoriaRepo;
             _messagePublisher = messagePublisher;
+            _reservacionClient = reservacionClient;
         }
 
         public async Task<ServicioDto> CreateAsync(CreateServicioRequestDto requestDto)
@@ -89,8 +96,8 @@ namespace Peluqueria.Application.Services
             }
 
             // 2. VALIDACIÓN BLOQUEO POR CITAS (G-ERROR-004)
-            // bool tieneCitasFuturas = await _servicioRepo.HasFutureAppointmentsAsync(id);
-            bool tieneCitasFuturas = false; // TODO: Conectar repo real
+            // Consultamos al microservicio si existen reservas futuras para este servicio
+            bool tieneCitasFuturas = await _reservacionClient.TieneReservasServicio(id);
 
             if (tieneCitasFuturas)
             {
@@ -148,13 +155,13 @@ namespace Peluqueria.Application.Services
                 throw new EntidadNoExisteException(CodigoError.SERVICIO_NO_ENCONTRADO);
             }
 
-            // bool tieneCitasFuturas = await _servicioRepo.HasFutureAppointmentsAsync(id);
-            bool tieneCitasFuturas = false;
+            bool tieneCitasFuturas = await _reservacionClient.TieneReservasServicio(id);
 
             if (tieneCitasFuturas)
             {
                 throw new ReglaNegocioException(CodigoError.SERVICIO_BLOQUEADO_POR_CITAS);
             }
+            // ------------------------------------
 
             var success = await _servicioRepo.InactivateAsync(id);
 

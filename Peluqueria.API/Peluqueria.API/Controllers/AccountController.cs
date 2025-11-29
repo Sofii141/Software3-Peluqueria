@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Peluqueria.Application.Dtos.Account;
 using Peluqueria.Application.Interfaces;
 
@@ -28,6 +29,14 @@ namespace Peluqueria.API.Controllers
             var newUserDto = await _accountService.RegisterAsync(registerDto);
 
             return Ok(newUserDto);
+        }
+
+        [HttpGet("clientes")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetClientes()
+        {
+            var clientes = await _accountService.GetAllClientesAsync();
+            return Ok(clientes);
         }
     }
 }
