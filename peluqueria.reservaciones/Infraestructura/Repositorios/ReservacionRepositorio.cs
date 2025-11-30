@@ -133,5 +133,68 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
                 .ToListAsync();
         }
 
+        public async Task<bool> TieneReservasFuturasEstilistaAsync(int estilistaId)
+        {
+            var hoy = DateOnly.FromDateTime(DateTime.Now); 
+            return await _context.Reservaciones
+                .AnyAsync(r => r.EstilistaId == estilistaId && r.Fecha >= hoy && r.Estado != "CANCELADA");
+        }
+
+        public async Task<bool> TieneReservasFuturasServicioAsync(int servicioId)
+        {
+            var hoy = DateOnly.FromDateTime(DateTime.Now);
+            return await _context.Reservaciones
+                .AnyAsync(r => r.ServicioId == servicioId && r.Fecha >= hoy && r.Estado != "CANCELADA");
+        }
+
+        public async Task<bool> TieneReservasFuturasCategoriaAsync(int categoriaId)
+        {
+            var hoy = DateOnly.FromDateTime(DateTime.Now);
+            return await _context.Reservaciones
+                .Include(r => r.Servicio)
+                .AnyAsync(r => r.Servicio.CategoriaId == categoriaId && r.Fecha >= hoy && r.Estado != "CANCELADA");
+        }
+
+        public async Task<bool> TieneConflictoHorarioAsync(int estilistaId, DayOfWeek diaSemana)
+        {
+            var hoy = DateOnly.FromDateTime(DateTime.Now);
+
+            var fechasReservadas = await _context.Reservaciones
+                .Where(r => r.EstilistaId == estilistaId && r.Fecha >= hoy && r.Estado != "CANCELADA")
+                .Select(r => r.Fecha)
+                .ToListAsync();
+
+            return fechasReservadas.Any(f => f.ToDateTime(TimeOnly.MinValue).DayOfWeek == diaSemana);
+        }
+
+        public async Task<bool> TieneConflictoRangoAsync(int estilistaId, DateOnly inicio, DateOnly fin)
+        {
+            return await _context.Reservaciones
+                .AnyAsync(r => r.EstilistaId == estilistaId
+                               && r.Fecha >= inicio
+                               && r.Fecha <= fin
+                               && r.Estado != "CANCELADA");
+        }
+
+        public async Task<bool> TieneConflictoDescansoAsync(int estilistaId, DayOfWeek dia, TimeOnly inicio, TimeOnly fin)
+        {
+            var hoy = DateOnly.FromDateTime(DateTime.Now);
+
+            // 1. Traemos las reservas futuras de ese estilista (Traemos fecha y hora para filtrar en memoria)
+            // Nota: EF Core no traduce bien DayOfWeek en todas las versiones de SQL, por eso filtramos en cliente.
+            var reservasFuturas = await _context.Reservaciones
+                .Where(r => r.EstilistaId == estilistaId && r.Fecha >= hoy && r.Estado != "CANCELADA")
+                .Select(r => new { r.Fecha, r.HoraInicio, r.HoraFin })
+                .ToListAsync();
+
+            // 2. Verificamos en memoria:
+            // - Que la fecha caiga en ese día de la semana (ej: Lunes)
+            // - Que las horas se solapen
+            return reservasFuturas.Any(r =>
+                r.Fecha.ToDateTime(TimeOnly.MinValue).DayOfWeek == dia && // Coincide el día
+                r.HoraInicio < fin && r.HoraFin > inicio // Hay solapamiento de horas
+            );
+        }
+
     }
 }

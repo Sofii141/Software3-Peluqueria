@@ -12,7 +12,6 @@ namespace peluqueria.reservaciones.Core.Puertos.Salida
         Task ActualizarAsync(Reservacion reservacion); 
         Task CancelarAsync(int id);
 
-        // Búsquedas
         Task<List<Reservacion>> BuscarReservasPorClienteAsync(string clienteIdentificacion);
 
         Task<List<Reservacion>> BuscarReservasPorEstilistaAsync(int estilistaId, DateOnly fecha);
@@ -21,7 +20,13 @@ namespace peluqueria.reservaciones.Core.Puertos.Salida
 
         Task<List<Reservacion>> BuscarReservasEstilistaRangoAsync(int estilistaId, DateOnly fechaInicio, DateOnly fechaFin);
 
-        // Busca si ya existen reservas que choquen con el horario propuesto
         Task<List<Reservacion>> ObtenerReservasConflictivasAsync(int estilistaId, DateOnly fecha, TimeOnly horaInicio, TimeOnly horaFin);
+
+        Task<bool> TieneReservasFuturasEstilistaAsync(int estilistaId);
+        Task<bool> TieneReservasFuturasServicioAsync(int servicioId);
+        Task<bool> TieneReservasFuturasCategoriaAsync(int categoriaId);
+        Task<bool> TieneConflictoHorarioAsync(int estilistaId, DayOfWeek diaSemana);
+        Task<bool> TieneConflictoRangoAsync(int estilistaId, DateOnly inicio, DateOnly fin);
+        Task<bool> TieneConflictoDescansoAsync(int estilistaId, DayOfWeek dia, TimeOnly inicio, TimeOnly fin);
     }
 }
