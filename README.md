@@ -1,7 +1,7 @@
 # Software3-Barberia
 Proyecto barberia utilizando de backend ASP.NET CORE y Angular
 
-## Backend 
+## Backend monolito
 
 Add-Migration InitialCreate -Project Peluqueria.Infrastructure -StartupProject Peluqueria.API    
 
