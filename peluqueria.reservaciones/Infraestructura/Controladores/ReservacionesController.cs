@@ -47,15 +47,15 @@ namespace peluqueria.reservaciones.Infraestructura.Controladores
             // Captura excepciones de negocio y las traduce a 400 Bad Request
             catch (ValidacionDominioExcepcion ex)
             {
-                return BadRequest(new { error = "Validacion", mensaje = ex.Message });
+                return BadRequest(new { error = "Validacion", mensaje = ex.Message , codigoError = "GC-0005"});
             }
             catch (ValidacionDisponibilidadExeption ex)
             {
-                return BadRequest(new { error = "Disponibilidad", mensaje = ex.Message });
+                return BadRequest(new { error = "Disponibilidad", mensaje = ex.Message , codigoError = "GC-0006" });
             }
             catch (ValidacionDatosExeption ex)
             {
-                return BadRequest(new { error = "DatosEntrada", mensaje = ex.Message });
+                return BadRequest(new { error = "DatosEntrada", mensaje = ex.Message , codigoError = "GC-0007" });
             }
         }
 
@@ -79,11 +79,11 @@ namespace peluqueria.reservaciones.Infraestructura.Controladores
            
             catch (ValidacionDatosExeption ex)
             {
-                return NotFound(new { error = "NoEncontrado", mensaje = ex.Message });
+                return NotFound(new { error = "NoEncontrado", mensaje = ex.Message , codigoError = "GC-0004" });
             }
             catch (ValidacionDisponibilidadExeption ex)
             {
-                return BadRequest(new { error = "Disponibilidad", mensaje = ex.Message });
+                return BadRequest(new { error = "Disponibilidad", mensaje = ex.Message , codigoError = "GC-0006" });
             }
         }
 

@@ -22,7 +22,7 @@ namespace peluqueria.reservaciones.Aplicacion.Mapeo
                 ServicioPrecio = reservacion.Servicio?.Precio ?? 0,
                 TiempoAtencion = reservacion.TiempoAtencion,
                 Estado = reservacion.Estado,
-                NombreIdentificacion = reservacion.Cliente?.Identificacion ?? "N/A"
+                NombreIdentificacion = reservacion.ClienteIdentificacion ?? "N/A"
 
             };
         }
