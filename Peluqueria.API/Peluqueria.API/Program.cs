@@ -16,7 +16,7 @@ using Peluqueria.API.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using Peluqueria.API.Errors;
 using Peluqueria.Application.Exceptions;
-using Peluqueria.Infrastructure.External;
+using Peluqueria.Infrastructure.HttpClients;
 
 var cultureInfo = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;

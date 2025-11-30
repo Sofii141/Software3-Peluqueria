@@ -14,7 +14,6 @@ namespace Peluqueria.Application.Services
         private readonly IFileStorageService _fileStorage;
         private readonly ICategoriaRepository _categoriaRepo;
         private readonly IMessagePublisher _messagePublisher;
-        // Inyectamos el cliente HTTP para validaciones
         private readonly IReservacionClient _reservacionClient;
 
         public ServicioService(
@@ -22,7 +21,7 @@ namespace Peluqueria.Application.Services
             IFileStorageService fileStorage,
             ICategoriaRepository categoriaRepo,
             IMessagePublisher messagePublisher,
-            IReservacionClient reservacionClient) // <--- INYECCIÓN
+            IReservacionClient reservacionClient)
         {
             _servicioRepo = servicioRepo;
             _fileStorage = fileStorage;
@@ -126,7 +125,6 @@ namespace Peluqueria.Application.Services
                 throw new ReglaNegocioException(CodigoError.PRECIO_INVALIDO);
             }
 
-            // Actualización
             servicioExistente.Nombre = requestDto.Nombre;
             servicioExistente.Descripcion = requestDto.Descripcion;
             servicioExistente.Precio = precioValor;
@@ -161,7 +159,6 @@ namespace Peluqueria.Application.Services
             {
                 throw new ReglaNegocioException(CodigoError.SERVICIO_BLOQUEADO_POR_CITAS);
             }
-            // ------------------------------------
 
             var success = await _servicioRepo.InactivateAsync(id);
 

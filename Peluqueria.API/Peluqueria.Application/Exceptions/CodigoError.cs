@@ -37,7 +37,7 @@
         public static readonly CodigoError PRECIO_INVALIDO = new CodigoError("G-ERROR-003", "El precio debe ser mayor a cero.");
 
         // G-ERROR-004: Integridad Referencial (Servicios con Citas)
-        public static readonly CodigoError SERVICIO_BLOQUEADO_POR_CITAS = new CodigoError("G-ERROR-004", "No se puede modificar el servicio porque tiene citas futuras programadas.");
+        public static readonly CodigoError SERVICIO_BLOQUEADO_POR_CITAS = new CodigoError("G-ERROR-004", "No se puede realizar la acción: el servicio tiene citas futuras programadas.");
 
         // G-ERROR-005: Duplicidad (Usuarios/Emails)
         public static readonly CodigoError ENTIDAD_YA_EXISTE = new CodigoError("G-ERROR-005", "El correo o usuario ya se encuentra registrado.");

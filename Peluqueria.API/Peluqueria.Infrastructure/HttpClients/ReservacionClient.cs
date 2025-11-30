@@ -1,10 +1,10 @@
-﻿using System; // Necesario para DayOfWeek, TimeSpan, DateOnly
+﻿using System;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Peluqueria.Application.Interfaces;
 
-namespace Peluqueria.Infrastructure.External
+namespace Peluqueria.Infrastructure.HttpClients
 {
     public class ReservacionClient : IReservacionClient
     {
@@ -20,7 +20,7 @@ namespace Peluqueria.Infrastructure.External
             try
             {
                 var response = await _httpClient.GetAsync(url);
-                if (!response.IsSuccessStatusCode) return true; // Fail-safe: ante duda, bloqueamos
+                if (!response.IsSuccessStatusCode) return true; 
 
                 var content = await response.Content.ReadAsStringAsync();
                 return bool.Parse(content);
@@ -65,8 +65,6 @@ namespace Peluqueria.Infrastructure.External
             }
         }
 
-        // --- AQUÍ ESTÁ EL MÉTODO QUE LA INTERFAZ RECLAMA ---
-        // Asegúrate de copiarlo tal cual.
         public async Task<bool> TieneReservasEnDescanso(int estilistaId, DayOfWeek dia, TimeSpan inicio, TimeSpan fin)
         {
             try
