@@ -49,7 +49,7 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
         public async Task<Reservacion?> ObtenerPorIdAsync(int id)
         {
             return await _context.Reservaciones
-                .Include(r => r.Cliente)   // Incluimos datos relacionados si es necesario
+                .Include(r => r.Cliente)   
                 .Include(r => r.Servicio)
                 .Include(r => r.Estilista)
                 .FirstOrDefaultAsync(r => r.Id == id);
@@ -57,8 +57,7 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
 
         public async Task ActualizarAsync(Reservacion reservacion)
         {
-            // En EF Core, si la entidad ya está rastreada, solo basta con SaveChanges.
-            // Si viene desconectada (DTO -> Entidad), usamos Update.
+
             _context.Reservaciones.Update(reservacion);
             await _context.SaveChangesAsync();
         }
@@ -68,7 +67,7 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
             var reservacion = await _context.Reservaciones.FindAsync(id);
             if (reservacion != null)
             {
-                reservacion.Estado = "CANCELADA"; // O usa un Enum si lo tienes
+                reservacion.Estado = "CANCELADA"; 
                 await _context.SaveChangesAsync();
             }
         }
@@ -95,8 +94,6 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
 
         public async Task<List<Reservacion>> ObtenerReservasConflictivasAsync(int estilistaId, DateOnly fecha, TimeOnly horaInicio, TimeOnly horaFin)
         {
-            // Una reserva existe si:
-            // (NuevaInicio < ExistenteFin) Y (NuevaFin > ExistenteInicio)
 
             return await _context.Reservaciones
                 .Where(r =>
@@ -180,21 +177,27 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
         {
             var hoy = DateOnly.FromDateTime(DateTime.Now);
 
-            // 1. Traemos las reservas futuras de ese estilista (Traemos fecha y hora para filtrar en memoria)
-            // Nota: EF Core no traduce bien DayOfWeek en todas las versiones de SQL, por eso filtramos en cliente.
+
             var reservasFuturas = await _context.Reservaciones
                 .Where(r => r.EstilistaId == estilistaId && r.Fecha >= hoy && r.Estado != "CANCELADA")
                 .Select(r => new { r.Fecha, r.HoraInicio, r.HoraFin })
                 .ToListAsync();
 
-            // 2. Verificamos en memoria:
-            // - Que la fecha caiga en ese día de la semana (ej: Lunes)
-            // - Que las horas se solapen
             return reservasFuturas.Any(r =>
-                r.Fecha.ToDateTime(TimeOnly.MinValue).DayOfWeek == dia && // Coincide el día
-                r.HoraInicio < fin && r.HoraFin > inicio // Hay solapamiento de horas
+                r.Fecha.ToDateTime(TimeOnly.MinValue).DayOfWeek == dia && 
+                r.HoraInicio < fin && r.HoraFin > inicio 
             );
         }
 
+        return await _context.Reservaciones
+                .AsNoTracking() 
+                .Include(r => r.Cliente)
+                .Include(r => r.Servicio)
+                .Include(r => r.Estilista)
+                .OrderByDescending(r => r.Fecha) 
+                .ThenBy(r => r.HoraInicio)
+                .ToListAsync();
     }
+
+}
 }

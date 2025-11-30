@@ -1,7 +1,10 @@
-// peluqueria.reservaciones.Aplicacion.Mapeo/ReservacionMapper.cs
-
 using peluqueria.reservaciones.Core.Dominio;
 using peluqueria.reservaciones.Infraestructura.DTO.Comunicacion;
+
+/*
+ @autor: Juan David Moran
+ @descripcion: Clase de mapeo para convertir entidades de Reservacion a DTOs de respuesta.
+ */
 
 namespace peluqueria.reservaciones.Aplicacion.Mapeo
 {
@@ -16,7 +19,6 @@ namespace peluqueria.reservaciones.Aplicacion.Mapeo
                 HoraInicio = reservacion.HoraInicio,
                 HoraFin = reservacion.HoraFin,
 
-                // Propiedades enriquecidas para la respuesta del cliente
                 EstilistaNombre = reservacion.Estilista?.NombreCompleto ?? "N/A",
                 ServicioNombre = reservacion.Servicio?.Nombre ?? "N/A",
                 ServicioPrecio = reservacion.Servicio?.Precio ?? 0,

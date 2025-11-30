@@ -3,6 +3,12 @@ using peluqueria.reservaciones.Infraestructura.DTO.Comunicacion;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+/*
+ @autor: Juan David Moran
+    @descripcion: Interfaz que define las operaciones de manejo para las reservaciones crear, reprogramar, cancelar y busquedas 
+    de reservaciones para clientes y estilistas.
+ */
+
 namespace peluqueria.reservaciones.Core.Puertos.Entrada
 {
     public interface IReservacionManejador
@@ -21,5 +27,7 @@ namespace peluqueria.reservaciones.Core.Puertos.Entrada
         Task<List<ReservacionRespuestaDTO>> ConsultarReservasEstilistaRangoAsync(PeticionReservasEstilistaDTO peticion);
 
         Task<List<ReservacionRespuestaDTO>> ConsultarReservasEstilistaFechaAsync(PeticionReservaEstilistaFechaDTO peticion);
+
+        Task<List<ReservacionRespuestaDTO>> ConsultarTodasLasReservacionesAsync();
     }
 }

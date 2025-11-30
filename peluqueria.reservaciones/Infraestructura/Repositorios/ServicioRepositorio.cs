@@ -1,5 +1,3 @@
-// Archivo: Infraestructura/Repositorios/ServicioRepositorio.cs
-
 using Microsoft.EntityFrameworkCore;
 using peluqueria.reservaciones.Core.Dominio;
 using peluqueria.reservaciones.Core.Puertos.Salida;
@@ -31,12 +29,12 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
             }
             else
             {
-                // Actualizamos los campos necesarios
+                
                 existing.Nombre = service.Nombre;
                 existing.DuracionMinutos = service.DuracionMinutos;
                 existing.Precio = service.Precio;
                 existing.Disponible = service.Disponible;
-                existing.CategoriaId = service.CategoriaId; // Importante para la relación
+                existing.CategoriaId = service.CategoriaId; 
             }
 
             await _context.SaveChangesAsync();

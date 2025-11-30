@@ -1,6 +1,11 @@
 using System;
 using System.Text.Json.Serialization;
 
+/*
+ @author: Juan Dabid Moran
+    @description: DTO para la petición de visualizar las reservaciones de un estilista en una fecha específica.
+ */
+
 namespace peluqueria.reservaciones.Infraestructura.DTO.Comunicacion
 {
     public class PeticionReservaEstilistaFechaDTO

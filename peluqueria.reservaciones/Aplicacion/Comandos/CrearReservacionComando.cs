@@ -1,6 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
+/*
+ @autor: Juan David Moran
+ @descripcion: Clase intermediaria entre DTO y entidad para las peticiones de reservaciones.
+ */
+
 namespace peluqueria.reservaciones.Aplicacion.Comandos
 {
     public class CrearReservacionComando

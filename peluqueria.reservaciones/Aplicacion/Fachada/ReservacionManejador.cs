@@ -11,6 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+/*
+ @autor: ChatGPT
+ @descripcion: Implementación del intermediario para las operaciones de reservaciones que utiliza el patrón de plantilla para crear y reprogramar reservaciones. 
+ */
+
 namespace peluqueria.reservaciones.Aplicacion.Fachada
 {
     public class ReservacionManejador : IReservacionManejador
@@ -35,7 +40,6 @@ namespace peluqueria.reservaciones.Aplicacion.Fachada
         // Crear una nueva reservación (Usa la Plantilla de Creación)
         public async Task<ReservacionRespuestaDTO> CrearReservacionAsync(CrearReservacionComando comando)
         {
-            // Mapeo: Comando -> Entidad
             var reservacion = new Reservacion
             {
                 Fecha = comando.Fecha,
@@ -44,17 +48,16 @@ namespace peluqueria.reservaciones.Aplicacion.Fachada
                 ServicioId = comando.ServicioId,
                 EstilistaId = comando.EstilistaId,
                 Estado = "INICIADA",
-                TiempoAtencion = 0 // Será calculado
+                TiempoAtencion = 0 
             };
 
            
             Reservacion reservacionCreada = await _creacionPlantilla.ProcesarReservacionAsync(reservacion);
 
-            // Entidad -> DTO de Respuesta
             return ReservacionMapper.ToRespuestaDTO(reservacionCreada);
         }
 
-        // Reprogramar reservacion
+        // Reprogramar reservacion (Usa la plantilla de reprogramar)
         public async Task<ReservacionRespuestaDTO> ReprogramarReservacionAsync(
             int reservacionId, ReservacionPeticionDTO peticion)
         {
@@ -84,21 +87,18 @@ namespace peluqueria.reservaciones.Aplicacion.Fachada
         {
             var listaReservaciones = await _reservacionRepositorio.BuscarReservasPorClienteAsync(clienteIdentificacion);
 
-            // 2. Mapear la lista de Entidades a la lista de DTOs de Respuesta
             return listaReservaciones.Select(ReservacionMapper.ToRespuestaDTO).ToList();
         }
 
         // cambiar estado de una reservacion
         public async Task CambiarEstadoReservacionAsync(CambioEstadoDTO peticion)
         {
-            // Validamos que la reserva exista
             var reservacion = await _reservacionRepositorio.ObtenerPorIdAsync(peticion.ReservacionId);
             if (reservacion == null)
             {
                 throw new ValidacionDatosExeption($"Reservación ID {peticion.ReservacionId} no encontrada.");
             }
 
-            // Llamamos al repositorio para cambiar el estado
             await _reservacionRepositorio.CambiarEstadoAsync(peticion.ReservacionId, peticion.NuevoEstado);
         }
 
@@ -121,6 +121,14 @@ namespace peluqueria.reservaciones.Aplicacion.Fachada
                 peticion.Fecha);
 
             return lista.Select(ReservacionMapper.ToRespuestaDTO).ToList();
+        }
+
+        // consultar todas las reservaciones
+        public async Task<List<ReservacionRespuestaDTO>> ConsultarTodasLasReservacionesAsync()
+        {
+            var listaReservaciones = await _reservacionRepositorio.ObtenerTodasAsync();
+
+            return listaReservaciones.Select(ReservacionMapper.ToRespuestaDTO).ToList();
         }
 
     }

@@ -1,5 +1,10 @@
 using System.Text.Json.Serialization;
 
+/*
+ @Autor: Juan David Moran
+ @descripcion: DTO para la informacion de los rangos de dias libres de los estilistas en los eventos de mensajeria
+ */
+
 namespace peluqueria.reservaciones.Infraestructura.DTO.Eventos
 {
     public class RangoLibreEventoDTO

@@ -1,5 +1,10 @@
 using System.Text.Json.Serialization;
 
+/*
+ @Autor: Juan David Moran
+ @descripcion: DTO para la informacion del cliente en los eventos de mensajeria
+ */
+
 namespace peluqueria.reservaciones.Infraestructura.DTO.Eventos
 {
     public class ClienteEventoDTO

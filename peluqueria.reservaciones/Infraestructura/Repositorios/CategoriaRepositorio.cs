@@ -1,5 +1,3 @@
-// Archivo: Infraestructura/Repositorios/CategoriaRepositorio.cs
-
 using Microsoft.EntityFrameworkCore;
 using peluqueria.reservaciones.Core.Dominio;
 using peluqueria.reservaciones.Core.Puertos.Salida;
@@ -33,7 +31,6 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
             {
                 existing.Nombre = category.Nombre;
                 existing.EstaActiva = category.EstaActiva;
-                // Nota: El Id se mantiene, el Name y el estado se actualizan.
             }
 
             await _context.SaveChangesAsync();

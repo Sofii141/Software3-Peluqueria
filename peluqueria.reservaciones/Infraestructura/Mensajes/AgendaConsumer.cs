@@ -7,7 +7,12 @@ using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using peluqueria.reservaciones.Core.Dominio;
 using peluqueria.reservaciones.Core.Puertos.Salida;
-using peluqueria.reservaciones.Infraestructura.DTO.Eventos; 
+using peluqueria.reservaciones.Infraestructura.DTO.Eventos;
+
+/*
+ @author: Juan david Moran
+    @description: Consumer para procesar eventos relacionados con los horarios de los estilistas,
+ */
 
 namespace peluqueria.reservaciones.Infraestructura.Mensajes
 {
@@ -36,17 +41,14 @@ namespace peluqueria.reservaciones.Infraestructura.Mensajes
                     var repo = scope.ServiceProvider.GetRequiredService<IHorarioRepositorio>();
                     var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-                    // 1. HORARIO BASE SEMANAL
                     if (routingKey.StartsWith("horario_base."))
                     {
                         var dto = JsonSerializer.Deserialize<HorarioEventoDTO>(message, options);
                         if (dto == null) return;
 
-                        // Mapear DTO a la entidad de HorarioBase
                         var horarioBaseDominio = new HorarioBase
                         {
                             EstilistaId = dto.EstilistaId,
-                            // Mapeamos a la sub-entidad DiaHorario
                             HorariosSemanales = dto.HorariosSemanales.Select(h => new DiaHorario
                             {
                                 DiaSemana = h.DiaSemana,
@@ -58,13 +60,11 @@ namespace peluqueria.reservaciones.Infraestructura.Mensajes
 
                         await repo.SetBaseScheduleAsync(horarioBaseDominio.EstilistaId, horarioBaseDominio.HorariosSemanales);
                     }
-                    // 2. DESCANSO FIJO
                     else if (routingKey.StartsWith("descanso_fijo."))
                     {
                         var dto = JsonSerializer.Deserialize<DescansoEventoDTO>(message, options);
                         if (dto == null) return;
 
-                        // Mapear DTO a la entidad de DescansoFijo
                         var descansoFijoDominio = new DescansoFijo
                         {
                             EstilistaId = dto.EstilistaId,
@@ -79,7 +79,6 @@ namespace peluqueria.reservaciones.Infraestructura.Mensajes
 
                         await repo.SetFixedBreaksAsync(descansoFijoDominio.EstilistaId, descansoFijoDominio.DescansosFijos);
                     }
-                    // 3. BLOQUEO DE RANGO DE DÍAS
                     else if (routingKey.StartsWith("bloqueo_dias."))
                     {
                         var dto = JsonSerializer.Deserialize<RangoLibreEventoDTO>(message, options);
@@ -90,15 +89,14 @@ namespace peluqueria.reservaciones.Infraestructura.Mensajes
                             EstilistaId = dto.EstilistaId,
                             FechaInicioBloqueo = dto.FechaInicioBloqueo,
                             FechaFinBloqueo = dto.FechaFinBloqueo,
-                            // Asumo que tu DTO tiene una propiedad 'Accion' (CREADO, ELIMINADO)
                             Accion = dto.Accion
                         };
 
                         if (bloqueo.Accion != null && bloqueo.Accion.ToUpper() == "ELIMINADO")
                         {
-                            // Eliminar Bloqueo 
+                            
                         }
-                        else // CREADO o ACTUALIZADO
+                        else 
                         {
                             await repo.AddBlockoutRangeAsync(bloqueo);
                         }

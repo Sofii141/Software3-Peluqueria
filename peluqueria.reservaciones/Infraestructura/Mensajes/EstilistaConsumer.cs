@@ -7,13 +7,18 @@ using peluqueria.reservaciones.Core.Puertos.Salida;
 using peluqueria.reservaciones.Infraestructura.Persistencia;
 using Microsoft.Extensions.Options;
 
+/*
+ @author: Juan David Moran
+    @description: Consumer para procesar eventos relacionados con los estilistas,
+ */
+
 namespace peluqueria.reservaciones.Infraestructura.Mensajes
 {
     public class EstilistaConsumer : RabbitMqConsumerBase
     {
         private readonly IServiceScopeFactory _scopeFactory;
         private const string EXCHANGE_NAME = "estilista_exchange";
-        private const string ROUTING_KEY = "estilista.#"; // Escucha creado, actualizado, inactivado
+        private const string ROUTING_KEY = "estilista.#"; 
 
         public EstilistaConsumer(IServiceScopeFactory scopeFactory, IOptions<RabbitMqOptions> rabbitMqOptions)
             : base(rabbitMqOptions, "hair.reservations.estilista.queue")

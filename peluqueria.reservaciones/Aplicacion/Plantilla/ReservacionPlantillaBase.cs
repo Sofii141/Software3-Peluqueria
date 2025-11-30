@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 using System;
 using System.Linq;
 
+/*
+ @author: Juan David Moran
+ @description: Clase abstracta que define la plantilla para procesar reservaciones en una peluquería.
+ */
+
 namespace peluqueria.reservaciones.Aplicacion.Plantilla
 {
     public abstract class ReservacionPlantillaBase

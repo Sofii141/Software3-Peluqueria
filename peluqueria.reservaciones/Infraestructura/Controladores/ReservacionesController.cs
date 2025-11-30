@@ -6,9 +6,13 @@ using peluqueria.reservaciones.Infraestructura.DTO.Comunicacion;
 using System.Net;
 using System.Threading.Tasks;
 
+/*
+ @autor: Juan David Moran
+ @descripcion: Controlador API para gestionar reservaciones en la peluquería.
+ */
+
 namespace peluqueria.reservaciones.Infraestructura.Controladores
 {
-    // Controlador API para gestionar reservaciones
     [ApiController]
     [Route("api/reservaciones")]
     public class ReservacionesController : ControllerBase
@@ -22,13 +26,12 @@ namespace peluqueria.reservaciones.Infraestructura.Controladores
 
         // Crear Reservacion
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.Created)] // 201
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)] // 400
+        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CrearReservacion([FromBody] ReservacionPeticionDTO peticion)
         {
             try
             {
-                // Mapeo DTO de Petición -> Comando (preparación para la capa de aplicación)
                 var comando = new CrearReservacionComando
                 {
                     Fecha = peticion.Fecha,
@@ -38,13 +41,10 @@ namespace peluqueria.reservaciones.Infraestructura.Controladores
                     ClienteIdentificacion = peticion.ClienteIdentificacion
                 };
 
-                // Llama al manejador para ejecutar la lógica de creación (Template Method)
                 var respuesta = await _manejador.CrearReservacionAsync(comando);
 
-                // Devuelve 201 Created
                 return StatusCode((int)HttpStatusCode.Created, respuesta);
             }
-            // Captura excepciones de negocio y las traduce a 400 Bad Request
             catch (ValidacionDominioExcepcion ex)
             {
                 return BadRequest(new { error = "Validacion", mensaje = ex.Message , codigoError = "G-ERROR-017"});
@@ -89,7 +89,7 @@ namespace peluqueria.reservaciones.Infraestructura.Controladores
 
         //CancelarReservacion
         [HttpDelete("{reservacionId}")]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)] // 204
+        [ProducesResponseType((int)HttpStatusCode.NoContent)] 
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> CancelarReservacion(int reservacionId)
         {
@@ -98,7 +98,6 @@ namespace peluqueria.reservaciones.Infraestructura.Controladores
                 await _manejador.CancelarReservacionAsync(reservacionId);
                 return NoContent();
             }
-            //En caso de que el ID no exista
             catch (ValidacionDatosExeption ex)
             {
                 return NotFound(new { error = "NoEncontrado", mensaje = ex.Message });
@@ -107,7 +106,7 @@ namespace peluqueria.reservaciones.Infraestructura.Controladores
 
         //Consultar reservaciones por cliente
         [HttpGet("{clienteIdentificacion}")]
-        [ProducesResponseType((int)HttpStatusCode.OK)] // 200
+        [ProducesResponseType((int)HttpStatusCode.OK)] 
         public async Task<IActionResult> ConsultarReservacionesCliente(string clienteIdentificacion)
         {
             var listaReservaciones = await _manejador.ConsultarReservacionesClienteAsync(clienteIdentificacion);
@@ -144,7 +143,6 @@ namespace peluqueria.reservaciones.Infraestructura.Controladores
         {
             var lista = await _manejador.ConsultarReservasEstilistaRangoAsync(peticion);
 
-            // Retorna lista vacía [] si no hay datos, código 200 OK
             return Ok(lista);
         }
 
@@ -155,6 +153,15 @@ namespace peluqueria.reservaciones.Infraestructura.Controladores
         {
             var lista = await _manejador.ConsultarReservasEstilistaFechaAsync(peticion);
 
+            return Ok(lista);
+        }
+
+        // Obtener todas las reservaciones
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> ObtenerTodas()
+        {
+            var lista = await _manejador.ConsultarTodasLasReservacionesAsync();
             return Ok(lista);
         }
     }

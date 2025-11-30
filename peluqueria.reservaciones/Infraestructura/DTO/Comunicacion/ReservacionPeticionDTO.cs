@@ -2,6 +2,11 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
+/*
+ @author: Juan Dabid Moran
+	@description: DTO para la recepción de datos para la creación de una nueva reservación.
+ */
+
 namespace peluqueria.reservaciones.Infraestructura.DTO.Comunicacion
 {
 	public class ReservacionPeticionDTO

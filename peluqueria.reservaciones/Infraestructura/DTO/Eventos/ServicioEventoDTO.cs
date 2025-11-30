@@ -1,6 +1,9 @@
-// Archivo: Infraestructura/DTO/Eventos/ServicioEventIncomingDto.cs
-
 using System.Text.Json.Serialization;
+
+/*
+ @Autor: Juan David Moran
+ @descripcion: DTO para la informacion de los servicios en los eventos de mensajeria
+ */
 
 namespace peluqueria.reservaciones.Infraestructura.DTO.Eventos
 {
@@ -16,7 +19,7 @@ namespace peluqueria.reservaciones.Infraestructura.DTO.Eventos
         public int DuracionMinutos { get; set; }
 
         [JsonPropertyName("precio")]
-        public decimal Precio { get; set; } // El deserializador convertirá el número del JSON a decimal
+        public decimal Precio { get; set; } 
 
         [JsonPropertyName("categoriaId")]
         public int CategoriaId { get; set; }
@@ -25,6 +28,6 @@ namespace peluqueria.reservaciones.Infraestructura.DTO.Eventos
         public bool Disponible { get; set; }
 
         [JsonPropertyName("accion")]
-        public string Accion { get; set; } = string.Empty; // "CREADO", "ACTUALIZADO", "INACTIVADO"
+        public string Accion { get; set; } = string.Empty;
     }
 }

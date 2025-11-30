@@ -6,6 +6,11 @@ using System;
 using System.Linq; 
 using System.Threading.Tasks;
 
+/*
+ @author: ChatGPT
+ @description: Implementación concreta del patrón de plantilla para la creacion de una reservación estandar.
+ */
+
 namespace peluqueria.reservaciones.Aplicacion.Plantilla
 {
     public class ReservacionEstandar : ReservacionPlantillaBase
@@ -15,7 +20,6 @@ namespace peluqueria.reservaciones.Aplicacion.Plantilla
         private readonly IHorarioRepositorio _horarioRepositorio;
         private readonly IReservacionRepositorio _reservacionRepositorio;
 
-        // El constructor inyecta las dependencias necesarias para los pasos abstractos.
         public ReservacionEstandar(
             IServicioRepositorio servicioRepositorio,
             IEstilistaRepositorio estilistaRepositorio,
@@ -28,17 +32,14 @@ namespace peluqueria.reservaciones.Aplicacion.Plantilla
             _reservacionRepositorio = reservacionRepositorio;
         }
 
-        //Validar los datos de la reservacion para evitar nulos
         public override Task<Reservacion> ValidarDatosAsync(Reservacion reservacion)
         {
-            // Valida que los campos de Dominio esenciales para la reserva no sean valores por defecto/nulos
             if (reservacion.Fecha == default ||
                 reservacion.HoraInicio == default ||
                 reservacion.EstilistaId <= 0 ||
                 reservacion.ServicioId <= 0 ||
                 string.IsNullOrEmpty(reservacion.ClienteIdentificacion))
             {
-                // Lanzamos un Exepcion de Dominio si falta algún dato esencial
                 throw new ValidacionDominioExcepcion("Datos de la reservación incompletos. Verifique fecha, hora, IDs y cliente.");
             }
 
@@ -46,7 +47,6 @@ namespace peluqueria.reservaciones.Aplicacion.Plantilla
             return Task.FromResult(reservacion);
         }
 
-        // Verificar que el servicio y estilista existan
         public override async Task<Reservacion> ValidarServicioEstilistaAsync(Reservacion reservacion)
         {
             var servicio = await _servicioRepositorio.GetByIdAsync(reservacion.ServicioId);
@@ -79,7 +79,6 @@ namespace peluqueria.reservaciones.Aplicacion.Plantilla
             return reservacion;
         }
 
-        // Validar la disponibilidad del estilista para la fecha y hora solicitada
         public override async Task<Reservacion> ValidarDisponibilidadAsync(Reservacion reservacion)
         {
             var estilistaId = reservacion.EstilistaId;
@@ -89,14 +88,11 @@ namespace peluqueria.reservaciones.Aplicacion.Plantilla
 
             var horaFinReserva = reservacion.HoraInicio.AddMinutes(reservacion.TiempoAtencion);
 
-            // Convertir DateOnly a DateTime para obtener el Día de la Semana
             var fechaHoraInicio = fechaReserva.ToDateTime(horaInicioReserva);
             DayOfWeek diaSemana = fechaHoraInicio.DayOfWeek;
 
-            // Validar el rango de dias libres
             var bloqueoRango = await _horarioRepositorio.GetRangoDiasLibres(estilistaId);
 
-            // Verificamos si la fecha de la reserva está DENTRO de un bloqueo de días completo.
             if (bloqueoRango != null &&
                 fechaHoraInicio >= bloqueoRango.FechaInicioBloqueo &&
                 fechaHoraInicio <= bloqueoRango.FechaFinBloqueo)
@@ -104,16 +100,13 @@ namespace peluqueria.reservaciones.Aplicacion.Plantilla
                 throw new ValidacionDisponibilidadExeption($"El estilista tiene un bloqueo de días completo del {bloqueoRango.FechaInicioBloqueo} al {bloqueoRango.FechaFinBloqueo}.");
             }
 
-            // Validar horario
             var horarioBase = await _horarioRepositorio.GetStylistScheduleAsync(estilistaId);
 
-            // En caso de que el estilista no tenga un horario base 
             if (horarioBase == null)
             {
                 throw new ValidacionDisponibilidadExeption("El estilista no tiene un horario base semanal configurado.");
             }
 
-            // Encontrar el horario para el día de la semana de la reserva
             var horarioDia = horarioBase.HorariosSemanales
                 .FirstOrDefault(h => h.DiaSemana == diaSemana);
 
@@ -129,12 +122,10 @@ namespace peluqueria.reservaciones.Aplicacion.Plantilla
                 throw new ValidacionDisponibilidadExeption($"La reservación ({horaInicioReserva} a {horaFinReserva}) está fuera del horario laboral del estilista ({horarioDia.HoraInicio} a {horarioDia.HoraFin}) para el día {diaSemana}.");
             }
 
-            // Validacion de los descansos fijos
             var descansoFijo = await _horarioRepositorio.GetDescanso(estilistaId);
 
             if (descansoFijo != null)
             {
-                // Encontrar descansos para el día de la semana de la reserva
                 var descansosDia = descansoFijo.DescansosFijos
                     .Where(d => d.DiaSemana == diaSemana);
 
@@ -149,7 +140,6 @@ namespace peluqueria.reservaciones.Aplicacion.Plantilla
                 }
             }
 
-            // 4. Validacion de reservaciones existentes
             var horaFinCalculada = reservacion.HoraInicio.AddMinutes(reservacion.TiempoAtencion);
 
             var conflictos = await _reservacionRepositorio.ObtenerReservasConflictivasAsync(
@@ -161,7 +151,6 @@ namespace peluqueria.reservaciones.Aplicacion.Plantilla
 
             if (conflictos.Any())
             {
-                // Puedes ser más específico mostrando con cuál choca
                 var conflicto = conflictos.First();
                 throw new ValidacionDisponibilidadExeption(
                     $"El estilista ya tiene una cita reservada de {conflicto.HoraInicio} a {conflicto.HoraFin}.");
@@ -171,7 +160,6 @@ namespace peluqueria.reservaciones.Aplicacion.Plantilla
             return reservacion;
         }
 
-        // Calcular el tiempo de atencion total de la reservacion
         public override Task<Reservacion> CalcularTiempoAtencionAsync(Reservacion reservacion)
         {
             var duracionServicio = reservacion.Servicio.DuracionMinutos;
@@ -182,10 +170,9 @@ namespace peluqueria.reservaciones.Aplicacion.Plantilla
             return Task.FromResult(reservacion);
         }
 
-        //Guardar la reservacion en el repositorio
         public override async Task<Reservacion> PersistirReservacionAsync(Reservacion reservacion)
         {
-            reservacion.Estado = "PENDIENTE"; // Establecer el estado inicial de la reservación
+            reservacion.Estado = "PENDIENTE"; 
             var reservaGuardada = await _reservacionRepositorio.GuardarAsync(reservacion);
             return reservaGuardada;
         }

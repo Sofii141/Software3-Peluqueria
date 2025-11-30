@@ -31,13 +31,13 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
                 var horarioBase = new HorarioBase
                 {
                     EstilistaId = stylist.Id,
-                    HorariosSemanales = new List<DiaHorario>() // Lista vacía inicial
+                    HorariosSemanales = new List<DiaHorario>() 
                 };
 
                 var descansoFijo = new DescansoFijo
                 {
                     EstilistaId = stylist.Id,
-                    DescansosFijos = new List<DiaHorario>() // Lista vacía inicial
+                    DescansosFijos = new List<DiaHorario>() 
                 };
 
                 _context.Horarios.Add(horarioBase);
@@ -45,7 +45,7 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
             }
             else
             {
-                // Solo se actualizan campos que el monolito podría cambiar
+                
                 existing.NombreCompleto = stylist.NombreCompleto;
                 existing.EstaActivo = stylist.EstaActivo;
             }

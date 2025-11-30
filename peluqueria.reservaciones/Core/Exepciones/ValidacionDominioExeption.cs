@@ -1,6 +1,12 @@
     using System;
 
-    namespace peluqueria.reservaciones.Core.Excepciones
+/*
+ @uthor: Juan David Moran
+    @description: Clase de excepcion personalizada para validaciones referentes al dominio de la aplicacion
+    como validaciones de nulos para servicios y estilistas.
+ */
+
+namespace peluqueria.reservaciones.Core.Excepciones
     {
 
         public class ValidacionDominioExcepcion : Exception
@@ -14,7 +20,6 @@
             {
             }
 
-            // Opcional: Útil si quieres incluir la excepción interna que causó el problema.
             public ValidacionDominioExcepcion(string message, Exception innerException)
                 : base(message, innerException)
             {

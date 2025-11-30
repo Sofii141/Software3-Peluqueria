@@ -3,6 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+/*
+ @author: Juan David Moran
+    @description: Interfaz para el repositorio de reservaciones.
+ */
+
 namespace peluqueria.reservaciones.Core.Puertos.Salida
 {
     public interface IReservacionRepositorio
@@ -28,5 +33,7 @@ namespace peluqueria.reservaciones.Core.Puertos.Salida
         Task<bool> TieneConflictoHorarioAsync(int estilistaId, DayOfWeek diaSemana);
         Task<bool> TieneConflictoRangoAsync(int estilistaId, DateOnly inicio, DateOnly fin);
         Task<bool> TieneConflictoDescansoAsync(int estilistaId, DayOfWeek dia, TimeOnly inicio, TimeOnly fin);
+
+        Task<List<Reservacion>> ObtenerTodasAsync();
     }
 }

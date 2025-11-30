@@ -1,5 +1,10 @@
 using System;
 
+/*
+ @author: Juan Dabid Moran
+    @description: DTO para la respuesta de las solicitudes de una reservación.
+ */
+
 namespace peluqueria.reservaciones.Infraestructura.DTO.Comunicacion
 {
     public class ReservacionRespuestaDTO
