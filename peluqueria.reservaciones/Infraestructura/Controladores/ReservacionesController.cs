@@ -47,15 +47,15 @@ namespace peluqueria.reservaciones.Infraestructura.Controladores
             // Captura excepciones de negocio y las traduce a 400 Bad Request
             catch (ValidacionDominioExcepcion ex)
             {
-                return BadRequest(new { error = "Validacion", mensaje = ex.Message , codigoError = "GC-0005"});
+                return BadRequest(new { error = "Validacion", mensaje = ex.Message , codigoError = "G-ERROR-017"});
             }
             catch (ValidacionDisponibilidadExeption ex)
             {
-                return BadRequest(new { error = "Disponibilidad", mensaje = ex.Message , codigoError = "GC-0006" });
+                return BadRequest(new { error = "Disponibilidad", mensaje = ex.Message , codigoError = "G-ERROR-018" });
             }
             catch (ValidacionDatosExeption ex)
             {
-                return BadRequest(new { error = "DatosEntrada", mensaje = ex.Message , codigoError = "GC-0007" });
+                return BadRequest(new { error = "DatosEntrada", mensaje = ex.Message , codigoError = "G-ERROR-019" });
             }
         }
 
@@ -79,11 +79,11 @@ namespace peluqueria.reservaciones.Infraestructura.Controladores
            
             catch (ValidacionDatosExeption ex)
             {
-                return NotFound(new { error = "NoEncontrado", mensaje = ex.Message , codigoError = "GC-0004" });
+                return NotFound(new { error = "NoEncontrado", mensaje = ex.Message , codigoError = "G-ERROR-020" });
             }
             catch (ValidacionDisponibilidadExeption ex)
             {
-                return BadRequest(new { error = "Disponibilidad", mensaje = ex.Message , codigoError = "GC-0006" });
+                return BadRequest(new { error = "Disponibilidad", mensaje = ex.Message , codigoError = "G-ERROR-018" });
             }
         }
 
