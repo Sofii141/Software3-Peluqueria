@@ -12,7 +12,7 @@ using Peluqueria.Infrastructure.Data;
 namespace Peluqueria.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20251124232241_InitialCreate")]
+    [Migration("20251201170752_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -699,7 +699,7 @@ namespace Peluqueria.Infrastructure.Migrations
                             NombreCompleto = "Administrador Principal",
                             NormalizedEmail = "ADMIN@TEST.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAELE7EUiQXrw+aCro/sc0YrgueeqB+qFkaQ5MXg9oomqzhesiq9XJxqeYYXaUom1slA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEN+hPrKzQYsYTBIqnqg2hF43tujnNomeFYN/J+S1Jz+zy2nYmHP5ulYoVYBcqgoZew==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
                             Telefono = "3001234567",
@@ -710,16 +710,16 @@ namespace Peluqueria.Infrastructure.Migrations
                         {
                             Id = "b7e289d1-d21a-4c9f-8d7e-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9769f6ea-d3b1-4734-b2c3-60e854c2cfe6",
+                            ConcurrencyStamp = "a6b6ef85-033b-4509-aa76-8aa802cce0ef",
                             Email = "laura.e@pelu.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NombreCompleto = "Laura Valencia",
                             NormalizedEmail = "LAURA.E@PELU.COM",
                             NormalizedUserName = "LAURA.E",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBfk5VEqndwuGJTJJQUGONX9YEUaGQ2CwoC/1C9W9AeUxtfWq2963cu1/pBnyfHfKw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDVTXjCykFmuLJGxA9W4xNRKB6kg6vZf91/eBwoJtuhu0Hg8z2TZxloArwgcpTHjMg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a0ff912a-acd1-4574-9782-45529ffd1eda",
+                            SecurityStamp = "99dd5ddb-2818-461c-8b42-8c3127f02bd6",
                             Telefono = "3001234568",
                             TwoFactorEnabled = false,
                             UserName = "laura.e"
@@ -728,16 +728,16 @@ namespace Peluqueria.Infrastructure.Migrations
                         {
                             Id = "c7e289d1-d21a-4c9f-8d7e-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fe1e8649-edca-478d-a35e-2ce3a50ead90",
+                            ConcurrencyStamp = "ceb389af-3d15-4aca-b589-c0c08c23ac0e",
                             Email = "juan.c@mail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NombreCompleto = "Juan Cliente",
                             NormalizedEmail = "JUAN.C@MAIL.COM",
                             NormalizedUserName = "JUAN.C",
-                            PasswordHash = "AQAAAAIAAYagAAAAENDiwYDXqNGLalxbCNuRjtAmMypgJxqE/R/bXHGdy6VhFaV6Ii5jjgGZ2t4W6zylew==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKONFU6ObDjEBACKQqH/rVBTW77r5MFosZbrd0KqGeYBbvCDmgxTg7HjZhCIEL2BoQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6e020fbf-665b-4bcb-aea3-914a8e6bded0",
+                            SecurityStamp = "51b48321-c9a5-49ef-b322-312eb25afc20",
                             Telefono = "3109876543",
                             TwoFactorEnabled = false,
                             UserName = "juan.c"

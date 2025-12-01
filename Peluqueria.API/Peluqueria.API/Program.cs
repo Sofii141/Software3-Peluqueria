@@ -139,6 +139,7 @@ builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IServicioService, ServicioService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IEstilistaAgendaService, EstilistaAgendaService>();
+builder.Services.AddScoped<IDataSyncService, DataSyncService>();
 
 // Esto permite inyectar IReservacionClient en los servicios
 builder.Services.AddHttpClient<IReservacionClient, ReservacionClient>(client =>
@@ -150,6 +151,42 @@ builder.Services.AddHttpClient<IReservacionClient, ReservacionClient>(client =>
 });
 
 var app = builder.Build();
+
+// =================================================================
+// BLOQUE DE INICIALIZACIÓN Y SINCRONIZACIÓN AUTOMÁTICA
+// =================================================================
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var logger = services.GetRequiredService<ILogger<Program>>();
+
+    try
+    {
+        // 1. Aplicar Migraciones y Seeds automáticamente (Crear BD si no existe)
+        var context = services.GetRequiredService<ApplicationDBContext>();
+
+        // Esto ejecuta 'Update-Database' automáticamente al iniciar
+        // Si la BD no existe, la crea. Si hay cambios pendientes, los aplica.
+        // Y lo más importante: EJECUTA EL SEED (OnModelCreating)
+        context.Database.Migrate();
+
+        logger.LogInformation("Base de datos del Monolito actualizada/creada correctamente.");
+
+        // 2. DISPARAR LA SINCRONIZACIÓN A RABBITMQ
+        // Aquí llamamos al servicio que creamos antes, pero lo hacemos nosotros, no el usuario.
+        var syncService = services.GetRequiredService<IDataSyncService>();
+
+        logger.LogInformation("Iniciando sincronización de datos con el Microservicio...");
+
+        await syncService.SincronizarTodoAsync();
+
+        logger.LogInformation("¡Sincronización completada! Mensajes enviados a RabbitMQ.");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Ocurrió un error durante la migración o sincronización de datos.");
+    }
+}
 
 app.UseStaticFiles();
 
