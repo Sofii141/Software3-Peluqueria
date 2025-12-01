@@ -189,15 +189,17 @@ namespace peluqueria.reservaciones.Infraestructura.Repositorios
             );
         }
 
-        return await _context.Reservaciones
-                .AsNoTracking() 
+        public async Task<List<Reservacion>> ObtenerTodasAsync()
+        {
+            return await _context.Reservaciones
+                .AsNoTracking()
                 .Include(r => r.Cliente)
                 .Include(r => r.Servicio)
                 .Include(r => r.Estilista)
-                .OrderByDescending(r => r.Fecha) 
+                .OrderByDescending(r => r.Fecha)
                 .ThenBy(r => r.HoraInicio)
                 .ToListAsync();
+        }
     }
 
-}
 }
