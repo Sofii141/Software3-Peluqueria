@@ -1,0 +1,69 @@
+<div class="contenedor-lista">
+
+  <div class="encabezado">
+    <h2>Gestión de Estilistas</h2>
+
+    <a class="btn-crear" routerLink="/admin/estilistas/crear">
+      <i class="fas fa-plus"></i> Crear Nuevo Estilista
+    </a>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filtros">
+    <button class="pill" 
+            [class.activo]="servicioSeleccionado === 'Todos'"
+            (click)="filtrarPorServicio('Todos')">
+      Todos
+    </button>
+
+    <button *ngFor="let s of serviciosDisponibles"
+            class="pill"
+            [class.activo]="servicioSeleccionado === s"
+            (click)="filtrarPorServicio(s)">
+      {{ s }}
+    </button>
+  </div>
+
+  <!-- Listado -->
+  <div class="grid-estilistas">
+
+    <div *ngFor="let e of estilistasFiltrados" class="card-estilista">
+
+      <div class="img-wrapper">
+        <img [src]="e.imagenUrl || 'assets/img/default-user.png'">
+
+        <span class="estado" 
+              [class.activo]="e.estado"
+              [class.inactivo]="!e.estado">
+          {{ e.estado ? 'Activo' : 'Inactivo' }}
+        </span>
+      </div>
+
+      <div class="info">
+        <h3>{{ e.nombreUsuario }}</h3>
+
+        <p class="servicios">
+          {{ (e.servicios && e.servicios.length > 0) ? e.servicios.join(', ') : 'Sin servicios' }}
+
+        </p>
+
+        <p>{{ e.email }}</p>
+        <p>{{ e.telefono }}</p>
+      </div>
+
+      <div class="acciones">
+        <button [routerLink]="['/admin/estilistas/editar', e.id]">
+          Editar
+        </button>
+
+        <button class="btn-inactivar"
+                (click)="inactivar(e)"
+                [disabled]="!e.estado">
+          Inactivar
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</div>

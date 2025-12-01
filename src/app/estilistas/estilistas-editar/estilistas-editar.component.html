@@ -1,0 +1,82 @@
+<div class="contenedor-principal">
+
+  <h2 class="titulo">Gestión de Estilistas</h2>
+  <h3 class="subtitulo">Modificar un <span>Estilista:</span></h3>
+
+  <div class="grid-form">
+
+    <!-- COLUMNA IZQUIERDA -->
+    <form #f="ngForm" (ngSubmit)="actualizar(f)" class="col-izquierda">
+
+      <div class="form-grupo">
+        <label>Nombre/Usuario</label>
+        <input type="text" name="nombreUsuario"
+               [(ngModel)]="estilista.nombreUsuario"
+               class="form-input" required>
+      </div>
+
+      <div class="form-grupo">
+        <label>Email</label>
+        <input type="email" name="email"
+               [(ngModel)]="estilista.email"
+               class="form-input" required>
+      </div>
+
+      <div class="form-grupo">
+        <label>Teléfono</label>
+        <input type="text" name="telefono"
+               [(ngModel)]="estilista.telefono"
+               class="form-input" required>
+      </div>
+
+      <div class="form-grupo">
+        <label>Contraseña/Credenciales</label>
+        <input type="password" name="password"
+               [(ngModel)]="estilista.password"
+               class="form-input">
+      </div>
+
+    </form>
+
+    <!-- COLUMNA DERECHA -->
+    <div class="col-derecha">
+
+      <div class="form-grupo">
+        <label>Servicios</label>
+
+        <select class="select-servicios"
+                [(ngModel)]="servicioSeleccionado"
+                name="servicios">
+          <option disabled selected>Servicios del Estilista</option>
+
+          <option *ngFor="let s of serviciosDisponibles" [value]="s">
+            {{ s }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-grupo">
+        <label>Imagen</label>
+        <div class="image-box">
+          <img *ngIf="estilista.imagenUrl"
+               [src]="estilista.imagenUrl"
+               class="img-preview">
+
+          <div *ngIf="!estilista.imagenUrl" class="placeholder">
+            <div class="plus">+</div>
+            <span>Adjuntar Imagen</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="boton-centro">
+    <button class="btn-actualizar" type="submit" (click)="actualizar(f)">
+      Actualizar Estilista
+    </button>
+  </div>
+
+</div>

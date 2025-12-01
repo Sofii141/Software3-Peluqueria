@@ -3,26 +3,36 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import Swal from 'sweetalert2';
 
-// 'route' y 'state' son información sobre la ruta a la que se intenta acceder.
 export const adminGuard: CanActivateFn = (route, state) => {
-  // Inyectamos el servicio de autenticación y el router.
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  // Le preguntamos al servicio si el usuario actual es un administrador.
-  if (authService.isAdmin()) {
-    return true;
+  // Si no está logueado
+  if (!authService.getToken()) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Sesión requerida',
+      text: 'Debes iniciar sesión para acceder a esta sección.',
+      timer: 2000,
+      showConfirmButton: false
+    });
+    router.navigate(['/login']);
+    return false;
   }
 
-  Swal.fire({
-    icon: 'error',
-    title: 'Acceso Denegado',
-    text: 'No tienes permisos para acceder a esta página.',
-    timer: 2000,
-    showConfirmButton: false
-  });
-  
-  router.navigate(['/']);
-  // Devolvemos 'false'. El acceso a la ruta está bloqueado.
-  return false;
+  // Si está logueado pero no es admin
+  if (!authService.isAdmin()) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Acceso denegado',
+      text: 'No tienes permisos para acceder a esta página.',
+      timer: 2000,
+      showConfirmButton: false
+    });
+    router.navigate(['/']);
+    return false;
+  }
+
+  return true;
 };
+

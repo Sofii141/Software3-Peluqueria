@@ -1,0 +1,79 @@
+<div class="contenedor-principal">
+
+  <h2 class="titulo">Gestión de Estilistas</h2>
+  <h3 class="subtitulo">Crear un Estilista:</h3>
+
+  <div class="grid-form">
+
+    <!-- COLUMNA IZQUIERDA -->
+    <form #f="ngForm" (ngSubmit)="crear(f)" class="col-izquierda">
+
+      <div class="form-grupo">
+        <label>Nombre/Usuario</label>
+        <input type="text" name="nombreUsuario" [(ngModel)]="estilista.nombreUsuario"
+               class="form-input" required>
+      </div>
+
+      <div class="form-grupo">
+        <label>Email</label>
+        <input type="email" name="email" [(ngModel)]="estilista.email"
+               class="form-input" required>
+      </div>
+
+      <div class="form-grupo">
+        <label>Teléfono</label>
+        <input type="text" name="telefono" [(ngModel)]="estilista.telefono"
+               class="form-input" required>
+      </div>
+
+      <div class="form-grupo">
+        <label>Contraseña/Credenciales</label>
+        <input type="password" name="password" [(ngModel)]="estilista.password"
+               class="form-input" required>
+      </div>
+
+      <button type="submit" class="btn-crear">
+        <i class="fas fa-plus"></i> Crear Nuevo Estilista
+      </button>
+
+    </form>
+
+    <!-- COLUMNA DERECHA -->
+    <div class="col-derecha">
+
+      <!-- SERVICIOS -->
+      <div class="form-grupo">
+        <label>Servicios</label>
+
+        <select multiple class="select-servicios"
+                name="servicios"
+                [(ngModel)]="estilista.servicios">
+          <option *ngFor="let s of serviciosDisponibles" [value]="s">
+            {{ s }}
+          </option>
+        </select>
+
+        <small class="nota">Mantén presionado Ctrl (Windows) o Cmd (Mac) para seleccionar varios.</small>
+      </div>
+
+      <!-- IMAGEN -->
+      <div class="form-grupo">
+        <label>Imagen</label>
+
+        <div class="image-box" (click)="seleccionarImagen()">
+          <img *ngIf="preview" [src]="preview" class="preview-img">
+          <div *ngIf="!preview" class="placeholder">
+            <div class="plus">+</div>
+            <span>Adjuntar Imagen</span>
+          </div>
+        </div>
+
+        <input type="file" id="fileInput" hidden 
+               accept="image/*" (change)="onImagenSeleccionada($event)">
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

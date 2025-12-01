@@ -1,23 +1,55 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpErrorResponse,} from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
+import { catchError, throwError } from 'rxjs';
+import Swal from 'sweetalert2';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  // Inyectamos el AuthService para poder acceder al token.
   const authService = inject(AuthService);
-  // Obtenemos el token actual.
-  const authToken = authService.getToken();
+  const router = inject(Router);
 
-  // Si tenemos un token, clonamos la petición y añadimos la cabecera de autorización
+  const authToken = authService.getToken();
+  let authReq = req;
+
+  // Adjuntar token si existe
   if (authToken) {
-    const authReq = req.clone({
+    authReq = req.clone({
       setHeaders: {
-        Authorization: `Bearer ${authToken}`
-      }
+        Authorization: `Bearer ${authToken}`,
+      },
     });
-    return next(authReq);
   }
 
-  // Si no hay token, la petición sigue su curso sin modificar
-  return next(req);
+  return next(authReq).pipe(
+    catchError((error: HttpErrorResponse) => {
+
+      // Token inválido / expirado
+      if (error.status === 401) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Sesión expirada',
+          text: 'Tu sesión ha expirado o el token no es válido. Por favor inicia sesión nuevamente.',
+          timer: 2500,
+          showConfirmButton: false,
+        });
+
+        authService.logout();
+        router.navigate(['/login']);
+      }
+
+      // No tiene permisos para este recurso
+      else if (error.status === 403) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Acceso denegado',
+          text: 'No tienes permisos para realizar esta acción.',
+          timer: 2500,
+          showConfirmButton: false,
+        });
+      }
+
+      return throwError(() => error);
+    })
+  );
 };

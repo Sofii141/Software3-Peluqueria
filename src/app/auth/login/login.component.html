@@ -7,6 +7,7 @@
     </div>
 
     <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+      
       <!-- Campo de Usuario -->
       <div class="form-group">
         <label for="username">Nombre de Usuario</label>
@@ -20,10 +21,14 @@
             placeholder="Tu nombre de usuario"
             [(ngModel)]="credentials.username"
             #username="ngModel"
-            required>
+            required
+            minlength="3">
         </div>
+
+        <!-- Mensaje validación -->
         <div *ngIf="username.invalid && (username.dirty || username.touched)" class="invalid-feedback">
-          El nombre de usuario es requerido.
+          <span *ngIf="username.errors?.['required']">El nombre de usuario es requerido.</span>
+          <span *ngIf="username.errors?.['minlength']">Debe tener mínimo 3 caracteres.</span>
         </div>
       </div>
 
@@ -40,21 +45,30 @@
             placeholder="Tu contraseña"
             [(ngModel)]="credentials.password"
             #password="ngModel"
-            required>
+            required
+            minlength="4">
         </div>
-         <div *ngIf="password.invalid && (password.dirty || password.touched)" class="invalid-feedback">
-          La contraseña es requerida.
+
+        <!-- Mensaje validación -->
+        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="invalid-feedback">
+          <span *ngIf="password.errors?.['required']">La contraseña es requerida.</span>
+          <span *ngIf="password.errors?.['minlength']">Debe tener mínimo 4 caracteres.</span>
         </div>
       </div>
 
       <!-- Botón de Envío -->
-      <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid">
+      <button 
+        type="submit" 
+        class="btn btn-primary btn-block" 
+        [disabled]="loginForm.invalid">
         Entrar
       </button>
     </form>
 
     <div class="auth-footer">
-      <p>¿No tienes una cuenta? <a routerLink="/register">Regístrate aquí</a></p>
+      <p>¿No tienes una cuenta? 
+        <a routerLink="/register">Regístrate aquí</a>
+      </p>
     </div>
   </div>
 </div>
