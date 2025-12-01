@@ -5,7 +5,7 @@ using peluqueria.reservaciones.Core.Puertos.Entrada;
 using peluqueria.reservaciones.Core.Dominio;
 using peluqueria.reservaciones.Core.Excepciones;
 using peluqueria.reservaciones.Core.Puertos.Salida;
-using peluqueria.reservaciones.Infraestructura.DTO.Comunicacion;
+using peluqueria.reservaciones.Aplicacion.DTO.Comunicacion;
 using System;
 using System.Collections.Generic;
 using System.Linq;

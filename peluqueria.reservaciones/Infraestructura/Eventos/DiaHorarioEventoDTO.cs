@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
  @descripcion: DTO para la informacion de los dias laborales en los horarios de los estilista en los eventos de mensajeria
  */
 
-namespace peluqueria.reservaciones.Infraestructura.DTO.Eventos
+namespace peluqueria.reservaciones.Infraestructura.Eventos
 {
     public class DiaHorarioEventoDTO
     {

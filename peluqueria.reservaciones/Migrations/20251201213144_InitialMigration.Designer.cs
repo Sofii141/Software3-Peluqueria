@@ -12,7 +12,7 @@ using peluqueria.reservaciones.Infraestructura.Persistencia;
 namespace peluqueria.reservaciones.Migrations
 {
     [DbContext(typeof(ReservacionesDbContext))]
-    [Migration("20251129173430_InitialMigration")]
+    [Migration("20251201213144_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

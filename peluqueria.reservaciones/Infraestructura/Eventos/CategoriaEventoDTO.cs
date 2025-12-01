@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
  @descripcion: DTO para la categoria de servicio en los eventos de mensajeria.
  */
 
-namespace peluqueria.reservaciones.Infraestructura.DTO.Eventos
+namespace peluqueria.reservaciones.Infraestructura.Eventos
 {
     public class CategoriaEventoDTO
     {

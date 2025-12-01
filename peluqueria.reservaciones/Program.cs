@@ -12,11 +12,11 @@ using peluqueria.reservaciones.Core.Dominio;
 
 // Consumidores de Mensajes
 using peluqueria.reservaciones.Infraestructura.Mensajes;
-using peluqueria.reservaciones.Infraestructura.DTO.Eventos;
+using peluqueria.reservaciones.Infraestructura.Eventos;
 
 // Servicios de Aplicación
 using peluqueria.reservaciones.Aplicacion.Plantilla;
-using peluqueria.reservaciones.Infraestructura.Controladores;
+using peluqueria.reservaciones.Aplicacion.Controladores;
 using peluqueria.reservaciones.Aplicacion.Fachada;
 
 var builder = WebApplication.CreateBuilder(args);

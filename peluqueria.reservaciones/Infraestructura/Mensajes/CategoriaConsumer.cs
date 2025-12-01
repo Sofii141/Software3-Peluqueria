@@ -1,4 +1,4 @@
-using peluqueria.reservaciones.Infraestructura.DTO.Eventos;
+using peluqueria.reservaciones.Infraestructura.Eventos;
 using peluqueria.reservaciones.Core.Dominio;
 using peluqueria.reservaciones.Infraestructura.Persistencia;
 using peluqueria.reservaciones.Core.Puertos.Salida;

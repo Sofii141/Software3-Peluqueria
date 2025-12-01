@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using peluqueria.reservaciones.Core.Dominio;
 using peluqueria.reservaciones.Core.Puertos.Salida;
-using peluqueria.reservaciones.Infraestructura.DTO.Eventos;
+using peluqueria.reservaciones.Infraestructura.Eventos;
 
 /*
  @author: Juan david Moran

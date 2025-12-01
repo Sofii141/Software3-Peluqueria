@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
     @description: DTO para la petición de visualizar las reservaciones de un estilista en una fecha específica.
  */
 
-namespace peluqueria.reservaciones.Infraestructura.DTO.Comunicacion
+namespace peluqueria.reservaciones.Aplicacion.DTO.Comunicacion
 {
     public class PeticionReservaEstilistaFechaDTO
     {

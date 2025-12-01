@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 	@description: DTO para la recepción de datos para la creación de una nueva reservación.
  */
 
-namespace peluqueria.reservaciones.Infraestructura.DTO.Comunicacion
+namespace peluqueria.reservaciones.Aplicacion.DTO.Comunicacion
 {
 	public class ReservacionPeticionDTO
 	{

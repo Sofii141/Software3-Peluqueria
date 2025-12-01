@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using peluqueria.reservaciones.Aplicacion.Comandos;
 using peluqueria.reservaciones.Core.Puertos.Entrada;
 using peluqueria.reservaciones.Core.Excepciones;
-using peluqueria.reservaciones.Infraestructura.DTO.Comunicacion;
+using peluqueria.reservaciones.Aplicacion.DTO.Comunicacion;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
  @descripcion: Controlador API para gestionar reservaciones en la peluquería.
  */
 
-namespace peluqueria.reservaciones.Infraestructura.Controladores
+namespace peluqueria.reservaciones.Aplicacion.Controladores
 {
     [ApiController]
     [Route("api/reservaciones")]

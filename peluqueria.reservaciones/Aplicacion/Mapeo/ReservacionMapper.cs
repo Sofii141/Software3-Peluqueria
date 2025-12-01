@@ -1,5 +1,5 @@
 using peluqueria.reservaciones.Core.Dominio;
-using peluqueria.reservaciones.Infraestructura.DTO.Comunicacion;
+using peluqueria.reservaciones.Aplicacion.DTO.Comunicacion;
 
 /*
  @autor: Juan David Moran

@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
     @description: DTO para la recepción de datos para el cambio de estado de una reservación.
  */
 
-namespace peluqueria.reservaciones.Infraestructura.DTO.Comunicacion
+namespace peluqueria.reservaciones.Aplicacion.DTO.Comunicacion
 {
     public class CambioEstadoDTO
     {

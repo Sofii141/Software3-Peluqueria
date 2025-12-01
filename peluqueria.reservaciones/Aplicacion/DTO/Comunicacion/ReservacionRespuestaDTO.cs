@@ -5,7 +5,7 @@ using System;
     @description: DTO para la respuesta de las solicitudes de una reservación.
  */
 
-namespace peluqueria.reservaciones.Infraestructura.DTO.Comunicacion
+namespace peluqueria.reservaciones.Aplicacion.DTO.Comunicacion
 {
     public class ReservacionRespuestaDTO
     {

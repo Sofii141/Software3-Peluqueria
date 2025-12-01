@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using peluqueria.reservaciones.Core.Puertos.Salida;
-using peluqueria.reservaciones.Infraestructura.DTO.Comunicacion;
+using peluqueria.reservaciones.Aplicacion.DTO.Comunicacion;
 
 /*
  @autor: Ana sofia Arango
  @descripción: Controlador para validaciones relacionadas con reservaciones.
  */
 
-namespace peluqueria.reservaciones.Infraestructura.Controladores
+namespace peluqueria.reservaciones.Aplicacion.Controladores
 {
     [ApiController]
     [Route("api/validaciones")]

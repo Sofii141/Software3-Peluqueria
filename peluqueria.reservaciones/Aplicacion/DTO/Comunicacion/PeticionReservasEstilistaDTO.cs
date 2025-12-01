@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
     @description: DTO para la petición de consular todas  las reservaciones de un estilista en un rango de fechas.
  */
 
-namespace peluqueria.reservaciones.Infraestructura.DTO.Comunicacion
+namespace peluqueria.reservaciones.Aplicacion.DTO.Comunicacion
 {
     public class PeticionReservasEstilistaDTO
     {

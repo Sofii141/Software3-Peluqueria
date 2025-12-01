@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
-using peluqueria.reservaciones.Infraestructura.DTO.Eventos;
+using peluqueria.reservaciones.Infraestructura.Eventos;
 using peluqueria.reservaciones.Core.Dominio;  
 using peluqueria.reservaciones.Core.Puertos.Salida;
 using peluqueria.reservaciones.Infraestructura.Persistencia;

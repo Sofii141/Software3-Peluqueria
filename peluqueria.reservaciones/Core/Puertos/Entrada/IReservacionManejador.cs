@@ -1,5 +1,5 @@
 using peluqueria.reservaciones.Aplicacion.Comandos;
-using peluqueria.reservaciones.Infraestructura.DTO.Comunicacion;
+using peluqueria.reservaciones.Aplicacion.DTO.Comunicacion;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
