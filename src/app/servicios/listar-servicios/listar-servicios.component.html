@@ -3,12 +3,34 @@
 
     <div class="page-header mb-5">
       <h2 class="section-title">Nuestros Servicios</h2>
-      <!-- OCULTAR ESTE BOTÓN SI EL USUARIO NO ES ADMINISTRADOR -->
       <button *ngIf="isAdmin" class="btn btn-primary" type="button" [routerLink]="['/servicios/crear']">
         <i class="fas fa-plus-circle me-2"></i>Añadir Servicio
       </button>
     </div>
 
+    <!-- ← NUEVO: Filtros de Estado (solo para Admin) -->
+    <div *ngIf="isAdmin" class="estado-filters mb-4">
+      <button
+        class="filter-btn-estado"
+        [class.active]="filtroEstado === 'activos'"
+        (click)="cambiarFiltroEstado('activos')">
+        <i class="fas fa-check-circle me-1"></i> Activos
+      </button>
+      <button
+        class="filter-btn-estado"
+        [class.active]="filtroEstado === 'inactivos'"
+        (click)="cambiarFiltroEstado('inactivos')">
+        <i class="fas fa-times-circle me-1"></i> Inactivos
+      </button>
+      <button
+        class="filter-btn-estado"
+        [class.active]="filtroEstado === 'todos'"
+        (click)="cambiarFiltroEstado('todos')">
+        <i class="fas fa-list me-1"></i> Todos
+      </button>
+    </div>
+
+    <!-- Filtros de Categoría -->
     <div class="category-filters my-5">
       <button
         class="filter-btn"
@@ -27,7 +49,9 @@
 
     <div class="row justify-content-center g-4">
       <div *ngFor="let servicio of serviciosFiltrados; let i = index" class="col-lg-4 col-md-6">
-        <div class="card service-card" [style.animation-delay]="i * 0.1 + 's'">
+        <div class="card service-card"
+             [class.service-card-inactive]="!servicio.disponible"
+             [style.animation-delay]="i * 0.1 + 's'">
           <div class="card-img-container">
             <img [src]="servicio.imagen" class="card-img-top" alt="{{servicio.nombre}}">
             <span class="badge" [ngClass]="servicio.disponible ? 'bg-success-light' : 'bg-danger-light'">
@@ -42,11 +66,19 @@
           <div class="card-footer">
             <p class="price mb-0">${{ servicio.precio | number }}</p>
             <div *ngIf="isAdmin" class="action-buttons">
-              <button (click)="editarServicio(servicio.id)" class="btn btn-icon btn-edit">
+              <button
+                (click)="editarServicio(servicio.id)"
+                class="btn btn-icon btn-edit"
+                [disabled]="!servicio.disponible"
+                [title]="servicio.disponible ? 'Editar servicio' : 'No se puede editar un servicio inactivo'">
                 <i class="fas fa-pencil-alt"></i>
               </button>
-              <button (click)="eliminarServicio(servicio.id)" class="btn btn-icon btn-delete">
-                <i class="fas fa-trash"></i>
+              <button
+                (click)="toggleEstadoServicio(servicio)"
+                class="btn btn-icon"
+                [ngClass]="servicio.disponible ? 'btn-inactivate' : 'btn-activate'"
+                [title]="servicio.disponible ? 'Inactivar servicio' : 'Reactivar servicio'">
+                <i [class]="servicio.disponible ? 'fas fa-ban' : 'fas fa-check-circle'"></i>
               </button>
             </div>
           </div>
@@ -55,8 +87,15 @@
     </div>
 
     <div *ngIf="serviciosFiltrados.length === 0" class="no-services-message">
-      <p>No se encontraron servicios en esta categoría.</p>
+      <i class="fas fa-inbox fa-3x mb-3"></i>
+      <p class="lead">No hay servicios {{ filtroEstado === 'activos' ? 'activos' : filtroEstado === 'inactivos' ? 'inactivos' : '' }} en esta categoría.</p>
+      <button *ngIf="isAdmin && filtroEstado !== 'activos'"
+              class="btn btn-outline-primary mt-3"
+              (click)="cambiarFiltroEstado('activos')">
+        <i class="fas fa-eye me-2"></i>Ver Servicios Activos
+      </button>
     </div>
 
   </div>
 </section>
+

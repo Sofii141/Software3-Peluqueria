@@ -1,0 +1,37 @@
+.reserva-cita-container {
+  max-width: 480px;
+  margin: 2rem auto;
+  background-color: #1c1c1e;
+  padding: 2rem;
+  border-radius: 12px;
+  color: #fff;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+select, input[type="date"], textarea, button {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #2a2a2e;
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  background: linear-gradient(135deg, #D4AF37, #E6C37A);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #E6C37A, #D4AF37);
+}

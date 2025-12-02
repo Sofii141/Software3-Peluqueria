@@ -15,8 +15,7 @@ import { CategoriaService } from '../servicios/categoria.service';
 export class CategoriasCrearComponent {
 
   categoria = {
-    nombre: '',
-    estado: true
+    nombre: ''
   };
 
   constructor(
@@ -24,25 +23,35 @@ export class CategoriasCrearComponent {
     private router: Router
   ) {}
 
-  crear(form: NgForm) {
+  crear(form: NgForm): void {
     if (form.invalid) {
-      Swal.fire("Campos incompletos", "Revisa el formulario.", "warning");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos incompletos',
+        text: 'Por favor, complete todos los campos correctamente.',
+        confirmButtonText: 'Entendido'
+      });
       return;
     }
 
     this.categoriaService.crearCategoria(this.categoria).subscribe({
-      next: () => {
-        Swal.fire("Éxito", "Categoría creada correctamente", "success");
+      next: (response) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Categoría Creada',
+          text: `La categoría "${response.nombre}" se creó exitosamente.`,
+          timer: 2000,
+          showConfirmButton: false
+        });
         this.router.navigate(['/admin/categorias']);
       },
       error: (err) => {
-        console.error(err);
-        Swal.fire("Error", "No se pudo crear la categoría.", "error");
+        console.error('Error al crear categoría:', err);
       }
     });
   }
 
-  cerrar() {
+  cancelar(): void {
     this.router.navigate(['/admin/categorias']);
   }
 }

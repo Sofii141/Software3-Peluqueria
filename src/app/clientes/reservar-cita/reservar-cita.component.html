@@ -1,0 +1,39 @@
+<div class="reserva-cita-container">
+
+  <h2>Reservar Cita</h2>
+
+  <label>Servicio</label>
+  <select [(ngModel)]="servicioSeleccionadoId" (change)="onServicioSeleccionado()">
+    <option [ngValue]="undefined" disabled selected>Selecciona un servicio</option>
+    <option *ngFor="let s of servicios" [ngValue]="s.id">{{ s.nombre }} - {{ s.duracionMinutos }} min - ${{ s.precio }}</option>
+  </select>
+
+  <div *ngIf="estilistas.length > 0">
+    <label>Estilista</label>
+    <select [(ngModel)]="estilistaSeleccionadoId" (change)="onEstilistaSeleccionado()">
+      <option [ngValue]="undefined" disabled selected>Selecciona un estilista</option>
+      <option *ngFor="let e of estilistas" [ngValue]="e.id">{{ e.nombreCompleto }}</option>
+    </select>
+  </div>
+
+  <div *ngIf="estilistaSeleccionadoId">
+    <label>Fecha</label>
+    <input type="date" [(ngModel)]="fechaSeleccionada" (change)="onFechaSeleccionada()" />
+  </div>
+
+  <div *ngIf="disponibilidad && disponibilidad.horasDisponibles.length > 0">
+    <label>Hora disponible</label>
+    <select [(ngModel)]="horaSeleccionada">
+      <option [ngValue]="undefined" disabled selected>Selecciona una hora</option>
+      <option *ngFor="let h of disponibilidad.horasDisponibles" [ngValue]="h">{{ h }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Notas (opcional)</label>
+    <textarea [(ngModel)]="notas" rows="3"></textarea>
+  </div>
+
+  <button (click)="reservar()">Confirmar Reserva</button>
+
+</div>

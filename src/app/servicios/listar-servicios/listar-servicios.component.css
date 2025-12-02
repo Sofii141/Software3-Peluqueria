@@ -1,117 +1,97 @@
-/* --- Contenedor Principal y Cabecera --- */
-.full-page-section {
-  min-height: 100vh;
-  width: 100%;
+/* ========== FILTROS DE ESTADO ========== */
+.estado-filters {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding: 5rem 1.5rem; 
-  background-color: #1c1c1e;
-}
-
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  flex-wrap: wrap; 
   gap: 1rem;
-}
-
-.category-filters {
-  display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem;
 }
 
-.filter-btn {
+.filter-btn-estado {
   background-color: transparent;
   color: #a0a0a0;
-  border: 1px solid #444;
+  border: 2px solid #444;
   padding: 0.6rem 1.5rem;
   border-radius: 50px;
   font-weight: 600;
   transition: all 0.3s ease;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.filter-btn:hover {
+.filter-btn-estado:hover {
   background-color: #3a3a3e;
   color: #fff;
+  transform: translateY(-2px);
 }
 
-.filter-btn.active {
+.filter-btn-estado.active {
   background: linear-gradient(to bottom, #E6C37A, #D4AF37);
   color: #1c1c1e;
   border-color: #D4AF37;
   transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
 }
 
-.service-card {
-  background-color: #2a2a2e;
-  border: 1px solid #444;
-  border-radius: 10px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.service-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
-}
-
-.card-img-container {
-  height: 250px;
+/* ========== TARJETAS INACTIVAS ========== */
+.service-card-inactive {
+  opacity: 0.7;
   position: relative;
 }
 
-.card-img-top {
+.service-card-inactive::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(0, 0, 0, 0.03) 10px,
+    rgba(0, 0, 0, 0.03) 20px
+  );
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.service-card-inactive .card-title {
+  color: #888 !important;
+}
+
+/* ========== BADGES DE ESTADO ========== */
+.card-img-container {
+  position: relative;
 }
 
 .card-img-container .badge {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.5em 0.8em;
-  background-color: rgba(25, 135, 84, 0.85);
+  top: 10px;
+  right: 10px;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 50px;
+  z-index: 2;
+}
+
+.bg-success-light {
+  background-color: rgba(40, 167, 69, 0.9) !important;
   color: #fff;
 }
 
-.card-img-container .bg-danger-light {
-  background-color: rgba(220, 53, 69, 0.85);
+.bg-danger-light {
+  background-color: rgba(220, 53, 69, 0.9) !important;
+  color: #fff;
 }
 
-.card-body {
-  padding: 1.5rem;
-  flex-grow: 1; 
-}
-
-.card-title {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  color: #f8f9fa;
-  font-size: 1.4rem;
-  margin-bottom: 0.75rem;
-}
-
-.card-text {
-  color: #a0a0a0;
-}
-
+/* ========== FOOTER DE LA TARJETA ========== */
 .card-footer {
   background-color: transparent;
   border-top: 1px solid #444;
@@ -122,43 +102,130 @@
 }
 
 .price {
-  font-size: 1.9rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #D4AF37;
   font-family: 'Raleway', sans-serif;
+  margin: 0;
 }
 
-.action-buttons .btn-icon {
-  background: #3a3a3e;
-  color: #a0a0a0;
-  border-radius: 50%;
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ========== BOTONES DE ACCIÓN ========== */
+.btn-icon {
   width: 40px;
   height: 40px;
-  display: inline-flex;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  margin-left: 0.5rem;
   border: none;
+  transition: all 0.3s ease;
+  font-size: 1rem;
 }
 
-.action-buttons .btn-edit:hover {
-  background-color: #D4AF37;
-  color: #1c1c1e;
-}
-
-.action-buttons .btn-delete:hover {
-  background-color: #dc3545;
+.btn-edit {
+  background-color: #3B82F6;
   color: #fff;
 }
 
-.no-services-message {
-  color: #a0a0a0;
-  margin-top: 3rem;
-  font-size: 1.1rem;
+.btn-edit:hover:not(:disabled) {
+  background-color: #2563EB;
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.btn-edit:disabled {
+  background-color: #555;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn-inactivate {
+  background-color: #DC2626;
+  color: #fff;
+}
+
+.btn-inactivate:hover {
+  background-color: #B91C1C;
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+}
+
+.btn-activate {
+  background-color: #16A34A;
+  color: #fff;
+}
+
+.btn-activate:hover {
+  background-color: #15803D;
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(22, 163, 74, 0.4);
+}
+
+/* ========== MENSAJE SIN SERVICIOS ========== */
+.no-services-message {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #a0a0a0;
+}
+
+.no-services-message i {
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.no-services-message .lead {
+  font-size: 1.2rem;
+  margin-bottom: 0;
+}
+
+.btn-outline-primary {
+  border: 2px solid #D4AF37;
+  color: #D4AF37;
+  background-color: transparent;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #D4AF37;
+  color: #1c1c1e;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .estado-filters {
+    flex-direction: column;
+  }
+
+  .filter-btn-estado {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .card-footer {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .action-buttons {
+    width: 100%;
+    justify-content: center;
+  }
 }

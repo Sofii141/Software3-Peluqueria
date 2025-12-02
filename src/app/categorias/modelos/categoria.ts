@@ -1,8 +1,5 @@
 export interface Categoria {
-    id: number;
-    nombre: string;
-    activa: boolean;
-  }
-
-
-  
+  id: number;
+  nombre: string;
+  estaActiva: boolean;
+}

@@ -1,0 +1,211 @@
+<section class="full-page-section">
+  <div class="container">
+
+    <!-- Loading -->
+    <div *ngIf="cargando" class="loading-container">
+      <i class="fas fa-spinner fa-spin fa-3x"></i>
+      <p>Cargando detalles de la reserva...</p>
+    </div>
+
+    <!-- Detalle de la Reserva -->
+    <div *ngIf="!cargando && reserva" class="detalle-container">
+
+      <!-- Header -->
+      <div class="detalle-header">
+        <button class="btn-back" (click)="volver()">
+          <i class="fas fa-arrow-left me-2"></i>Volver a la Agenda
+        </button>
+
+        <div class="status-badge-large" [style.background-color]="obtenerColorEstado(reserva.estado)">
+          <i class="fas" [ngClass]="obtenerIconoEstado(reserva.estado)"></i>
+          {{ obtenerTextoEstado(reserva.estado) }}
+        </div>
+      </div>
+
+      <!-- Título -->
+      <div class="detalle-title-section">
+        <h2 class="detalle-title">
+          <i class="fas fa-calendar-check me-3"></i>Detalle de la Reserva
+        </h2>
+        <p class="detalle-subtitle">Información completa de la cita</p>
+      </div>
+
+      <!-- Grid de Información -->
+      <div class="info-grid">
+
+        <!-- Tarjeta: Información del Cliente -->
+        <div class="info-card">
+          <div class="info-card-header">
+            <i class="fas fa-user-circle"></i>
+            <h3>Información del Cliente</h3>
+          </div>
+          <div class="info-card-body">
+            <div class="client-avatar-large">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Nombre Completo</span>
+              <span class="info-value">{{ reserva.clienteNombre }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">
+                <i class="fas fa-phone me-2"></i>Teléfono
+              </span>
+              <span class="info-value">
+                <a [href]="'tel:' + reserva.clienteTelefono" class="contact-link">
+                  {{ reserva.clienteTelefono }}
+                </a>
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">
+                <i class="fas fa-envelope me-2"></i>Email
+              </span>
+              <span class="info-value">
+                <a [href]="'mailto:' + reserva.clienteEmail" class="contact-link">
+                  {{ reserva.clienteEmail }}
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta: Información del Servicio -->
+        <div class="info-card">
+          <div class="info-card-header">
+            <i class="fas fa-cut"></i>
+            <h3>Información del Servicio</h3>
+          </div>
+          <div class="info-card-body">
+            <div class="info-item">
+              <span class="info-label">Servicio</span>
+              <span class="info-value highlight">{{ reserva.servicioNombre }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">
+                <i class="fas fa-hourglass-half me-2"></i>Duración
+              </span>
+              <span class="info-value">{{ reserva.duracionMinutos }} minutos</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">
+                <i class="fas fa-dollar-sign me-2"></i>Precio
+              </span>
+              <span class="info-value price">${{ reserva.precio | number }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">
+                <i class="fas fa-user-tie me-2"></i>Estilista
+              </span>
+              <span class="info-value">{{ reserva.estilistaNombre }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta: Fecha y Hora -->
+        <div class="info-card">
+          <div class="info-card-header">
+            <i class="fas fa-calendar-alt"></i>
+            <h3>Fecha y Hora</h3>
+          </div>
+          <div class="info-card-body">
+            <div class="info-item">
+              <span class="info-label">
+                <i class="fas fa-calendar-day me-2"></i>Fecha
+              </span>
+              <span class="info-value">{{ formatearFecha(reserva.fecha) }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">
+                <i class="fas fa-clock me-2"></i>Hora de Inicio
+              </span>
+              <span class="info-value">{{ reserva.horaInicio }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">
+                <i class="fas fa-clock me-2"></i>Hora de Fin
+              </span>
+              <span class="info-value">{{ reserva.horaFin }}</span>
+            </div>
+            <div class="info-item" *ngIf="!esEstadoFinal">
+              <span class="info-label">
+                <i class="fas fa-stopwatch me-2"></i>Tiempo Restante
+              </span>
+              <span class="info-value time-remaining"
+                    [class.time-now]="reserva.minutosParaInicio <= 0 && reserva.minutosParaInicio > -10"
+                    [class.time-late]="reserva.minutosParaInicio <= -10">
+                {{ calcularTiempoRestante() }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta: Notas (si existen) -->
+        <div class="info-card full-width" *ngIf="reserva.notas">
+          <div class="info-card-header">
+            <i class="fas fa-sticky-note"></i>
+            <h3>Notas Adicionales</h3>
+          </div>
+          <div class="info-card-body">
+            <p class="notes-text">{{ reserva.notas }}</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Acciones -->
+      <div class="detalle-actions" *ngIf="!esEstadoFinal">
+
+        <button
+          *ngIf="mostrarBotonCheckIn"
+          class="btn-action-large btn-checkin"
+          (click)="marcarCheckIn()">
+          <i class="fas fa-user-check me-2"></i>Marcar Check-in
+        </button>
+
+        <button
+          *ngIf="mostrarBotonIniciar"
+          class="btn-action-large btn-start"
+          (click)="iniciarServicio()"
+          [disabled]="!reserva.puedeIniciar">
+          <i class="fas fa-play me-2"></i>Iniciar Servicio
+        </button>
+
+        <button
+          *ngIf="mostrarBotonFinalizar"
+          class="btn-action-large btn-finish"
+          (click)="finalizarServicio()">
+          <i class="fas fa-check-double me-2"></i>Finalizar Servicio
+        </button>
+
+        <button
+          *ngIf="mostrarBotonNoShow"
+          class="btn-action-large btn-noshow"
+          (click)="marcarNoShow()"
+          [disabled]="!reserva.puedeMarcarNoShow">
+          <i class="fas fa-user-times me-2"></i>Marcar No-Show
+        </button>
+
+      </div>
+
+      <!-- Mensaje de Estado Final -->
+      <div class="final-state-message" *ngIf="esEstadoFinal">
+        <div class="final-state-icon" [style.color]="obtenerColorEstado(reserva.estado)">
+          <i class="fas" [ngClass]="obtenerIconoEstado(reserva.estado)"></i>
+        </div>
+        <h4>{{ obtenerTextoEstado(reserva.estado) }}</h4>
+        <p *ngIf="reserva.estado === EstadoReserva.COMPLETADA">
+          El servicio ha sido completado exitosamente.
+        </p>
+        <p *ngIf="reserva.estado === EstadoReserva.NO_SHOW">
+          El cliente no se presentó a la cita.
+        </p>
+        <p *ngIf="reserva.estado === EstadoReserva.CANCELADA">
+          Esta reserva fue cancelada.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>

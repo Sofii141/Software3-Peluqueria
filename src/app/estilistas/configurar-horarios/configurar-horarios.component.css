@@ -1,0 +1,716 @@
+/* ========== CONTENEDOR PRINCIPAL ========== */
+.full-page-section {
+  min-height: 100vh;
+  width: 100%;
+  padding: 8rem 1rem 5rem 1rem;
+  background-color: #1c1c1e;
+}
+
+/* ========== HEADER ========== */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #fff;
+  margin: 0;
+}
+
+.section-subtitle {
+  color: #a0a0a0;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
+}
+
+/* ========== TABS DE NAVEGACIÓN ========== */
+.tabs-navigation {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background-color: transparent;
+  color: #a0a0a0;
+  border: 2px solid #444;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tab-btn:hover {
+  background-color: #3a3a3e;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.tab-btn.active {
+  background: linear-gradient(to bottom, #E6C37A, #D4AF37);
+  color: #1c1c1e;
+  border-color: #D4AF37;
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+/* ========== CONTENIDO DE TABS ========== */
+.tab-content {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content-card {
+  background-color: #2a2a2e;
+  border-radius: 15px;
+  padding: 2.5rem;
+  border: 1px solid #444;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.card-description {
+  color: #a0a0a0;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* ========== HORARIO BASE - GRID DE DÍAS ========== */
+.horario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.dia-card {
+  background-color: #1c1c1e;
+  border: 2px solid #444;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.dia-card:hover {
+  border-color: #D4AF37;
+  box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
+}
+
+.dia-card.dia-inactivo {
+  opacity: 0.6;
+  background-color: #252529;
+}
+
+.dia-header {
+  margin-bottom: 1rem;
+}
+
+.form-check-input {
+  width: 2.5rem;
+  height: 1.25rem;
+  cursor: pointer;
+  background-color: #555;
+  border: 2px solid #666;
+}
+
+.form-check-input:checked {
+  background-color: #D4AF37;
+  border-color: #D4AF37;
+}
+
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+}
+
+.form-check-label {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-left: 0.75rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dia-body {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.time-input-group {
+  flex: 1;
+}
+
+.time-input-group label {
+  display: block;
+  color: #a0a0a0;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.time-input {
+  background-color: #2a2a2e;
+  border: 2px solid #444;
+  color: #fff;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.time-input:focus {
+  outline: none;
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+}
+
+.time-separator {
+  color: #D4AF37;
+  font-size: 1.2rem;
+  padding-bottom: 0.75rem;
+}
+
+.dia-body-inactive {
+  text-align: center;
+  padding: 1.5rem 0;
+  color: #666;
+}
+
+.dia-body-inactive i {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* ========== FORMULARIOS DE AGREGAR ========== */
+.add-form {
+  background-color: #1c1c1e;
+  border: 2px dashed #444;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.form-subtitle {
+  color: #D4AF37;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  color: #c0c0c0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.form-control,
+.form-select {
+  background-color: #2a2a2e;
+  border: 2px solid #444;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+  background-color: #2a2a2e;
+  color: #fff;
+}
+
+.form-control::placeholder {
+  color: #666;
+}
+
+.form-select option {
+  background-color: #2a2a2e;
+  color: #fff;
+}
+
+/* ========== TABLA DE DESCANSOS ========== */
+.descansos-list {
+  margin-top: 2rem;
+}
+
+.table-responsive {
+  background-color: #1c1c1e;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.table {
+  margin-bottom: 0;
+  color: #fff;
+}
+
+.table thead th {
+  border-bottom: 2px solid #444;
+  color: #D4AF37;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  padding: 1rem;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #3a3a3e;
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #252529;
+}
+
+.table tbody td {
+  padding: 1rem;
+  vertical-align: middle;
+}
+
+.text-warning {
+  color: #D4AF37 !important;
+}
+
+/* ========== GRID DE BLOQUEOS ========== */
+.bloqueos-list {
+  margin-top: 2rem;
+}
+
+.bloqueos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.bloqueo-card {
+  background-color: #1c1c1e;
+  border: 2px solid #444;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.bloqueo-card:hover {
+  border-color: #D4AF37;
+  box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2);
+}
+
+.bloqueo-card.editing {
+  border-color: #3B82F6;
+  box-shadow: 0 5px 20px rgba(59, 130, 246, 0.3);
+}
+
+.bloqueo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.bloqueo-badge {
+  background: linear-gradient(to right, #DC2626, #B91C1C);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bloqueo-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.bloqueo-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bloqueo-date {
+  color: #a0a0a0;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+}
+
+.bloqueo-date i {
+  color: #D4AF37;
+}
+
+.bloqueo-date strong {
+  color: #fff;
+  margin-right: 0.5rem;
+}
+
+/* ========== FORMULARIO DE EDICIÓN EN TARJETA ========== */
+.edit-form .form-label {
+  font-size: 0.85rem;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+/* ========== BOTONES DE ACCIÓN ========== */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-lg {
+  padding: 0.875rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(to bottom, #E6C37A, #D4AF37);
+  color: #1c1c1e;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary:disabled {
+  background: #555;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-success {
+  background-color: #16A34A;
+  color: #fff;
+}
+
+.btn-success:hover {
+  background-color: #15803D;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(22, 163, 74, 0.4);
+}
+
+/* ========== BOTONES PEQUEÑOS ========== */
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.btn-edit-small {
+  background-color: #3B82F6;
+  color: #fff;
+}
+
+.btn-edit-small:hover {
+  background-color: #2563EB;
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+}
+
+.btn-delete,
+.btn-delete-small {
+  background-color: #DC2626;
+  color: #fff;
+}
+
+.btn-delete:hover,
+.btn-delete-small:hover {
+  background-color: #B91C1C;
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 50px;
+  font-weight: 600;
+}
+
+/* ========== MENSAJE SIN DATOS ========== */
+.no-data-message {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #666;
+}
+
+.no-data-message i {
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.no-data-message p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .tabs-navigation {
+    flex-direction: column;
+  }
+
+  .tab-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .content-card {
+    padding: 1.5rem;
+  }
+
+  .horario-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dia-body {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .time-separator {
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+
+  .bloqueos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .btn-lg {
+    width: 100%;
+  }
+}
+
+.btn-schedule {
+  background-color: #8B5CF6;
+  color: #fff;
+}
+
+.btn-schedule:hover:not(:disabled) {
+  background-color: #7C3AED;
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+}
+
+.btn-schedule:disabled {
+  background-color: #555;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ========== ALERTAS ========== */
+.alert {
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.alert-warning {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+  border-left: 4px solid #ffc107;
+}
+
+.alert i {
+  font-size: 1.2rem;
+}
+
+/* ========== ESTADO DEL DÍA ========== */
+.dia-estado {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.dia-estado small {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ========== BADGE DE DURACIÓN ========== */
+.badge.bg-info {
+  background-color: #17a2b8 !important;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+/* ========== ESTADO DE BLOQUEO ========== */
+.bloqueo-estado {
+  display: flex;
+  justify-content: center;
+}
+
+.bloqueo-estado .badge {
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bloqueo-duracion {
+  padding: 0.75rem;
+  background-color: rgba(212, 175, 55, 0.1);
+  border-radius: 6px;
+  color: #D4AF37;
+  font-size: 0.9rem;
+}
+
+/* ========== BLOQUEO ACTIVO VS PASADO ========== */
+.bloqueo-activo {
+  border-color: #DC2626 !important;
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+}
+
+.bloqueo-pasado {
+  opacity: 0.6;
+  border-color: #555 !important;
+}
+
+.bloqueo-pasado .bloqueo-badge {
+  background: linear-gradient(to right, #6c757d, #5a6268) !important;
+}
+
+.bloqueo-pasado .bloqueo-date {
+  color: #666 !important;
+}
+
+/* ========== BOTONES DESHABILITADOS ========== */
+.btn-edit-small:disabled {
+  background-color: #444 !important;
+  color: #666 !important;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ========== INPUTS DE FECHA ========== */
+input[type="date"] {
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+/* ========== MENSAJES DE AYUDA ========== */
+.text-muted {
+  color: #888 !important;
+  font-size: 0.85rem;
+}
+
+.text-muted i {
+  color: #D4AF37;
+}
+
+/* ========== RESPONSIVE ADICIONAL ========== */
+@media (max-width: 768px) {
+  .alert {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .bloqueo-duracion {
+    font-size: 0.85rem;
+  }
+
+  .dia-estado small {
+    font-size: 0.75rem;
+  }
+}
+

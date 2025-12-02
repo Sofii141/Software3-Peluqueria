@@ -1,120 +1,199 @@
-/* Contenedor general */
-.categorias-container {
-  padding: 25px;
-  color: #fff;
+/* ========== CONTENEDOR PRINCIPAL ========== */
+.full-page-section {
+  min-height: 100vh;
   width: 100%;
-}
-
-/* Encabezado */
-.header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 25px;
+  padding: 8rem 1rem 5rem 1rem;
+  background-color: #1c1c1e;
 }
 
-.header h2 {
-  font-size: 28px;
-  font-weight: 600;
-}
-
-/* Botón Crear */
-.btn-crear {
-  background-color: #d4a017;
-  border: none;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.btn-crear i {
-  margin-right: 5px;
-}
-
-/* Buscador */
-.buscador input {
-  width: 350px;
-  padding: 10px 15px;
-  border-radius: 8px;
-  background-color: #1d1d1d;
+/* ========== CONTENEDOR DEL FORMULARIO ========== */
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  background-color: #2a2a2e;
+  padding: 3rem;
+  border-radius: 15px;
   border: 1px solid #444;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* ========== TÍTULOS ========== */
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
   color: #fff;
-  margin-bottom: 25px;
-}
-
-/* Grid de tarjetas */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 25px;
-}
-
-/* Tarjetas */
-.card {
-  border: 2px solid #d4a017;
-  border-radius: 10px;
-  padding: 20px;
-  background-color: #1a1a1a;
+  margin-bottom: 1rem;
   text-align: center;
 }
 
-/* Estado */
-.estado {
-  width: 100px;
-  padding: 5px 0;
-  border-radius: 6px;
-  font-weight: bold;
-  margin: 0 auto 15px auto;
+.form-subtitle {
+  color: #a0a0a0;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ========== FORMULARIO ========== */
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  display: block;
+  color: #c0c0c0;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 2px solid #444;
+  border-radius: 10px;
+  background-color: #1c1c1e;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+  background-color: #252529;
+}
+
+.form-control::placeholder {
+  color: #666;
+}
+
+/* ========== SWITCH ========== */
+.form-check-input {
+  width: 3rem;
+  height: 1.5rem;
+  cursor: pointer;
+  background-color: #555;
+  border: 2px solid #666;
+}
+
+.form-check-input:checked {
+  background-color: #D4AF37;
+  border-color: #D4AF37;
+}
+
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+}
+
+.form-check-label {
+  color: #c0c0c0;
+  font-weight: 600;
+  margin-left: 0.75rem;
+  cursor: pointer;
+}
+
+.text-muted {
+  color: #888 !important;
+  font-size: 0.85rem;
+}
+
+/* ========== VALIDACIONES ========== */
+.text-danger {
+  color: #ff8a8a !important;
+  font-size: 0.85rem;
+  display: block;
+}
+
+.form-control.ng-invalid.ng-touched {
+  border-color: #ff8a8a;
+  box-shadow: 0 0 0 0.2rem rgba(255, 138, 138, 0.25);
+}
+
+.form-control.ng-valid.ng-touched {
+  border-color: #28a745;
+}
+
+/* ========== DIVISOR ========== */
+.form-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #444, transparent);
+  margin: 2.5rem 0;
+}
+
+/* ========== BOTONES DE ACCIÓN ========== */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-lg {
+  padding: 0.875rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(to bottom, #E6C37A, #D4AF37);
+  color: #1c1c1e;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary:disabled {
+  background: #555;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
   color: #fff;
 }
 
-.activo {
-  background-color: #1bb25a;
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
 }
 
-.inactivo {
-  background-color: #d9534f;
-}
-
-/* Nombre */
-.card h3 {
-  margin-bottom: 15px;
-  font-size: 20px;
-}
-
-/* Botones */
-.acciones {
-  display: flex;
-  justify-content: space-evenly;
-  margin-top: 10px;
-}
-
-.btn-editar {
-  background-color: #4ea1ff;
-  padding: 8px 15px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-inactivar {
-  background-color: #e56a4f;
-  padding: 8px 15px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-}
-
-/* RESPONSIVE */
+/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 12px;
+  .form-container {
+    padding: 2rem 1.5rem;
   }
 
-  .buscador input {
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-lg {
     width: 100%;
+  }
+
+  .form-check-input {
+    width: 2.5rem;
+    height: 1.25rem;
   }
 }

@@ -20,8 +20,10 @@ import { AuthService } from '../../auth/auth.service';
 export class ListarServiciosComponent implements OnInit {
 
   serviciosFiltrados: Servicio[] = [];
+  todosLosServicios: Servicio[] = []; // ← NUEVO: Guardamos todos los servicios
   categorias: Categoria[] = [];
   categoriaActiva: string | number = 'all';
+  filtroEstado: 'todos' | 'activos' | 'inactivos' = 'activos'; // ← NUEVO
   public isAdmin: boolean = false;
 
   constructor(
@@ -32,56 +34,165 @@ export class ListarServiciosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Verificamos el rol del usuario al iniciar
     this.isAdmin = this.authService.isAdmin();
-    
-    // Obtenemos las categorías para los botones de filtro
+
     this.objCategoriaService.getCategorias().subscribe(categorias => {
       this.categorias = categorias;
     });
-    // Hacemos la carga inicial de los servicios llamando a nuestra nueva función de filtro
-    this.filtrarServicios('all');
+
+    this.cargarServicios();
+  }
+
+  // ← NUEVO: Método centralizado para cargar servicios
+  cargarServicios(): void {
+    const idParaPeticion = this.categoriaActiva === 'all' ? 0 : Number(this.categoriaActiva);
+
+    this.objServicioService.getServiciosPorCategoria(idParaPeticion).subscribe(
+      servicios => {
+        this.todosLosServicios = servicios;
+        this.aplicarFiltros();
+      },
+      error => {
+        console.error('Error al cargar servicios:', error);
+        this.serviciosFiltrados = [];
+      }
+    );
+  }
+
+  // ← NUEVO: Aplicar filtros de categoría y estado
+  aplicarFiltros(): void {
+    let serviciosFiltrados = [...this.todosLosServicios];
+
+    // Filtrar por estado (activos/inactivos)
+    if (this.filtroEstado === 'activos') {
+      serviciosFiltrados = serviciosFiltrados.filter(s => s.disponible);
+    } else if (this.filtroEstado === 'inactivos') {
+      serviciosFiltrados = serviciosFiltrados.filter(s => !s.disponible);
+    }
+
+    this.serviciosFiltrados = serviciosFiltrados;
   }
 
   filtrarServicios(categoriaId: string | number): void {
     this.categoriaActiva = categoriaId;
+    this.cargarServicios();
+  }
 
-    const idParaPeticion = categoriaId === 'all' ? 0 : Number(categoriaId);
-
-    this.objServicioService.getServiciosPorCategoria(idParaPeticion).subscribe(
-      servicios => {
-        this.serviciosFiltrados = servicios;
-      },
-      error => {
-        console.error('Error al cargar servicios por categoría:', error);
-        // En caso de error, mostramos una lista vacía para que el usuario vea el mensaje
-        this.serviciosFiltrados = [];
-      }
-    );
+  // ← NUEVO: Cambiar filtro de estado
+  cambiarFiltroEstado(estado: 'todos' | 'activos' | 'inactivos'): void {
+    this.filtroEstado = estado;
+    this.aplicarFiltros();
   }
 
   editarServicio(id: number): void {
     this.router.navigate(['/servicios/actualizar', id]);
   }
 
-  eliminarServicio(id: number): void {
+  // ← MODIFICADO: Ahora maneja inactivar Y reactivar
+  toggleEstadoServicio(servicio: Servicio): void {
+    if (servicio.disponible) {
+      // Si está activo, intentamos inactivar
+      this.inactivarServicio(servicio);
+    } else {
+      // Si está inactivo, reactivamos directamente
+      this.reactivarServicio(servicio);
+    }
+  }
+
+  private inactivarServicio(servicio: Servicio): void {
+    // Verificamos si tiene reservas futuras
+    this.objServicioService.verificarReservasFuturas(servicio.id).subscribe({
+      next: (tieneReservas) => {
+        if (tieneReservas) {
+          Swal.fire({
+            title: 'No se puede inactivar',
+            html: `
+              <p>El servicio <strong>${servicio.nombre}</strong> tiene <strong>citas futuras programadas</strong>.</p>
+              <p>Debe cancelar o reasignar las citas antes de inactivarlo.</p>
+            `,
+            icon: 'error',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#d33'
+          });
+        } else {
+          this.confirmarInactivacion(servicio);
+        }
+      },
+      error: () => {
+        Swal.fire({
+          title: 'No se pudo verificar las reservas',
+          text: 'Por seguridad, no se puede inactivar el servicio en este momento.',
+          icon: 'warning',
+          confirmButtonText: 'Cerrar'
+        });
+      }
+    });
+  }
+
+  private confirmarInactivacion(servicio: Servicio): void {
     Swal.fire({
-      title: '¿Desea eliminar el servicio?',
-      text: "La eliminación no se puede revertir",
+      title: '¿Inactivar servicio?',
+      html: `
+        <p>El servicio <strong>${servicio.nombre}</strong> dejará de estar disponible para reservas.</p>
+        <p class="text-muted">Podrás reactivarlo en cualquier momento.</p>
+      `,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmar',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Sí, inactivar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.objServicioService.deleteServicio(id).subscribe(() => {
-          Swal.fire('Eliminado', 'El servicio ha sido eliminado.', 'success');
-          
-          // En lugar de filtrar arrays manualmente, simplemente volvemos a cargar
-          // los datos del filtro que ya estaba activo. Es más limpio y seguro.
-          this.filtrarServicios(this.categoriaActiva);
+        this.objServicioService.deleteServicio(servicio.id).subscribe({
+          next: () => {
+            Swal.fire({
+              title: 'Servicio Inactivado',
+              text: `${servicio.nombre} ha sido inactivado correctamente.`,
+              icon: 'success',
+              timer: 2000,
+              showConfirmButton: false
+            });
+
+            this.cargarServicios();
+          },
+          error: (err) => {
+            console.error('Error al inactivar servicio:', err);
+          }
+        });
+      }
+    });
+  }
+
+  private reactivarServicio(servicio: Servicio): void {
+    Swal.fire({
+      title: '¿Reactivar servicio?',
+      html: `
+        <p>El servicio <strong>${servicio.nombre}</strong> volverá a estar disponible para reservas.</p>
+      `,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Sí, reactivar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.objServicioService.reactivarServicio(servicio.id).subscribe({
+          next: () => {
+            Swal.fire({
+              title: 'Servicio Reactivado',
+              text: `${servicio.nombre} está nuevamente disponible.`,
+              icon: 'success',
+              timer: 2000,
+              showConfirmButton: false
+            });
+
+            this.cargarServicios();
+          },
+          error: (err) => {
+            console.error('Error al reactivar servicio:', err);
+          }
         });
       }
     });

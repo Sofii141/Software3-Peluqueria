@@ -1,26 +1,55 @@
-<!-- FONDO OSCURO DEL MODAL -->
-<div class="overlay" (click)="cerrar()"></div>
+<section class="full-page-section">
+  <div class="form-container">
+    <h2 class="section-title">Crear Nueva Categoría</h2>
+    <p class="form-subtitle">Añade una nueva categoría para organizar los servicios del salón.</p>
 
-<div class="modal">
-  <div class="modal-header">
-    <h2>Crear Categoría</h2>
-    <button class="close-btn" (click)="cerrar()">✕</button>
+    <form #categoriaForm="ngForm" (ngSubmit)="crear(categoriaForm)">
+
+      <!-- Campo Nombre -->
+      <div class="form-group mb-4">
+        <label for="nombre">Nombre de la Categoría *</label>
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          class="form-control"
+          placeholder="Ej: Cortes de Cabello"
+          [(ngModel)]="categoria.nombre"
+          #nombre="ngModel"
+          required
+          minlength="3"
+          maxlength="50">
+
+        <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger mt-2">
+          <small *ngIf="nombre.errors?.['required']">
+            <i class="fas fa-exclamation-circle me-1"></i>El nombre es obligatorio.
+          </small>
+          <small *ngIf="nombre.errors?.['minlength']">
+            <i class="fas fa-exclamation-circle me-1"></i>Debe tener al menos 3 caracteres.
+          </small>
+          <small *ngIf="nombre.errors?.['maxlength']">
+            <i class="fas fa-exclamation-circle me-1"></i>No puede exceder los 50 caracteres.
+          </small>
+        </div>
+      </div>
+
+      <hr class="form-divider">
+
+      <!-- Botones de Acción -->
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-secondary btn-lg me-3"
+          (click)="cancelar()">
+          <i class="fas fa-times me-2"></i>Cancelar
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary btn-lg"
+          [disabled]="!categoriaForm.form.valid">
+          <i class="fas fa-plus-circle me-2"></i>Crear Categoría
+        </button>
+      </div>
+    </form>
   </div>
-
-  <form #f="ngForm" (ngSubmit)="crear(f)">
-    <div class="form-group">
-      <label>Nombre:</label>
-      <input type="text"
-             class="input"
-             name="nombre"
-             [(ngModel)]="categoria.nombre"
-             placeholder="NombreActualCategoria"
-             required>
-    </div>
-
-    <div class="btn-row">
-      <button type="submit" class="btn-guardar">Guardar</button>
-      <button type="button" class="btn-cancelar" (click)="cerrar()">Cancelar</button>
-    </div>
-  </form>
-</div>
+</section>

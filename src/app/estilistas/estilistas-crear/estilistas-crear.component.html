@@ -8,33 +8,113 @@
     <!-- COLUMNA IZQUIERDA -->
     <form #f="ngForm" (ngSubmit)="crear(f)" class="col-izquierda">
 
+      <!-- Nombre de Usuario -->
       <div class="form-grupo">
-        <label>Nombre/Usuario</label>
-        <input type="text" name="nombreUsuario" [(ngModel)]="estilista.nombreUsuario"
-               class="form-input" required>
+        <label>Nombre de Usuario *</label>
+        <input
+          type="text"
+          name="nombreUsuario"
+          [(ngModel)]="estilista.nombreUsuario"
+          #nombreUsuario="ngModel"
+          class="form-input"
+          placeholder="Ej: laura.e"
+          required
+          minlength="3"
+          maxlength="20">
+
+        <div *ngIf="nombreUsuario.invalid && (nombreUsuario.dirty || nombreUsuario.touched)" class="error-message">
+          <small *ngIf="nombreUsuario.errors?.['required']">El nombre de usuario es obligatorio.</small>
+          <small *ngIf="nombreUsuario.errors?.['minlength']">Debe tener al menos 3 caracteres.</small>
+          <small *ngIf="nombreUsuario.errors?.['maxlength']">No puede exceder 20 caracteres.</small>
+        </div>
       </div>
 
+      <!-- Nombre Completo -->
       <div class="form-grupo">
-        <label>Email</label>
-        <input type="email" name="email" [(ngModel)]="estilista.email"
-               class="form-input" required>
+        <label>Nombre Completo *</label>
+        <input
+          type="text"
+          name="nombreCompleto"
+          [(ngModel)]="estilista.nombreCompleto"
+          #nombreCompleto="ngModel"
+          class="form-input"
+          placeholder="Ej: Laura Valencia"
+          required
+          minlength="5"
+          maxlength="100">
+
+        <div *ngIf="nombreCompleto.invalid && (nombreCompleto.dirty || nombreCompleto.touched)" class="error-message">
+          <small *ngIf="nombreCompleto.errors?.['required']">El nombre completo es obligatorio.</small>
+          <small *ngIf="nombreCompleto.errors?.['minlength']">Debe tener al menos 5 caracteres.</small>
+        </div>
       </div>
 
+      <!-- Email -->
       <div class="form-grupo">
-        <label>Teléfono</label>
-        <input type="text" name="telefono" [(ngModel)]="estilista.telefono"
-               class="form-input" required>
+        <label>Email *</label>
+        <input
+          type="email"
+          name="email"
+          [(ngModel)]="estilista.email"
+          #email="ngModel"
+          class="form-input"
+          placeholder="ejemplo@correo.com"
+          required
+          email>
+
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-message">
+          <small *ngIf="email.errors?.['required']">El email es obligatorio.</small>
+          <small *ngIf="email.errors?.['email']">Ingrese un email válido.</small>
+        </div>
       </div>
 
+      <!-- Teléfono -->
       <div class="form-grupo">
-        <label>Contraseña/Credenciales</label>
-        <input type="password" name="password" [(ngModel)]="estilista.password"
-               class="form-input" required>
+        <label>Teléfono *</label>
+        <input
+          type="text"
+          name="telefono"
+          [(ngModel)]="estilista.telefono"
+          #telefono="ngModel"
+          class="form-input"
+          placeholder="3001234567"
+          required
+          pattern="^3\d{9}$">
+
+        <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="error-message">
+          <small *ngIf="telefono.errors?.['required']">El teléfono es obligatorio.</small>
+          <small *ngIf="telefono.errors?.['pattern']">Debe ser un celular válido de Colombia (10 dígitos, iniciando con 3).</small>
+        </div>
       </div>
 
-      <button type="submit" class="btn-crear">
-        <i class="fas fa-plus"></i> Crear Nuevo Estilista
-      </button>
+      <!-- Contraseña -->
+      <div class="form-grupo">
+        <label>Contraseña *</label>
+        <input
+          type="password"
+          name="password"
+          [(ngModel)]="estilista.password"
+          #password="ngModel"
+          class="form-input"
+          placeholder="Mínimo 8 caracteres"
+          required
+          minlength="8">
+
+        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error-message">
+          <small *ngIf="password.errors?.['required']">La contraseña es obligatoria.</small>
+          <small *ngIf="password.errors?.['minlength']">Debe tener al menos 8 caracteres.</small>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="form-actions">
+        <button type="button" class="btn-cancelar" (click)="cancelar()">
+          <i class="fas fa-times me-2"></i>Cancelar
+        </button>
+        <button type="submit" class="btn-crear" [disabled]="f.invalid">
+          <i class="fas fa-plus me-2"></i>Crear Estilista
+        </button>
+      </div>
 
     </form>
 
@@ -43,33 +123,59 @@
 
       <!-- SERVICIOS -->
       <div class="form-grupo">
-        <label>Servicios</label>
+        <label>Servicios Asociados *</label>
 
-        <select multiple class="select-servicios"
-                name="servicios"
-                [(ngModel)]="estilista.servicios">
-          <option *ngFor="let s of serviciosDisponibles" [value]="s">
-            {{ s }}
-          </option>
-        </select>
+        <div class="servicios-grid">
+          <div
+            *ngFor="let servicio of serviciosDisponibles"
+            class="servicio-checkbox"
+            [class.selected]="estilista.servicios.includes(servicio.id)">
 
-        <small class="nota">Mantén presionado Ctrl (Windows) o Cmd (Mac) para seleccionar varios.</small>
+            <input
+              type="checkbox"
+              [id]="'servicio-' + servicio.id"
+              [value]="servicio.id"
+              [(ngModel)]="estilista.servicios"
+              [ngModelOptions]="{standalone: true}"
+              (change)="onServicioChange(servicio.id, $event)">
+
+            <label [for]="'servicio-' + servicio.id">
+              <i class="fas fa-cut me-2"></i>
+              {{ servicio.nombre }}
+              <span class="servicio-duracion">({{ servicio.duracionMinutos }} min)</span>
+            </label>
+          </div>
+        </div>
+
+        <small class="nota">
+          <i class="fas fa-info-circle me-1"></i>
+          Selecciona al menos un servicio que el estilista pueda realizar.
+        </small>
       </div>
 
       <!-- IMAGEN -->
       <div class="form-grupo">
-        <label>Imagen</label>
+        <label>Imagen de Perfil</label>
 
         <div class="image-box" (click)="seleccionarImagen()">
-          <img *ngIf="preview" [src]="preview" class="preview-img">
+          <img *ngIf="preview" [src]="preview" class="preview-img" alt="Preview">
           <div *ngIf="!preview" class="placeholder">
             <div class="plus">+</div>
             <span>Adjuntar Imagen</span>
           </div>
         </div>
 
-        <input type="file" id="fileInput" hidden 
-               accept="image/*" (change)="onImagenSeleccionada($event)">
+        <input
+          type="file"
+          id="fileInput"
+          hidden
+          accept="image/jpeg,image/png,image/jpg"
+          (change)="onImagenSeleccionada($event)">
+
+        <small class="nota">
+          <i class="fas fa-info-circle me-1"></i>
+          Formatos: JPG, PNG. Tamaño máximo: 5MB.
+        </small>
       </div>
 
     </div>

@@ -1,0 +1,370 @@
+<section class="full-page-section">
+  <div class="container-fluid">
+
+    <!-- ========== HEADER ========== -->
+    <div class="page-header mb-4">
+      <div>
+        <h2 class="section-title">
+          <i class="fas fa-calendar-alt me-3"></i>Mi Agenda
+        </h2>
+        <p class="section-subtitle">
+          Gestiona tus citas y servicios del día
+        </p>
+      </div>
+
+      <!-- Estadísticas rápidas -->
+      <div class="stats-quick">
+        <div class="stat-item">
+          <i class="fas fa-calendar-check"></i>
+          <div>
+            <span class="stat-number">{{ totalReservas }}</span>
+            <span class="stat-label">Total</span>
+          </div>
+        </div>
+        <div class="stat-item stat-success">
+          <i class="fas fa-check-circle"></i>
+          <div>
+            <span class="stat-number">{{ totalCompletadas }}</span>
+            <span class="stat-label">Completadas</span>
+          </div>
+        </div>
+        <div class="stat-item stat-danger">
+          <i class="fas fa-user-times"></i>
+          <div>
+            <span class="stat-number">{{ totalNoShow }}</span>
+            <span class="stat-label">No Show</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- ========== COLUMNA IZQUIERDA: CALENDARIO ========== -->
+      <div class="col-lg-4">
+        <div class="calendar-card">
+
+          <!-- Header del calendario -->
+          <div class="calendar-header">
+            <button class="btn-nav" (click)="mesAnterior()">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <h3 class="calendar-title">{{ nombreMes }}</h3>
+            <button class="btn-nav" (click)="mesSiguiente()">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+
+          <!-- Días de la semana -->
+          <div class="calendar-weekdays">
+            <div class="weekday">Dom</div>
+            <div class="weekday">Lun</div>
+            <div class="weekday">Mar</div>
+            <div class="weekday">Mié</div>
+            <div class="weekday">Jue</div>
+            <div class="weekday">Vie</div>
+            <div class="weekday">Sáb</div>
+          </div>
+
+          <!-- Grid de días -->
+          <div class="calendar-grid">
+            <div
+              *ngFor="let dia of diasDelMes"
+              class="calendar-day"
+              [class.other-month]="!esMesActual(dia)"
+              [class.today]="esHoy(dia)"
+              [class.selected]="esFechaSeleccionada(dia)"
+              [class.has-appointments]="tieneCitas(dia)"
+              (click)="seleccionarFecha(dia)">
+              <span class="day-number">{{ dia.getDate() }}</span>
+              <span *ngIf="tieneCitas(dia)" class="appointment-indicator"></span>
+            </div>
+          </div>
+
+          <!-- Leyenda -->
+          <div class="calendar-legend">
+            <div class="legend-item">
+              <span class="legend-dot today-dot"></span>
+              <span>Hoy</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot selected-dot"></span>
+              <span>Seleccionado</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot has-appointments-dot"></span>
+              <span>Con citas</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========== COLUMNA DERECHA: LISTA DE CITAS ========== -->
+      <div class="col-lg-8">
+
+        <!-- Fecha seleccionada -->
+        <div class="selected-date-banner">
+          <i class="fas fa-calendar-day me-2"></i>
+          <span>{{ fechaSeleccionada | date: 'EEEE, d \'de\' MMMM \'de\' yyyy' : '' : 'es-ES' }}</span>
+        </div>
+
+        <!-- Loading -->
+        <div *ngIf="cargando" class="loading-container">
+          <i class="fas fa-spinner fa-spin fa-3x"></i>
+          <p>Cargando citas...</p>
+        </div>
+
+        <!-- Sin citas -->
+        <div *ngIf="!cargando && reservas.length === 0" class="no-appointments">
+          <i class="fas fa-calendar-times fa-4x mb-3"></i>
+          <h4>No hay citas programadas</h4>
+          <p>Disfruta tu día libre o revisa otras fechas.</p>
+        </div>
+
+        <!-- Lista de citas -->
+        <div *ngIf="!cargando && reservas.length > 0" class="appointments-container">
+
+          <!-- Citas Pendientes/Confirmadas -->
+          <div *ngIf="reservasPendientes.length > 0" class="appointments-section">
+            <h4 class="section-subtitle">
+              <i class="fas fa-clock me-2"></i>Próximas Citas
+            </h4>
+
+            <div class="appointment-card" *ngFor="let reserva of reservasPendientes">
+
+              <!-- Header de la tarjeta -->
+              <div class="appointment-header">
+                <div class="time-badge">
+                  <i class="fas fa-clock me-2"></i>
+                  {{ reserva.horaInicio }} - {{ reserva.horaFin }}
+                </div>
+                <div class="status-badge" [style.background-color]="obtenerColorEstado(reserva.estado)">
+                  <i class="fas" [ngClass]="obtenerIconoEstado(reserva.estado)"></i>
+                  {{ obtenerTextoEstado(reserva.estado) }}
+                </div>
+              </div>
+
+              <!-- Información del cliente -->
+              <div class="appointment-body">
+                <div class="client-info">
+                  <div class="client-avatar">
+                    <i class="fas fa-user"></i>
+                  </div>
+                  <div class="client-details">
+                    <h5 class="client-name">{{ reserva.clienteNombre }}</h5>
+                    <p class="client-contact">
+                      <i class="fas fa-phone me-2"></i>{{ reserva.clienteTelefono }}
+                    </p>
+                    <p class="client-contact">
+                      <i class="fas fa-envelope me-2"></i>{{ reserva.clienteEmail }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="service-info">
+                  <div class="service-item">
+                    <i class="fas fa-cut me-2"></i>
+                    <span>{{ reserva.servicioNombre }}</span>
+                  </div>
+                  <div class="service-item">
+                    <i class="fas fa-hourglass-half me-2"></i>
+                    <span>{{ reserva.duracionMinutos }} minutos</span>
+                  </div>
+                  <div class="service-item">
+                    <i class="fas fa-dollar-sign me-2"></i>
+                    <span>${{ reserva.precio | number }}</span>
+                  </div>
+                </div>
+
+                <div *ngIf="reserva.notas" class="appointment-notes">
+                  <i class="fas fa-sticky-note me-2"></i>
+                  <span>{{ reserva.notas }}</span>
+                </div>
+
+                <!-- Tiempo restante -->
+                <div class="time-remaining"
+                     [class.time-now]="reserva.minutosParaInicio <= 0 && reserva.minutosParaInicio > -10"
+                     [class.time-late]="reserva.minutosParaInicio <= -10">
+                  <i class="fas fa-stopwatch me-2"></i>
+                  {{ calcularTiempoRestante(reserva) }}
+                </div>
+              </div>
+
+              <!-- Acciones -->
+              <div class="appointment-actions">
+                <button
+                  class="btn-action btn-detail"
+                  (click)="verDetalle(reserva.id)"
+                  title="Ver detalles">
+                  <i class="fas fa-info-circle me-2"></i>Detalles
+                </button>
+
+                <button
+                  *ngIf="reserva.estado === EstadoReserva.PENDIENTE"
+                  class="btn-action btn-checkin"
+                  (click)="marcarCheckIn(reserva)"
+                  title="Marcar llegada del cliente">
+                  <i class="fas fa-user-check me-2"></i>Check-in
+                </button>
+
+                <button
+                  *ngIf="reserva.estado === EstadoReserva.CONFIRMADA"
+                  class="btn-action btn-start"
+                  (click)="iniciarServicio(reserva)"
+                  [disabled]="!reserva.puedeIniciar"
+                  [title]="reserva.puedeIniciar ? 'Iniciar servicio' : 'Espera a la hora de la cita'">
+                  <i class="fas fa-play me-2"></i>Iniciar
+                </button>
+
+                <button
+                  *ngIf="reserva.estado === EstadoReserva.CONFIRMADA"
+                  class="btn-action btn-noshow"
+                  (click)="marcarNoShow(reserva)"
+                  [disabled]="!reserva.puedeMarcarNoShow"
+                  [title]="reserva.puedeMarcarNoShow ? 'Marcar No-Show' : 'Espera 10 minutos después de la hora'">
+                  <i class="fas fa-user-times me-2"></i>No-Show
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Citas En Curso -->
+          <div *ngIf="reservasEnCurso.length > 0" class="appointments-section">
+            <h4 class="section-subtitle">
+              <i class="fas fa-spinner fa-pulse me-2"></i>En Curso
+            </h4>
+
+            <div class="appointment-card in-progress" *ngFor="let reserva of reservasEnCurso">
+
+              <!-- Header de la tarjeta -->
+              <div class="appointment-header">
+                <div class="time-badge">
+                  <i class="fas fa-clock me-2"></i>
+                  {{ reserva.horaInicio }} - {{ reserva.horaFin }}
+                </div>
+                <div class="status-badge" [style.background-color]="obtenerColorEstado(reserva.estado)">
+                  <i class="fas fa-spinner fa-pulse"></i>
+                  En Curso
+                </div>
+              </div>
+
+              <!-- Información del cliente -->
+              <div class="appointment-body">
+                <div class="client-info">
+                  <div class="client-avatar">
+                    <i class="fas fa-user"></i>
+                  </div>
+                  <div class="client-details">
+                    <h5 class="client-name">{{ reserva.clienteNombre }}</h5>
+                    <p class="client-contact">
+                      <i class="fas fa-phone me-2"></i>{{ reserva.clienteTelefono }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="service-info">
+                  <div class="service-item">
+                    <i class="fas fa-cut me-2"></i>
+                    <span>{{ reserva.servicioNombre }}</span>
+                  </div>
+                  <div class="service-item">
+                    <i class="fas fa-hourglass-half me-2"></i>
+                    <span>{{ reserva.duracionMinutos }} minutos</span>
+                  </div>
+                </div>
+
+                <!-- Indicador de progreso -->
+                <div class="progress-indicator">
+                  <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                  </div>
+                  <span class="progress-text">Servicio en progreso...</span>
+                </div>
+              </div>
+
+              <!-- Acciones -->
+              <div class="appointment-actions">
+                <button
+                  class="btn-action btn-detail"
+                  (click)="verDetalle(reserva.id)"
+                  title="Ver detalles">
+                  <i class="fas fa-info-circle me-2"></i>Detalles
+                </button>
+
+                <button
+                  class="btn-action btn-finish"
+                  (click)="finalizarServicio(reserva)"
+                  title="Finalizar servicio">
+                  <i class="fas fa-check-double me-2"></i>Finalizar
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Citas Completadas/Canceladas -->
+          <div *ngIf="reservasCompletadas.length > 0" class="appointments-section">
+            <h4 class="section-subtitle">
+              <i class="fas fa-history me-2"></i>Historial del Día
+            </h4>
+
+            <div class="appointment-card completed" *ngFor="let reserva of reservasCompletadas">
+
+              <!-- Header de la tarjeta -->
+              <div class="appointment-header">
+                <div class="time-badge">
+                  <i class="fas fa-clock me-2"></i>
+                  {{ reserva.horaInicio }} - {{ reserva.horaFin }}
+                </div>
+                <div class="status-badge" [style.background-color]="obtenerColorEstado(reserva.estado)">
+                  <i class="fas" [ngClass]="obtenerIconoEstado(reserva.estado)"></i>
+                  {{ obtenerTextoEstado(reserva.estado) }}
+                </div>
+              </div>
+
+              <!-- Información del cliente -->
+              <div class="appointment-body">
+                <div class="client-info">
+                  <div class="client-avatar">
+                    <i class="fas fa-user"></i>
+                  </div>
+                  <div class="client-details">
+                    <h5 class="client-name">{{ reserva.clienteNombre }}</h5>
+                  </div>
+                </div>
+
+                <div class="service-info">
+                  <div class="service-item">
+                    <i class="fas fa-cut me-2"></i>
+                    <span>{{ reserva.servicioNombre }}</span>
+                  </div>
+                  <div class="service-item">
+                    <i class="fas fa-dollar-sign me-2"></i>
+                    <span>${{ reserva.precio | number }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Acciones -->
+              <div class="appointment-actions">
+                <button
+                  class="btn-action btn-detail"
+                  (click)="verDetalle(reserva.id)"
+                  title="Ver detalles">
+                  <i class="fas fa-info-circle me-2"></i>Detalles
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>

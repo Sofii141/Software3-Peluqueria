@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgFor, CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { EstilistasService } from '../estilistas.service';
-import { Estilista } from '../estilista.model';
+import { RouterModule, Router } from '@angular/router'; // ← AÑADIR Router
+import { EstilistasService } from '../servicios/estilistas.service';
+import { Estilista } from '../modelos/estilista.model';
 import Swal from 'sweetalert2';
 import { firstValueFrom } from 'rxjs';
 
@@ -20,7 +20,10 @@ export class EstilistasListarComponent implements OnInit {
   serviciosDisponibles: string[] = [];
   servicioSeleccionado: string = 'Todos';
 
-  constructor(private estilistasService: EstilistasService) {}
+  constructor(
+    private estilistasService: EstilistasService,
+    private router: Router // ← AÑADIR ESTO
+  ) {}
 
   ngOnInit(): void {
     this.cargarEstilistas();
@@ -51,61 +54,65 @@ export class EstilistasListarComponent implements OnInit {
       }
     });
   }
-filtrarPorServicio(servicio: string) {
-  this.servicioSeleccionado = servicio;
 
-  if (servicio === 'Todos') {
-    this.estilistasFiltrados = this.estilistas;
-  } else {
-    this.estilistasFiltrados = this.estilistas.filter(e =>
-      e.servicios.includes(servicio)
-    );
+  filtrarPorServicio(servicio: string) {
+    this.servicioSeleccionado = servicio;
+
+    if (servicio === 'Todos') {
+      this.estilistasFiltrados = this.estilistas;
+    } else {
+      this.estilistasFiltrados = this.estilistas.filter(e =>
+        e.servicios.includes(servicio)
+      );
+    }
   }
-}
 
   inactivar(estilista: Estilista) {
-  this.estilistasService.citasPendientes(estilista.id).subscribe({
-    next: (citas: number) => {
+    this.estilistasService.citasPendientes(estilista.id).subscribe({
+      next: (citas: number) => {
 
-      // Si tiene citas pendientes → no permitir inactivar
-      if (citas > 0) {
-        Swal.fire(
-          'Bloqueo',
-          `Este estilista tiene ${citas} citas futuras.  
+        // Si tiene citas pendientes → no permitir inactivar
+        if (citas > 0) {
+          Swal.fire(
+            'Bloqueo',
+            `Este estilista tiene ${citas} citas futuras.
 Debe reasignarlas o cancelarlas antes de inactivarlo.`,
-          'error'
-        );
-        return;
-      }
+            'error'
+          );
+          return;
+        }
 
-      // Confirmación de inactivación
-      Swal.fire({
-        title: "¿Inactivar estilista?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Sí, inactivar",
-        cancelButtonText: "Cancelar"
-      }).then(r => {
-        if (!r.isConfirmed) return;
+        // Confirmación de inactivación
+        Swal.fire({
+          title: "¿Inactivar estilista?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sí, inactivar",
+          cancelButtonText: "Cancelar"
+        }).then(r => {
+          if (!r.isConfirmed) return;
 
-        // Llamar al backend para inactivar
-        this.estilistasService.inactivar(estilista.id).subscribe({
-          next: () => {
-            Swal.fire('Listo', 'El estilista ha sido inactivado.', 'success');
-            this.cargarEstilistas();
-          },
-          error: () => {
-            Swal.fire('Error', 'No se pudo inactivar el estilista.', 'error');
-          }
+          // Llamar al backend para inactivar
+          this.estilistasService.inactivar(estilista.id).subscribe({
+            next: () => {
+              Swal.fire('Listo', 'El estilista ha sido inactivado.', 'success');
+              this.cargarEstilistas();
+            },
+            error: () => {
+              Swal.fire('Error', 'No se pudo inactivar el estilista.', 'error');
+            }
+          });
         });
-      });
 
-    },
+      },
 
-    error: () => {
-      Swal.fire('Error', 'No se pudo verificar las citas pendientes.', 'error');
-    }
-  });
-}
+      error: () => {
+        Swal.fire('Error', 'No se pudo verificar las citas pendientes.', 'error');
+      }
+    });
+  }
 
+  configurarHorarios(id: number): void {
+    this.router.navigate(['/admin/estilistas/horarios', id]);
+  }
 }

@@ -6,43 +6,123 @@
     <form #servicioForm="ngForm" (ngSubmit)="actualizarServicio()">
       <div class="row">
         <div class="col-lg-7">
+          <!-- Nombre -->
           <div class="form-group mb-4">
-            <label for="nombre">Nombre del Servicio</label>
-            <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="servicio.nombre" required>
+            <label for="nombre">Nombre del Servicio *</label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              class="form-control"
+              [(ngModel)]="servicio.nombre"
+              #nombre="ngModel"
+              required
+              minlength="3"
+              maxlength="100">
+            <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger mt-1">
+              <small *ngIf="nombre.errors?.['required']">El nombre es obligatorio.</small>
+              <small *ngIf="nombre.errors?.['minlength']">Mínimo 3 caracteres.</small>
+              <small *ngIf="nombre.errors?.['maxlength']">Máximo 100 caracteres.</small>
+            </div>
           </div>
+
+          <!-- Descripción -->
           <div class="form-group mb-4">
-            <label for="descripcion">Descripción</label>
-            <textarea id="descripcion" name="descripcion" class="form-control" rows="4" [(ngModel)]="servicio.descripcion" required></textarea>
+            <label for="descripcion">Descripción *</label>
+            <textarea
+              id="descripcion"
+              name="descripcion"
+              class="form-control"
+              rows="4"
+              [(ngModel)]="servicio.descripcion"
+              #descripcion="ngModel"
+              required
+              minlength="10"
+              maxlength="500"></textarea>
+            <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="text-danger mt-1">
+              <small *ngIf="descripcion.errors?.['required']">La descripción es obligatoria.</small>
+              <small *ngIf="descripcion.errors?.['minlength']">Mínimo 10 caracteres.</small>
+              <small *ngIf="descripcion.errors?.['maxlength']">Máximo 500 caracteres.</small>
+            </div>
           </div>
+
           <div class="row">
-            <div class="col-md-6 form-group mb-4">
-              <label for="precio">Precio</label>
-              <div class="input-group">
-                <span class="input-group-text">$</span>
-                <input type="number" id="precio" name="precio" class="form-control" [(ngModel)]="servicio.precio" required>
+            <!-- Duración -->
+            <div class="col-md-4 form-group mb-4">
+              <label for="duracion">Duración (min) *</label>
+              <input
+                type="number"
+                id="duracion"
+                name="duracion"
+                class="form-control"
+                [(ngModel)]="servicio.duracionMinutos"
+                #duracion="ngModel"
+                required
+                min="45"
+                max="480">
+              <div *ngIf="duracion.invalid && (duracion.dirty || duracion.touched)" class="text-danger mt-1">
+                <small *ngIf="duracion.errors?.['required']">Requerido.</small>
+                <small *ngIf="duracion.errors?.['min']">Mínimo 45 min.</small>
+                <small *ngIf="duracion.errors?.['max']">Máximo 480 min.</small>
               </div>
             </div>
-            <div class="col-md-6 form-group mb-4">
-              <label for="categoria">Categoría</label>
-              <select id="categoria" name="categoria" class="form-select" [(ngModel)]="servicio.categoria" [compareWith]="compararCategoria" required>
+
+            <!-- Precio -->
+            <div class="col-md-4 form-group mb-4">
+              <label for="precio">Precio *</label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input
+                  type="number"
+                  id="precio"
+                  name="precio"
+                  class="form-control"
+                  [(ngModel)]="servicio.precio"
+                  #precio="ngModel"
+                  required
+                  min="1">
+              </div>
+              <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="text-danger mt-1">
+                <small *ngIf="precio.errors?.['required']">El precio es obligatorio.</small>
+                <small *ngIf="precio.errors?.['min']">Debe ser mayor a 0.</small>
+              </div>
+            </div>
+
+            <!-- Categoría -->
+            <div class="col-md-4 form-group mb-4">
+              <label for="categoria">Categoría *</label>
+              <select
+                id="categoria"
+                name="categoria"
+                class="form-select"
+                [(ngModel)]="servicio.categoria"
+                [compareWith]="compararCategoria"
+                #categoria="ngModel"
+                required>
                 <option [ngValue]="null" disabled>Seleccione una categoría</option>
-                <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{ categoria.nombre }}</option>
+                <option *ngFor="let cat of categorias" [ngValue]="cat">{{ cat.nombre }}</option>
               </select>
+              <div *ngIf="categoria.invalid && (categoria.dirty || categoria.touched)" class="text-danger mt-1">
+                <small *ngIf="categoria.errors?.['required']">Debe seleccionar una categoría.</small>
+              </div>
             </div>
           </div>
         </div>
 
+        <!-- Columna Derecha: Imagen y Switch -->
         <div class="col-lg-5 d-flex flex-column">
           <div class="form-group mb-4 flex-grow-1">
             <label>Imagen del Servicio</label>
             <div class="image-upload-box" (click)="fileInput.click()">
               <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
-              
+
               <img *ngIf="imagePreview" [src]="imagePreview" alt="Vista previa de la nueva imagen" class="image-preview">
               <img *ngIf="!imagePreview && servicio.imagen" [src]="servicio.imagen" alt="Imagen actual" class="image-preview">
               <div *ngIf="!imagePreview && !servicio.imagen" class="upload-prompt">
                 <i class="fas fa-cloud-upload-alt"></i>
                 <p>Haz clic para subir una imagen</p>
+                <small>Recomendado: 800x800px (Máx 5MB)</small>
+                <small class="d-block mt-1">Formatos: JPG, JPEG, PNG</small>
               </div>
 
               <div class="image-overlay">
@@ -51,24 +131,37 @@
               </div>
 
             </div>
+            <small class="text-muted d-block mt-2">
+              <i class="fas fa-info-circle"></i> Si no seleccionas una nueva imagen, se mantendrá la actual.
+            </small>
           </div>
-          
+
           <div class="switch-container">
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" id="disponible" name="disponible" [(ngModel)]="servicio.disponible">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="disponible"
+                name="disponible"
+                [(ngModel)]="servicio.disponible">
               <label class="form-check-label" for="disponible">Disponible para Clientes</label>
             </div>
           </div>
         </div>
       </div>
-      
+
       <hr class="form-divider">
 
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary btn-lg" [disabled]="!servicioForm.form.valid">
+        <button
+          type="submit"
+          class="btn btn-primary btn-lg"
+          [disabled]="!servicioForm.form.valid">
           <i class="fas fa-save me-2"></i>Actualizar Servicio
         </button>
       </div>
     </form>
   </div>
 </section>
+

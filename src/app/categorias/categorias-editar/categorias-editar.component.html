@@ -1,47 +1,75 @@
-<div class="editar-container">
+<section class="full-page-section">
+  <div class="form-container">
+    <h2 class="section-title">Editar Categoría</h2>
+    <p class="form-subtitle">Modifica los detalles de la categoría seleccionada.</p>
 
-  <div class="card-editar">
+    <form #categoriaForm="ngForm" (ngSubmit)="actualizar(categoriaForm)">
 
-    <!-- HEADER -->
-    <div class="header-editar">
-      <h2>Editar Categoría</h2>
-
-      <button class="btn-cerrar" routerLink="/admin/categorias">
-        ✕
-      </button>
-    </div>
-
-    <form #form="ngForm" (ngSubmit)="actualizar(form)">
-
-      <!-- CAMPO NOMBRE -->
-      <div class="form-grupo">
-        <label>Nombre:</label>
-        <input 
+      <!-- Campo Nombre -->
+      <div class="form-group mb-4">
+        <label for="nombre">Nombre de la Categoría *</label>
+        <input
           type="text"
+          id="nombre"
           name="nombre"
+          class="form-control"
+          placeholder="Ej: Cortes de Cabello"
           [(ngModel)]="categoria.nombre"
+          #nombre="ngModel"
           required
-          maxlength="50"
-          placeholder="Nombre de la categoría"
-        >
+          minlength="3"
+          maxlength="50">
+
+        <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger mt-2">
+          <small *ngIf="nombre.errors?.['required']">
+            <i class="fas fa-exclamation-circle me-1"></i>El nombre es obligatorio.
+          </small>
+          <small *ngIf="nombre.errors?.['minlength']">
+            <i class="fas fa-exclamation-circle me-1"></i>Debe tener al menos 3 caracteres.
+          </small>
+          <small *ngIf="nombre.errors?.['maxlength']">
+            <i class="fas fa-exclamation-circle me-1"></i>No puede exceder los 50 caracteres.
+          </small>
+        </div>
       </div>
 
-      <!-- BOTONES -->
-      <div class="botones">
-        <button type="submit" class="btn-guardar" [disabled]="form.invalid">
-          Guardar
-        </button>
-
-        <button 
-          type="button" 
-          class="btn-cancelar" 
-          routerLink="/admin/categorias">
-          Cancelar
-        </button>
+      <!-- Switch de Estado -->
+      <div class="form-group mb-4">
+        <div class="form-check form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="estaActiva"
+            name="estaActiva"
+            [(ngModel)]="categoria.estaActiva">
+          <label class="form-check-label" for="estaActiva">
+            Categoría Activa
+          </label>
+        </div>
+        <small class="text-muted d-block mt-2">
+          <i class="fas fa-info-circle me-1"></i>
+          Si desactivas esta categoría, no estará disponible para nuevos servicios.
+        </small>
       </div>
 
+      <hr class="form-divider">
+
+      <!-- Botones de Acción -->
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-secondary btn-lg me-3"
+          (click)="cancelar()">
+          <i class="fas fa-times me-2"></i>Cancelar
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary btn-lg"
+          [disabled]="!categoriaForm.form.valid">
+          <i class="fas fa-save me-2"></i>Actualizar Categoría
+        </button>
+      </div>
     </form>
-
   </div>
-
-</div>
+</section>

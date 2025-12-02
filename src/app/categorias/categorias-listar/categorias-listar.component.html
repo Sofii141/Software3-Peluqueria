@@ -1,50 +1,98 @@
-<div class="contenedor-categorias">
+<section class="full-page-section">
+  <div class="container">
 
-  <div class="header">
-    <h2>Gestión de Categorías</h2>
+    <div class="page-header mb-5">
+      <h2 class="section-title">Gestión de Categorías</h2>
+      <button class="btn btn-primary" type="button" [routerLink]="['/admin/categorias/crear']">
+        <i class="fas fa-plus-circle me-2"></i>Nueva Categoría
+      </button>
+    </div>
 
-    <button class="btn-crear" routerLink="/admin/categorias/crear">
-      <i class="fas fa-plus"></i> Crear Nueva Categoría
-    </button>
-  </div>
+    <!-- Filtros de Estado -->
+    <div class="estado-filters mb-4">
+      <button
+        class="filter-btn-estado"
+        [class.active]="filtroEstado === 'activos'"
+        (click)="cambiarFiltro('activos')">
+        <i class="fas fa-check-circle me-1"></i> Activas
+      </button>
+      <button
+        class="filter-btn-estado"
+        [class.active]="filtroEstado === 'inactivos'"
+        (click)="cambiarFiltro('inactivos')">
+        <i class="fas fa-times-circle me-1"></i> Inactivas
+      </button>
+      <button
+        class="filter-btn-estado"
+        [class.active]="filtroEstado === 'todos'"
+        (click)="cambiarFiltro('todos')">
+        <i class="fas fa-list me-1"></i> Todas
+      </button>
+    </div>
 
-  <!-- BUSCADOR -->
-  <div class="buscador">
-    <i class="fas fa-search"></i>
-    <input 
-      type="text" 
-      placeholder="Buscar Categoría"
-      [(ngModel)]="filtro"
-      (input)="filtrar()"
-    />
-  </div>
+    <!-- Tabla de Categorías -->
+    <div class="table-responsive">
+      <table class="table table-dark table-hover">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Estado</th>
+          <th scope="col" class="text-center">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let categoria of categoriasFiltradas; let i = index"
+            [class.row-inactive]="!categoria.estaActiva">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>
+            <i class="fas fa-tag me-2" [style.color]="categoria.estaActiva ? '#D4AF37' : '#888'"></i>
+            {{ categoria.nombre }}
+          </td>
+          <td>
+              <span class="badge" [ngClass]="categoria.estaActiva ? 'bg-success' : 'bg-danger'">
+                {{ categoria.estaActiva ? 'Activa' : 'Inactiva' }}
+              </span>
+          </td>
+          <td class="text-center">
+            <div class="action-buttons">
+              <button
+                (click)="editarCategoria(categoria.id)"
+                class="btn btn-icon btn-edit"
+                [disabled]="!categoria.estaActiva"
+                [title]="categoria.estaActiva ? 'Editar categoría' : 'No se puede editar una categoría inactiva'">
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+              <button
+                (click)="toggleEstadoCategoria(categoria)"
+                class="btn btn-icon"
+                [ngClass]="categoria.estaActiva ? 'btn-inactivate' : 'btn-activate'"
+                [title]="categoria.estaActiva ? 'Inactivar categoría' : 'Reactivar categoría'">
+                <i [class]="categoria.estaActiva ? 'fas fa-ban' : 'fas fa-check-circle'"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <!-- GRID -->
-  <div class="grid-categorias">
-
-    <div *ngFor="let c of categoriasFiltradas" class="card">
-
-      <!-- Estado -->
-      <div class="estado" [class.inactivo]="!c.activa">
-        {{ c.activa ? 'Activo' : 'Inactivo' }}
-      </div>
-
-      <!-- Nombre -->
-      <h3>{{ c.nombre }}</h3>
-
-      <!-- Botones -->
-      <div class="acciones">
-        <button class="btn-editar" [routerLink]="['/admin/categorias/editar', c.id]">
-          Editar
-        </button>
-
-        <button class="btn-inactivar" (click)="inactivar(c)" [disabled]="!c.activa">
-          Inactivar
-        </button>
-      </div>
-
+    <!-- Mensaje cuando no hay categorías -->
+    <div *ngIf="categoriasFiltradas.length === 0" class="no-categories-message">
+      <i class="fas fa-inbox fa-3x mb-3"></i>
+      <p class="lead">No hay categorías {{ filtroEstado === 'activos' ? 'activas' : filtroEstado === 'inactivos' ? 'inactivas' : '' }} registradas.</p>
+      <button *ngIf="filtroEstado !== 'activos'"
+              class="btn btn-outline-primary mt-3"
+              (click)="cambiarFiltro('activos')">
+        <i class="fas fa-eye me-2"></i>Ver Categorías Activas
+      </button>
+      <button *ngIf="filtroEstado === 'activos'"
+              class="btn btn-primary mt-3"
+              [routerLink]="['/admin/categorias/crear']">
+        <i class="fas fa-plus-circle me-2"></i>Crear Primera Categoría
+      </button>
     </div>
 
   </div>
+</section>
 
-</div>

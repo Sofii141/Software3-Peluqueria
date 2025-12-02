@@ -10,7 +10,7 @@
 
   <!-- Filtros -->
   <div class="filtros">
-    <button class="pill" 
+    <button class="pill"
             [class.activo]="servicioSeleccionado === 'Todos'"
             (click)="filtrarPorServicio('Todos')">
       Todos
@@ -32,7 +32,7 @@
       <div class="img-wrapper">
         <img [src]="e.imagenUrl || 'assets/img/default-user.png'">
 
-        <span class="estado" 
+        <span class="estado"
               [class.activo]="e.estado"
               [class.inactivo]="!e.estado">
           {{ e.estado ? 'Activo' : 'Inactivo' }}
@@ -52,16 +52,28 @@
       </div>
 
       <div class="acciones">
-        <button [routerLink]="['/admin/estilistas/editar', e.id]">
-          Editar
+        <!-- Botón Editar (Ya existe) -->
+        <button [routerLink]="['/admin/estilistas/editar', e.id]"
+                [class.disabled]="!e.estado">
+          <i class="fas fa-pencil-alt me-1"></i> Editar
         </button>
 
+        <!-- NUEVO: Botón Configurar Horarios -->
+        <button (click)="configurarHorarios(e.id)"
+                class="btn-horarios"
+                [disabled]="!e.estado"
+                [title]="e.estado ? 'Configurar horarios' : 'No se puede configurar horarios de un estilista inactivo'">
+          <i class="fas fa-calendar-alt me-1"></i> Horarios
+        </button>
+
+        <!-- Botón Inactivar (Ya existe) -->
         <button class="btn-inactivar"
                 (click)="inactivar(e)"
                 [disabled]="!e.estado">
-          Inactivar
+          <i class="fas fa-ban me-1"></i> Inactivar
         </button>
       </div>
+
 
     </div>
 

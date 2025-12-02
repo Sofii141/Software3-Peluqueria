@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Servicio } from '../modelos/servicio';
-import { catchError, map, Observable, throwError } from 'rxjs'; 
+import { catchError, map, Observable, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from "../../../environments/environment";
 
@@ -10,44 +10,44 @@ import { environment } from "../../../environments/environment";
 })
 export class ServicioService {
   private urlEndPoint: string = `${environment.apiUrl}/api/servicios`;
-  private imageBaseUrl: string = `${environment.apiUrl}/images/`; 
-  
+
   constructor(private http: HttpClient) { }
- private mapServicio(servicio: Servicio): Servicio {
-    if (servicio.imagen) {
-      const lowerCaseUrl = servicio.imagen.toLowerCase();
-      
-      // CAMBIO CLAVE: Usa 'http' o 'https' para verificar si ya es una URL completa.
-      // Si la URL YA empieza con 'http' o 'https', NO la modificamos.
-      if (!lowerCaseUrl.startsWith('http://') && !lowerCaseUrl.startsWith('https://')) {
-          
-          // Si NO empieza con protocolo, asumimos que es SÓLO el nombre
-          // y le concatenamos la URL base.
-          servicio.imagen = this.imageBaseUrl + servicio.imagen;
-      }
+
+  private mapServicio(servicio: Servicio): Servicio {
+    if (servicio.imagen && !servicio.imagen.toLowerCase().startsWith('http')) {
+      servicio.imagen = `${environment.apiUrl}/images/${servicio.imagen}`;
     }
     return servicio;
   }
 
-
   getServicios(): Observable<Servicio[]> {
     return this.http.get<Servicio[]>(this.urlEndPoint).pipe(
-      map(servicios => servicios.map(servicio => this.mapServicio(servicio))) 
+      map(servicios => servicios.map(servicio => this.mapServicio(servicio)))
     );
   }
 
   getServicioById(id: number): Observable<Servicio> {
     return this.http.get<Servicio>(`${this.urlEndPoint}/${id}`).pipe(
-      map(servicio => this.mapServicio(servicio)) 
+      map(servicio => this.mapServicio(servicio))
     );
   }
-  
+
   getServiciosPorCategoria(categoriaId: number): Observable<Servicio[]> {
     if (!categoriaId || categoriaId === 0) {
       return this.getServicios();
     }
     return this.http.get<Servicio[]>(`${this.urlEndPoint}/categoria/${categoriaId}`).pipe(
-      map(servicios => servicios.map(servicio => this.mapServicio(servicio))) 
+      map(servicios => servicios.map(servicio => this.mapServicio(servicio)))
+    );
+  }
+
+  // ← NUEVO: Verificar si tiene reservas futuras
+  verificarReservasFuturas(servicioId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiUrl}/api/validaciones/servicio/${servicioId}`).pipe(
+      catchError(() => {
+        // Si falla la petición, asumimos que SÍ tiene reservas (seguridad)
+        return throwError(() => new Error('No se pudo verificar las reservas'));
+      })
     );
   }
 
@@ -57,21 +57,27 @@ export class ServicioService {
     );
   }
 
-  createWithImage(formData: FormData): Observable<Servicio> {
-    return this.http.post<Servicio>(this.urlEndPoint, formData).pipe(
-      map(servicio => this.mapServicio(servicio)), 
+  reactivarServicio(id: number): Observable<Servicio> {
+    // Para reactivar, hacemos un PUT con Disponible = true
+    const formData = new FormData();
+    formData.append('Disponible', 'true');
+
+    return this.http.put<Servicio>(`${this.urlEndPoint}/${id}`, formData).pipe(
+      map(servicio => this.mapServicio(servicio)),
       catchError(this.handleError)
     );
   }
 
-  /**
-   * Actualiza un servicio. Puede incluir una nueva imagen o no.
-   * @param id El ID del servicio a actualizar.
-   * @param formData Los datos del formulario, incluyendo la imagen opcional.
-   */
+  createWithImage(formData: FormData): Observable<Servicio> {
+    return this.http.post<Servicio>(this.urlEndPoint, formData).pipe(
+      map(servicio => this.mapServicio(servicio)),
+      catchError(this.handleError)
+    );
+  }
+
   updateWithImage(id: number, formData: FormData): Observable<Servicio> {
     return this.http.put<Servicio>(`${this.urlEndPoint}/${id}`, formData).pipe(
-      map(servicio => this.mapServicio(servicio)), 
+      map(servicio => this.mapServicio(servicio)),
       catchError(this.handleError)
     );
   }
@@ -83,9 +89,18 @@ export class ServicioService {
       mensajeError = 'No se pudo conectar con el servidor. Verifique su conexión.';
     } else if (error.status === 401) {
       mensajeError = 'No estás autorizado para realizar esta acción.';
-    } else if (error.status === 400 || error.status === 404) {
-      // Intentamos obtener el mensaje específico del backend
-      mensajeError = error.error?.mensaje || error.error?.title || 'Los datos enviados son incorrectos o el recurso no existe.';
+    } else if (error.status === 400) {
+      // Extraer mensaje del backend
+      const backendError = error.error;
+      if (backendError?.mensaje) {
+        mensajeError = backendError.mensaje;
+      } else if (backendError?.title) {
+        mensajeError = backendError.title;
+      }
+    } else if (error.status === 404) {
+      mensajeError = 'El servicio solicitado no existe.';
+    } else if (error.status === 409) {
+      mensajeError = 'Ya existe un servicio con ese nombre.';
     }
 
     console.error(`Error ${error.status}:`, error.error);
