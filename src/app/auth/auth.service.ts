@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { environment } from '../../environments/environment';
-import { LoginRequest, LoginResponse, RegisterRequest } from './auth.interfaces'; 
+import { LoginRequest, LoginResponse, RegisterRequest } from './auth.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -20,37 +20,53 @@ export class AuthService {
   public currentUserToken$: Observable<string | null> = this.currentUserToken.asObservable();
   public currentUserRole$: Observable<string | null> = this.currentUserRole.asObservable();
 
-  // LOGIN: Guarda el token, obtiene rol, y redirige automáticamente
+  /** LOGIN */
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiAuthUrl}/login`, loginRequest).pipe(
       tap(response => {
-        const token = response.token;
+        const token = response?.token;
+
+        if (!token) {
+          console.error('❌ No se recibió token en la respuesta del login.');
+          return;
+        }
+
         const role = this.getRoleFromToken(token);
+        if (!role) {
+          console.error('❌ No se pudo extraer el rol del token.');
+          return;
+        }
 
         localStorage.setItem('authToken', token);
         this.currentUserToken.next(token);
         this.currentUserRole.next(role);
 
-        //  REDIRECCIÓN SOLO A RUTAS PRIVADAS
-        if (role === 'Admin') {
-          this.router.navigate(['/admin/estilistas']);
-        } else if (role === 'Cliente') {
-          this.router.navigate(['/cliente/reservas']);
-        } else if (role === 'Estilista') {
-          this.router.navigate(['/estilista/agenda']);
-        } else {
-          this.router.navigate(['/servicios']); // fallback privado
+        console.log(`✅ Login exitoso. Rol: ${role}`);
+
+        // Redirección según rol
+        switch (role) {
+          case 'Admin':
+            this.router.navigate(['/admin/estilistas']);
+            break;
+          case 'Cliente':
+            this.router.navigate(['/cliente/reservas']);
+            break;
+          case 'Estilista':
+            this.router.navigate(['/estilista/agenda']);
+            break;
+          default:
+            this.router.navigate(['/servicios']);
         }
       })
     );
   }
 
-  // REGISTER: Solo devuelve la respuesta, no guarda token ni redirige
+  /** REGISTRO */
   register(registerRequest: RegisterRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiAuthUrl}/register`, registerRequest);
   }
 
-  // Cerrar sesión
+  /** CERRAR SESIÓN */
   logout(): void {
     localStorage.removeItem('authToken');
     this.currentUserToken.next(null);
@@ -58,7 +74,7 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
-  // Helpers
+  /** GETTERS */
   public getToken(): string | null {
     return this.currentUserToken.getValue();
   }
@@ -75,6 +91,7 @@ export class AuthService {
     return !!this.getToken();
   }
 
+  /** TOKEN STORAGE */
   private getTokenFromStorage(): string | null {
     if (typeof window !== 'undefined' && window.localStorage) {
       return localStorage.getItem('authToken');
@@ -82,14 +99,15 @@ export class AuthService {
     return null;
   }
 
+  /** DECODIFICAR TOKEN */
   private getRoleFromToken(token: string | null): string | null {
     if (!token) return null;
 
     try {
-      const decodedToken: { role: string } = jwtDecode(token);
-      return decodedToken.role;
+      const decodedToken: any = jwtDecode(token);
+      return decodedToken?.role || null;
     } catch (error) {
-      console.error("Error decodificando el token", error);
+      console.error('❌ Error decodificando el token:', error);
       return null;
     }
   }
