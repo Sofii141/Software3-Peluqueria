@@ -19,6 +19,8 @@ namespace peluqueria.reservaciones.Aplicacion.Mapeo
                 HoraInicio = reservacion.HoraInicio,
                 HoraFin = reservacion.HoraFin,
 
+                EstilistaId = reservacion.EstilistaId,
+
                 EstilistaNombre = reservacion.Estilista?.NombreCompleto ?? "N/A",
                 ServicioNombre = reservacion.Servicio?.Nombre ?? "N/A",
                 ServicioPrecio = reservacion.Servicio?.Precio ?? 0,

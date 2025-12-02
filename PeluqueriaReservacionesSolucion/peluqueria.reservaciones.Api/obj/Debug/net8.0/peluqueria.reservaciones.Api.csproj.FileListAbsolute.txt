@@ -142,4 +142,3 @@ C:\Users\usuario\Documents\Semestre 7\Inf Software 3\Final\Software3-Peluqueria\
 C:\Users\usuario\Documents\Semestre 7\Inf Software 3\Final\Software3-Peluqueria\PeluqueriaReservacionesSolucion\peluqueria.reservaciones.Api\obj\Debug\net8.0\peluqueria.reservaciones.Api.pdb
 C:\Users\usuario\Documents\Semestre 7\Inf Software 3\Final\Software3-Peluqueria\PeluqueriaReservacionesSolucion\peluqueria.reservaciones.Api\obj\Debug\net8.0\peluqueria.reservaciones.Api.genruntimeconfig.cache
 C:\Users\usuario\Documents\Semestre 7\Inf Software 3\Final\Software3-Peluqueria\PeluqueriaReservacionesSolucion\peluqueria.reservaciones.Api\obj\Debug\net8.0\ref\peluqueria.reservaciones.Api.dll
-C:\Users\usuario\Documents\Semestre 7\Inf Software 3\Final\Software3-Peluqueria\PeluqueriaReservacionesSolucion\peluqueria.reservaciones.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

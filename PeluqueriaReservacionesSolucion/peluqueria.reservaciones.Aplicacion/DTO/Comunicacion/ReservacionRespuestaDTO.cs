@@ -19,6 +19,8 @@ namespace peluqueria.reservaciones.Aplicacion.DTO.Comunicacion
         public decimal ServicioPrecio { get; set; }
         public int TiempoAtencion { get; set; }
 
+        public int EstilistaId { get; set; }
+
         public string Estado { get; set; } = string.Empty;
         public string NombreIdentificacion { get; set; } = string.Empty;
     }
