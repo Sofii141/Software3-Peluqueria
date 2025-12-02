@@ -3,8 +3,6 @@ import { HomeComponent } from './home/home.component';
 import { ListarServiciosComponent } from './servicios/listar-servicios/listar-servicios.component';
 import { CrearServicioComponent } from './servicios/crear-servicio/crear-servicio.component';
 import { ActualizarServicioComponent } from './servicios/actualizar-servicio/actualizar-servicio.component';
-import { OfertasComponent } from './ofertas/ofertas.component';
-import { CuponesComponent } from './cupones/cupones.component';
 import { AyudaComponent } from './ayuda/ayuda.component';
 import { adminGuard } from './auth/auth.guard';
 
@@ -45,8 +43,7 @@ export const routes: Routes = [
       },
 
       // ---- OFERTAS / CUPONES / AYUDA ----
-      { path: 'ofertas', component: OfertasComponent },
-      { path: 'cupones', component: CuponesComponent },
+      
       { path: 'ayuda', component: AyudaComponent },
 
       // ------------ ADMIN ESTILISTAS ------------
