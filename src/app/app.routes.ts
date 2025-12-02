@@ -22,14 +22,14 @@ export const routes: Routes = [
     component: PrivateLayoutComponent,
     children: [
       // ---------------- ADMIN ----------------
-      { path: 'servicios', component: ListarServiciosComponent },
+      { path: 'admin/servicios', component: ListarServiciosComponent },
       {
-        path: 'servicios/crear',
+        path: 'admin/servicios/crear',
         component: CrearServicioComponent,
         canActivate: [adminGuard]
       },
       {
-        path: 'servicios/actualizar/:id',
+        path: 'admin/servicios/actualizar/:id',
         component: ActualizarServicioComponent,
         canActivate: [adminGuard]
       },
@@ -82,7 +82,7 @@ export const routes: Routes = [
 //     import('./cliente/reservas/reserva-crear.component').then(m => m.ReservaCrearComponent)
 // },
 
-// --------------- ESTILISTA ---------------
+      // --------------- ESTILISTA ---------------
 // {
 //   path: 'estilista/agenda',
 //   loadComponent: () =>
@@ -93,7 +93,7 @@ export const routes: Routes = [
       { path: 'ayuda', component: AyudaComponent },
 
       // fallback interno (privado)
-      { path: '**', redirectTo: 'servicios' }
+      { path: '**', redirectTo: 'admin/servicios' }
     ]
   },
 

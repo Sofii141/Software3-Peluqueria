@@ -1,4 +1,6 @@
-/* BOTÓN HAMBURGUESA EN MÓVIL */
+/* --------------------------
+   BOTÓN HAMBURGUESA EN MÓVIL
+--------------------------- */
 .toggle-btn {
   display: none;
   position: fixed;
@@ -11,7 +13,9 @@
   color: white;
 }
 
-/* OVERLAY */
+/* --------------------------
+   OVERLAY para móvil
+--------------------------- */
 .overlay {
   display: none;
 }
@@ -30,29 +34,49 @@
   }
 }
 
-/* SIDEBAR BASE */
+/* --------------------------
+   SIDEBAR BASE – ESCRITORIO
+--------------------------- */
 .sidebar {
   width: 260px;
   background: #1e1e1e;
-  height: 100vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
   border-right: 1px solid #2a2a2a;
-  position: fixed;
-  top: 0;
-  left: 0;
-  transition: transform 0.35s ease;
-  z-index: 1500;
 }
 
+/* --------------------------
+   RESPONSIVE – MÓVIL
+--------------------------- */
+@media (max-width: 900px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1500;
+    transform: translateX(-270px);
+    transition: transform 0.35s ease;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+/* --------------------------
+   LOGO
+--------------------------- */
 .logo-img {
   width: 130px;
   margin: 0 auto 35px auto;
   display: block;
 }
 
-/* LINKS */
+/* --------------------------
+   LINKS
+--------------------------- */
 .sidebar a {
   display: flex;
   align-items: center;
@@ -73,7 +97,9 @@
   font-size: 18px;
 }
 
-/* SECCIÓN INFERIOR */
+/* --------------------------
+   SECCIÓN INFERIOR
+--------------------------- */
 .bottom-section {
   margin-top: auto;
 }
@@ -84,16 +110,4 @@
 
 .logout-btn:hover {
   color: #ff7777 !important;
-}
-
-/* -------- RESPONSIVE: OCULTAR EN MÓVIL -------- */
-
-@media (max-width: 900px) {
-  .sidebar {
-    transform: translateX(-270px);
-  }
-
-  .sidebar.open {
-    transform: translateX(0);
-  }
 }
