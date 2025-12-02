@@ -37,7 +37,7 @@ export class LoginComponent {
           timer: 2000,
           showConfirmButton: false
         });
-        this.router.navigate(['/']);
+        // NO NAVEGAMOS AQUÍ: el AuthService ya lo hace
       },
       error: (err) => {
         Swal.fire({

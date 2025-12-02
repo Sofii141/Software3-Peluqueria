@@ -10,69 +10,69 @@ import { LoginRequest, LoginResponse, RegisterRequest } from './auth.interfaces'
   providedIn: 'root'
 })
 export class AuthService {
-  // Inyeccion de dependencias
-  private http = inject(HttpClient); // Peticiones HTTP
-  private router = inject(Router); // Navegar 
-  private apiAuthUrl = `${environment.apiUrl}/api/account`; // URL completa
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private apiAuthUrl = `${environment.apiUrl}/api/account`;
 
-  // BehaviorSubject para el token y el rol que hay en localStorage
   private currentUserToken = new BehaviorSubject<string | null>(this.getTokenFromStorage());
   private currentUserRole = new BehaviorSubject<string | null>(this.getRoleFromToken(this.getTokenFromStorage()));
 
-  // Observables públicos
   public currentUserToken$: Observable<string | null> = this.currentUserToken.asObservable();
   public currentUserRole$: Observable<string | null> = this.currentUserRole.asObservable();
 
-  // Método de Login 
+  // LOGIN: Guarda el token, obtiene rol, y redirige automáticamente
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
-    // Peticion POST
     return this.http.post<LoginResponse>(`${this.apiAuthUrl}/login`, loginRequest).pipe(
       tap(response => {
-        // Al recibir respuesta, guardamos el token y actualizamos los BehaviorSubjects
-        // Sesion persistente 
-        localStorage.setItem('authToken', response.token);
-        // Se notifica a toda la app que hay nuevo token
-        this.currentUserToken.next(response.token);
-        // Decodificamos el token y le decimos a la app sobre nuevo rol
-        this.currentUserRole.next(this.getRoleFromToken(response.token));
+        const token = response.token;
+        const role = this.getRoleFromToken(token);
+
+        localStorage.setItem('authToken', token);
+        this.currentUserToken.next(token);
+        this.currentUserRole.next(role);
+
+        //  REDIRECCIÓN SOLO A RUTAS PRIVADAS
+        if (role === 'Admin') {
+          this.router.navigate(['/admin/estilistas']);
+        } else if (role === 'Cliente') {
+          this.router.navigate(['/cliente/reservas']);
+        } else if (role === 'Estilista') {
+          this.router.navigate(['/estilista/agenda']);
+        } else {
+          this.router.navigate(['/servicios']); // fallback privado
+        }
       })
     );
   }
 
-  // Método de Registro
+  // REGISTER: Solo devuelve la respuesta, no guarda token ni redirige
   register(registerRequest: RegisterRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiAuthUrl}/register`, registerRequest).pipe(
-      tap(response => {
-        localStorage.setItem('authToken', response.token);
-        this.currentUserToken.next(response.token);
-        this.currentUserRole.next(this.getRoleFromToken(response.token));
-      })
-    );
+    return this.http.post<LoginResponse>(`${this.apiAuthUrl}/register`, registerRequest);
   }
 
+  // Cerrar sesión
   logout(): void {
-    // Eliminarmos token del almacenamiento
     localStorage.removeItem('authToken');
-    // Notificamos a la app que ya no hay token
     this.currentUserToken.next(null);
-    // Notificamos que no hay rol
     this.currentUserRole.next(null);
     this.router.navigate(['/']);
   }
 
-  // Devuelve el valor actual del token
+  // Helpers
   public getToken(): string | null {
     return this.currentUserToken.getValue();
   }
 
-  // Devuelve el valor actual del rol
   public getRole(): string | null {
     return this.currentUserRole.getValue();
   }
-  
-  // metoodo usado por guard para ver si es admin
+
   public isAdmin(): boolean {
-    return this.getRole() === 'Admin'; 
+    return this.getRole() === 'Admin';
+  }
+
+  public isLoggedIn(): boolean {
+    return !!this.getToken();
   }
 
   private getTokenFromStorage(): string | null {
@@ -82,11 +82,9 @@ export class AuthService {
     return null;
   }
 
-  // Decodifica el token para obtener el rol
   private getRoleFromToken(token: string | null): string | null {
-    if (!token) {
-      return null;
-    }
+    if (!token) return null;
+
     try {
       const decodedToken: { role: string } = jwtDecode(token);
       return decodedToken.role;
@@ -95,6 +93,4 @@ export class AuthService {
       return null;
     }
   }
-
-  
 }

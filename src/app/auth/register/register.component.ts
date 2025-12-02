@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './register.component.html',
-  styleUrls: ['../login/login.component.css'] 
+  styleUrls: ['../login/login.component.css']
 })
 export class RegisterComponent {
   public userData = {
@@ -24,28 +24,29 @@ export class RegisterComponent {
     private router: Router
   ) {}
 
-  // Este método se llama cuando el usuario envía el formulario.
   onSubmit(registerForm: NgForm): void {
     if (registerForm.invalid) {
       return;
     }
 
     this.authService.register(this.userData).subscribe({
-      next: (response) => {
+      next: () => {
         Swal.fire({
           icon: 'success',
-          title: `¡Registro Exitoso, ${response.userName}!`,
-          text: 'Tu cuenta ha sido creada. ¡Bienvenido!',
+          title: '¡Registro exitoso!',
+          text: 'Tu cuenta ha sido creada correctamente.',
           timer: 2000,
           showConfirmButton: false
         });
-        this.router.navigate(['/']);
+
+        // ✅ Redirigir al login
+        this.router.navigate(['/login']);
       },
       error: (err) => {
-        const errorMsg = err.error?.errors?.[0]?.description || 'Este nombre de usuario o email ya están en uso.';
+        const errorMsg = err.error?.errors?.[0]?.description || 'Error inesperado. Inténtalo de nuevo.';
         Swal.fire({
           icon: 'error',
-          title: 'Error en el Registro',
+          title: 'Error en el registro',
           text: errorMsg,
         });
       }
