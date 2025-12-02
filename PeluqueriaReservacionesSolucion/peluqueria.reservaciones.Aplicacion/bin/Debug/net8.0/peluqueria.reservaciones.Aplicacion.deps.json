@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "peluqueria.reservaciones.Aplicacion/1.0.0": {
+        "dependencies": {
+          "peluqueria.reservaciones.Core": "1.0.0"
+        },
+        "runtime": {
+          "peluqueria.reservaciones.Aplicacion.dll": {}
+        }
+      },
+      "peluqueria.reservaciones.Core/1.0.0": {
+        "runtime": {
+          "peluqueria.reservaciones.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "peluqueria.reservaciones.Aplicacion/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "peluqueria.reservaciones.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
