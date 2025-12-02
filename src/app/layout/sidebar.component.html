@@ -1,0 +1,83 @@
+<!-- BOTÓN HAMBURGUESA (solo en móvil) -->
+<button class="toggle-btn" (click)="toggleSidebar()">
+  <i class="bi bi-list"></i>
+</button>
+
+<!-- OVERLAY (oscurece el fondo cuando el menú móvil está abierto) -->
+<div class="overlay" *ngIf="isOpen" (click)="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" [class.open]="isOpen">
+
+  <!-- LOGO -->
+  <div class="logo">
+    <img src="assets/logo.png" alt="logo" class="logo-img" />
+  </div>
+
+  <!-- ADMIN -->
+  <ng-container *ngIf="role === 'Admin'">
+
+    <a routerLink="/admin/reportes" routerLinkActive="active">
+      <i class="bi bi-graph-up"></i> Reportes
+    </a>
+
+    <a routerLink="/admin/servicios" routerLinkActive="active">
+      <i class="bi bi-collection"></i> Gestión de Servicios
+    </a>
+
+    <a routerLink="/admin/categorias" routerLinkActive="active">
+      <i class="bi bi-folder"></i> Gestión de Categorías
+    </a>
+
+    <a routerLink="/admin/estilistas" routerLinkActive="active">
+      <i class="bi bi-people"></i> Gestión de Estilistas
+    </a>
+
+    <a routerLink="/admin/horarios" routerLinkActive="active">
+      <i class="bi bi-clock"></i> Configuración Horarios
+    </a>
+
+    <a routerLink="/admin/agenda" routerLinkActive="active">
+      <i class="bi bi-calendar3"></i> Agenda (General)
+    </a>
+  </ng-container>
+
+  <!-- ESTILISTA -->
+  <ng-container *ngIf="role === 'Estilista'">
+
+    <a routerLink="/estilista/agenda" routerLinkActive="active">
+      <i class="bi bi-journal"></i> Agenda
+    </a>
+
+  </ng-container>
+
+  <!-- CLIENTE -->
+  <ng-container *ngIf="role === 'Cliente'">
+
+    <a routerLink="/cliente/reservas" routerLinkActive="active">
+      <i class="bi bi-person"></i> Mis Reservas
+    </a>
+
+    <a routerLink="/cliente/nueva-reserva" routerLinkActive="active">
+      <i class="bi bi-file-earmark-plus"></i> Añadir Reserva
+    </a>
+  </ng-container>
+
+  <!-- OPCIONES COMUNES -->
+  <div class="bottom-section">
+
+    <a routerLink="/ayuda">
+      <i class="bi bi-info-circle"></i> Centro de Ayuda
+    </a>
+
+    <a routerLink="/contacto">
+      <i class="bi bi-chat-dots"></i> Contactanos
+    </a>
+
+    <a (click)="logout()" class="logout-btn">
+      <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+    </a>
+
+  </div>
+
+</div>

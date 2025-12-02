@@ -1,0 +1,26 @@
+<!-- FONDO OSCURO DEL MODAL -->
+<div class="overlay" (click)="cerrar()"></div>
+
+<div class="modal">
+  <div class="modal-header">
+    <h2>Crear Categoría</h2>
+    <button class="close-btn" (click)="cerrar()">✕</button>
+  </div>
+
+  <form #f="ngForm" (ngSubmit)="crear(f)">
+    <div class="form-group">
+      <label>Nombre:</label>
+      <input type="text"
+             class="input"
+             name="nombre"
+             [(ngModel)]="categoria.nombre"
+             placeholder="NombreActualCategoria"
+             required>
+    </div>
+
+    <div class="btn-row">
+      <button type="submit" class="btn-guardar">Guardar</button>
+      <button type="button" class="btn-cancelar" (click)="cerrar()">Cancelar</button>
+    </div>
+  </form>
+</div>

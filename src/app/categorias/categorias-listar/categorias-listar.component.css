@@ -1,0 +1,131 @@
+.contenedor-categorias {
+  padding: 30px;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.header h2 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.btn-crear {
+  background-color: #d4af37;
+  color: #1a1a1a;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-crear i {
+  margin-right: 8px;
+}
+
+/* BUSCADOR */
+.buscador {
+  display: flex;
+  align-items: center;
+  background: #2a2a2a;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-bottom: 30px;
+  border: 1px solid #444;
+}
+
+.buscador i {
+  margin-right: 10px;
+  color: #aaa;
+}
+
+.buscador input {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: #fff;
+  font-size: 15px;
+}
+
+/* GRID */
+.grid-categorias {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+/* CARD */
+.card {
+  background: #1e1e1e;
+  border: 2px solid #c1a34f;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.card h3 {
+  margin-top: 40px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ESTADO */
+.estado {
+  background: #2ecc71;
+  color: #000;
+  padding: 5px 12px;
+  border-radius: 6px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.estado.inactivo {
+  background: #bdc3c7;
+}
+
+/* BOTONES */
+.acciones {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.btn-editar {
+  background: #66b2ff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-inactivar {
+  background: #ff7f50;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-inactivar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,99 @@
+/* BOTÓN HAMBURGUESA EN MÓVIL */
+.toggle-btn {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: transparent;
+  border: none;
+  font-size: 32px;
+  z-index: 2000;
+  color: white;
+}
+
+/* OVERLAY */
+.overlay {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .toggle-btn {
+    display: block;
+  }
+
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1200;
+  }
+}
+
+/* SIDEBAR BASE */
+.sidebar {
+  width: 260px;
+  background: #1e1e1e;
+  height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #2a2a2a;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: transform 0.35s ease;
+  z-index: 1500;
+}
+
+.logo-img {
+  width: 130px;
+  margin: 0 auto 35px auto;
+  display: block;
+}
+
+/* LINKS */
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 10px;
+  color: #d1d1d1;
+  font-size: 15px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  color: #f1c40f;
+}
+
+.sidebar a i {
+  font-size: 18px;
+}
+
+/* SECCIÓN INFERIOR */
+.bottom-section {
+  margin-top: auto;
+}
+
+.logout-btn {
+  color: #ff4d4d !important;
+}
+
+.logout-btn:hover {
+  color: #ff7777 !important;
+}
+
+/* -------- RESPONSIVE: OCULTAR EN MÓVIL -------- */
+
+@media (max-width: 900px) {
+  .sidebar {
+    transform: translateX(-270px);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
