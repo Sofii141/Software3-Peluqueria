@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"Sofiaa\",\r\n  \"nombreCompleto\": \"Sofia Arango\",\r\n  \"email\": \"SofiaArango@gmail.com\",\r\n  \"password\": \"password123A$\",\r\n  \"telefono\": \"3106683378\"\r\n}",
+					"raw": "{\r\n  \"username\": \"esteban3\",\r\n  \"nombreCompleto\": \"Sofia Arango\",\r\n  \"email\": \"estebana3@gmail.com\",\r\n  \"password\": \"password123A$\",\r\n  \"telefono\": \"3106683378\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -87,9 +87,42 @@
 		},
 		{
 			"name": "Obtener Clientes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/account/clientes",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"clientes"
+					]
+				}
 			},
 			"response": []
 		},
@@ -100,7 +133,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"cliente_test2\",\r\n  \"password\": \"password123\"\r\n}",
+					"raw": "{\r\n  \"username\": \"juan.c\",\r\n  \"password\": \"Cliente123*\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -332,9 +365,26 @@
 		},
 		{
 			"name": "Obtener Todas las Categorías",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Masajes y SPA\", \r\n    \"estaActiva\": true\r\n}\r\n"
+				},
 				"url": {
 					"raw": "{{baseUrl}}/api/categorias",
 					"host": [
@@ -392,11 +442,21 @@
 		{
 			"name": "Crear nueva Categoría",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"nombre\": \"Masajes Faciales\"}",
+					"raw": "{\"nombre\": \"Categoria Prueba6\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -433,7 +493,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"Masajes y SPA\", \r\n    \"estaActiva\": true\r\n}\r\n",
+					"raw": "{\r\n    \"nombre\": \"Masajes\", \r\n    \"estaActiva\": true\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -441,14 +501,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/categorias/5",
+					"raw": "{{baseUrl}}/api/categorias/1",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
 						"categorias",
-						"5"
+						"1"
 					]
 				}
 			},
@@ -470,14 +530,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/categorias/5",
+					"raw": "{{baseUrl}}/api/categorias/1",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
 						"categorias",
-						"5"
+						"1"
 					]
 				}
 			},
@@ -550,14 +610,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/servicios/{{servicioId}}",
+					"raw": "{{baseUrl}}/api/servicios/100",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
 						"servicios",
-						"{{servicioId}}"
+						"100"
 					]
 				}
 			},
@@ -611,7 +671,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/servicios/categoria/2",
+					"raw": "{{baseUrl}}/api/servicios/categoria/100",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -619,7 +679,7 @@
 						"api",
 						"servicios",
 						"categoria",
-						"2"
+						"100"
 					]
 				}
 			},
@@ -688,22 +748,22 @@
 					"formdata": [
 						{
 							"key": "Nombre",
-							"value": "Tinte Completo prueba 2",
+							"value": "servicio 13",
 							"type": "text"
 						},
 						{
 							"key": "Descripcion",
-							"value": "Cambio de color permanente con producto orgánico.",
+							"value": "breve descripcion ",
 							"type": "text"
 						},
 						{
 							"key": "DuracionMinutos",
-							"value": "45",
+							"value": "50",
 							"type": "text"
 						},
 						{
 							"key": "Precio",
-							"value": "1300",
+							"value": "10000",
 							"type": "text"
 						},
 						{
@@ -713,13 +773,13 @@
 						},
 						{
 							"key": "CategoriaId",
-							"value": "4",
+							"value": "1",
 							"type": "text"
 						},
 						{
 							"key": "Imagen",
 							"type": "file",
-							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (7).png"
+							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (3).png"
 						}
 					]
 				},
@@ -911,17 +971,22 @@
 					"formdata": [
 						{
 							"key": "Nombre",
-							"value": "Tinte Completo edit",
+							"value": "Servicio12",
 							"type": "text"
 						},
 						{
 							"key": "Descripcion",
-							"value": "Cambio de color edit",
+							"value": "Cambio de color edit 10",
+							"type": "text"
+						},
+						{
+							"key": "DuracionMinutos",
+							"value": "60",
 							"type": "text"
 						},
 						{
 							"key": "Precio",
-							"value": "50",
+							"value": "10",
 							"type": "text"
 						},
 						{
@@ -931,25 +996,25 @@
 						},
 						{
 							"key": "CategoriaId",
-							"value": "1",
+							"value": "3",
 							"type": "text"
 						},
 						{
 							"key": "Imagen",
 							"type": "file",
-							"src": []
+							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (3).png"
 						}
 					]
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/servicios/22",
+					"raw": "{{baseUrl}}/api/servicios/13",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
 						"servicios",
-						"22"
+						"13"
 					]
 				}
 			},
@@ -1111,17 +1176,27 @@
 		{
 			"name": "Eliminar Servicio",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminToken}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/servicios/{{servicioId}}",
+					"raw": "{{baseUrl}}/api/servicios/12",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
 						"servicios",
-						"{{servicioId}}"
+						"12"
 					]
 				}
 			},
@@ -1188,14 +1263,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/estilistas/2",
+					"raw": "{{baseUrl}}/api/estilistas/8",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
 						"estilistas",
-						"2"
+						"8"
 					]
 				}
 			},
@@ -1221,12 +1296,12 @@
 					"formdata": [
 						{
 							"key": "Username",
-							"value": "estilista1",
+							"value": "Sofia21dd",
 							"type": "text"
 						},
 						{
 							"key": "Email",
-							"value": "juan@email.com",
+							"value": "soEstildta12@email.com",
 							"type": "text"
 						},
 						{
@@ -1236,13 +1311,18 @@
 						},
 						{
 							"key": "NombreCompleto",
-							"value": "Juan Pérez",
+							"value": "Ana Sofia",
 							"type": "text"
 						},
 						{
 							"key": "Telefono",
 							"value": "3001234567",
 							"type": "text"
+						},
+						{
+							"key": "Imagen",
+							"type": "file",
+							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (3).png"
 						},
 						{
 							"key": "ServiciosIds",
@@ -1253,11 +1333,6 @@
 							"key": "ServiciosIds",
 							"value": "2",
 							"type": "text"
-						},
-						{
-							"key": "Imagen",
-							"type": "file",
-							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (3).png"
 						}
 					]
 				},
@@ -1299,44 +1374,50 @@
 						},
 						{
 							"key": "NombreCompleto",
-							"value": "Juan Pérez",
+							"value": "juanNuevocxc",
 							"type": "text"
 						},
 						{
 							"key": "Telefono",
-							"value": "3100202020",
+							"value": "3100202021",
 							"type": "text"
 						},
 						{
 							"key": "ServiciosIds",
-							"value": "1",
+							"value": "2",
 							"type": "text"
 						},
 						{
 							"key": "Imagen",
 							"type": "file",
-							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (3).png"
+							"src": "/C:/Users/Ana_Sofia/OneDrive/Pictures/Screenshots/Captura de pantalla (7).png"
 						},
 						{
 							"key": "Username",
-							"value": "juan.nuevo",
+							"value": "juanNuevousuarioas",
 							"type": "text"
 						},
 						{
 							"key": "Email",
-							"value": "nuevo@email.com",
+							"value": "nuesdvo@email.com",
+							"type": "text"
+						},
+						{
+							"key": "ServiciosIds",
+							"value": "2",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/estilistas",
+					"raw": "{{baseUrl}}/api/estilistas/8",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
-						"estilistas"
+						"estilistas",
+						"8"
 					]
 				}
 			},
@@ -1398,14 +1479,14 @@
 					]
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/estilistas/2",
+					"raw": "{{baseUrl}}/api/estilistas/8",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
 						"estilistas",
-						"2"
+						"8"
 					]
 				}
 			},
@@ -1470,7 +1551,7 @@
 					]
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/estilistas/agenda/2/horario-base",
+					"raw": "{{baseUrl}}/api/estilistas/agenda/8/horario-base",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -1478,7 +1559,7 @@
 						"api",
 						"estilistas",
 						"agenda",
-						"2",
+						"8",
 						"horario-base"
 					]
 				}
@@ -1544,7 +1625,7 @@
 					]
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/estilistas/agenda/2/descanso-fijo",
+					"raw": "{{baseUrl}}/api/estilistas/agenda/8/descanso-fijo",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -1552,7 +1633,7 @@
 						"api",
 						"estilistas",
 						"agenda",
-						"2",
+						"8",
 						"descanso-fijo"
 					]
 				}
@@ -1618,7 +1699,7 @@
 					]
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/estilistas/agenda/2/bloqueo-dias-libres",
+					"raw": "{{baseUrl}}/api/estilistas/agenda/8/bloqueo-dias-libres",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -1626,7 +1707,7 @@
 						"api",
 						"estilistas",
 						"agenda",
-						"2",
+						"8",
 						"bloqueo-dias-libres"
 					]
 				}
@@ -1650,7 +1731,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[\r\n{\r\n    \"DiaSemana\": 2, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"16:00:00\",\r\n    \"EsLaborable\": true\r\n  },\r\n  {\r\n    \"DiaSemana\": 2, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"16:00:00\",\r\n    \"EsLaborable\": true\r\n  },\r\n  {\r\n    \"DiaSemana\": 3, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"16:00:00\",\r\n    \"EsLaborable\": true\r\n  },\r\n  {\r\n    \"DiaSemana\": 4, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"16:00:00\",\r\n    \"EsLaborable\": true\r\n  },\r\n  {\r\n    \"DiaSemana\": 5, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"16:00:00\",\r\n    \"EsLaborable\": true\r\n  }\r\n]\r\n\r\n",
+					"raw": "[\r\n{\r\n    \"DiaSemana\": 1, \r\n    \"HoraInicio\": \"09:00:00\",\r\n    \"HoraFin\": \"10:00:00\",\r\n    \"EsLaborable\": true\r\n  },\r\n  {\r\n    \"DiaSemana\": 2, \r\n    \"HoraInicio\": \"09:00:00\",\r\n    \"HoraFin\": \"10:00:00\",\r\n    \"EsLaborable\": true\r\n  },\r\n  {\r\n    \"DiaSemana\": 3, \r\n    \"HoraInicio\": \"09:00:00\",\r\n    \"HoraFin\": \"10:00:00\",\r\n    \"EsLaborable\": true\r\n  },\r\n  {\r\n    \"DiaSemana\": 4, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"16:00:00\",\r\n    \"EsLaborable\": true\r\n  },\r\n  {\r\n    \"DiaSemana\": 5, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"16:00:00\",\r\n    \"EsLaborable\": true\r\n  }\r\n]\r\n\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1658,7 +1739,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/estilistas/agenda/8/horario-base",
+					"raw": "{{baseUrl}}/api/estilistas/agenda/2/horario-base",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -1666,7 +1747,7 @@
 						"api",
 						"estilistas",
 						"agenda",
-						"8",
+						"2",
 						"horario-base"
 					]
 				}
@@ -1690,7 +1771,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[\r\n    {\"diaSemana\": 4, \"horaInicio\": \"14:00:00\", \"horaFin\": \"15:00:00\"}\r\n]",
+					"raw": "[\r\n  {\r\n    \"DiaSemana\": 2, \r\n    \"HoraInicio\": \"10:00:00\",\r\n    \"HoraFin\": \"11:00:00\"\r\n  }\r\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1698,7 +1779,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/estilistas/agenda/2/descanso-fijo",
+					"raw": "{{baseUrl}}/api/estilistas/agenda/8/descanso-fijo",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -1706,7 +1787,7 @@
 						"api",
 						"estilistas",
 						"agenda",
-						"2",
+						"8",
 						"descanso-fijo"
 					]
 				}
@@ -1730,7 +1811,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"fechaInicio\": \"2025-12-01T00:00:00\", \r\n    \"fechaFin\": \"2025-12-01T23:59:59\", \r\n    \"razon\": \"Curso Especial\"\r\n}",
+					"raw": "{\r\n    \"fechaInicio\": \"2026-11-01T00:00:00\", \r\n    \"fechaFin\": \"2026-11-02T23:59:59\", \r\n    \"razon\": \"Curso Especial2\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1738,7 +1819,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/estilistas/agenda/2/bloqueo-dias-libres",
+					"raw": "{{baseUrl}}/api/estilistas/agenda/8/bloqueo-dias-libres",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -1746,7 +1827,7 @@
 						"api",
 						"estilistas",
 						"agenda",
-						"2",
+						"8",
 						"bloqueo-dias-libres"
 					]
 				}
@@ -1814,7 +1895,7 @@
 					"raw": "{\r\n    \"fechaInicio\": \"2025-12-01T00:00:00\", \r\n    \"fechaFin\": \"2025-12-01T23:59:59\", \r\n    \"razon\": \"Curso Especial\"\r\n}"
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/estilistas/agenda/2/bloqueo-dias-libres/1",
+					"raw": "{{baseUrl}}/api/estilistas/agenda/8/bloqueo-dias-libres/13",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -1822,9 +1903,9 @@
 						"api",
 						"estilistas",
 						"agenda",
-						"2",
+						"8",
 						"bloqueo-dias-libres",
-						"1"
+						"13"
 					]
 				}
 			},
