@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Peluqueria.ApiGateway")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed53239926f12703f46521a3584f9175dc381cde")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b8ba22c2be58d92af66ebf33bec419fb2cc88602")]
 [assembly: System.Reflection.AssemblyProductAttribute("Peluqueria.ApiGateway")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Peluqueria.ApiGateway")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
