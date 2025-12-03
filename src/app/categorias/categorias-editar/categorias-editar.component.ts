@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CategoriaService } from '../servicios/categoria.service';
 import { Categoria } from '../modelos/categoria';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-categorias-editar',
@@ -31,18 +32,29 @@ export class CategoriasEditarComponent implements OnInit {
 
     this.categoriaService.getCategoria(id).subscribe({
       next: (data) => this.categoria = data,
-      error: () => alert('Error al cargar categoría')
+      error: (err) => {
+        console.error(err);
+        Swal.fire('Error', 'No se pudo cargar la categoría.', 'error');
+        this.router.navigate(['/admin/categorias']);
+      }
     });
   }
 
-  actualizar(form: NgForm) {
-    if (form.invalid) return;
+  actualizar(form: NgForm): void {
+    if (form.invalid) {
+      Swal.fire('Formulario inválido', 'Revisa los campos antes de continuar.', 'warning');
+      return;
+    }
 
-    this.categoriaService.actualizarCategoria(this.categoria.id, this.categoria)
-      .subscribe({
-        next: () => this.router.navigate(['/admin/categorias']),
-        error: () => alert('Error al actualizar')
-      });
+    this.categoriaService.actualizarCategoria(this.categoria.id, this.categoria).subscribe({
+      next: () => {
+        Swal.fire('Actualizado', 'Categoría actualizada correctamente.', 'success');
+        this.router.navigate(['/admin/categorias']);
+      },
+      error: (err) => {
+        console.error(err);
+        Swal.fire('Error', 'No se pudo actualizar la categoría.', 'error');
+      }
+    });
   }
-  
 }

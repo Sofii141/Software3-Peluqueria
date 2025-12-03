@@ -1,5 +1,6 @@
 <div class="contenedor-lista">
 
+  <!-- Encabezado -->
   <div class="encabezado">
     <h2>Gestión de Estilistas</h2>
 
@@ -8,57 +9,69 @@
     </a>
   </div>
 
-  <!-- Filtros -->
+  <!-- Filtros de servicio -->
   <div class="filtros">
-    <button class="pill" 
-            [class.activo]="servicioSeleccionado === 'Todos'"
-            (click)="filtrarPorServicio('Todos')">
+
+    <!-- Botón TODOS -->
+    <button 
+      class="pill" 
+      [class.activo]="servicioSeleccionado === 'Todos'"
+      (click)="filtrarPorServicio('Todos')">
       Todos
     </button>
 
-    <button *ngFor="let s of serviciosDisponibles"
-            class="pill"
-            [class.activo]="servicioSeleccionado === s"
-            (click)="filtrarPorServicio(s)">
-      {{ s }}
+    <!-- Botones por servicio -->
+    <button 
+      *ngFor="let s of serviciosDisponibles"
+      class="pill"
+      [class.activo]="servicioSeleccionado === s.id"
+      (click)="filtrarPorServicio(s.id)">
+      {{ s.nombre }}
     </button>
+
   </div>
 
-  <!-- Listado -->
+  <!-- Listado de estilistas -->
   <div class="grid-estilistas">
 
     <div *ngFor="let e of estilistasFiltrados" class="card-estilista">
 
+      <!-- Imagen -->
       <div class="img-wrapper">
-        <img [src]="e.imagenUrl || 'assets/img/default-user.png'">
+        <img 
+          [src]="e.imagenUrl || 'assets/img/default-user.png'" 
+          alt="Estilista">
 
-        <span class="estado" 
-              [class.activo]="e.estado"
-              [class.inactivo]="!e.estado">
+        <span 
+          class="estado" 
+          [class.activo]="e.estado"
+          [class.inactivo]="!e.estado">
           {{ e.estado ? 'Activo' : 'Inactivo' }}
         </span>
       </div>
 
+      <!-- Información -->
       <div class="info">
-        <h3>{{ e.nombreUsuario }}</h3>
+        <h3>{{ e.username }}</h3>
 
         <p class="servicios">
-          {{ (e.servicios && e.servicios.length > 0) ? e.servicios.join(', ') : 'Sin servicios' }}
-
+          {{ obtenerNombresServicios(e.servicios).join(', ') || 'Sin servicios' }}
         </p>
 
         <p>{{ e.email }}</p>
         <p>{{ e.telefono }}</p>
       </div>
 
+      <!-- Botones -->
       <div class="acciones">
         <button [routerLink]="['/admin/estilistas/editar', e.id]">
           Editar
         </button>
 
-        <button class="btn-inactivar"
-                (click)="inactivar(e)"
-                [disabled]="!e.estado">
+        <button 
+          class="btn-inactivar"
+          (click)="inactivar(e)"
+          [disabled]="!e.estado">
           Inactivar
         </button>
       </div>

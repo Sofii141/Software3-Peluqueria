@@ -1,27 +1,27 @@
 <div class="editar-container">
-
   <div class="card-editar">
 
     <!-- HEADER -->
     <div class="header-editar">
       <h2>Editar Categoría</h2>
-
-      <button class="btn-cerrar" routerLink="/admin/categorias">
+      <button class="btn-cerrar" type="button" routerLink="/admin/categorias" aria-label="Cerrar edición">
         ✕
       </button>
     </div>
 
-    <form #form="ngForm" (ngSubmit)="actualizar(form)">
+    <form #form="ngForm" (ngSubmit)="actualizar(form)" novalidate>
 
       <!-- CAMPO NOMBRE -->
       <div class="form-grupo">
-        <label>Nombre:</label>
+        <label for="nombre">Nombre:</label>
         <input 
+          id="nombre"
           type="text"
           name="nombre"
           [(ngModel)]="categoria.nombre"
           required
           maxlength="50"
+          class="input"
           placeholder="Nombre de la categoría"
         >
       </div>
@@ -41,7 +41,5 @@
       </div>
 
     </form>
-
   </div>
-
 </div>

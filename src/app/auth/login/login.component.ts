@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -18,13 +17,13 @@ export class LoginComponent {
     password: ''
   };
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  public loginError: string | null = null;
 
-  onSubmit(loginForm: NgForm): void {
-    if (loginForm.invalid) {
+  constructor(private authService: AuthService) {}
+
+  onSubmit(): void {
+    if (!this.credentials.username || !this.credentials.password) {
+      this.loginError = 'Completa todos los campos.';
       return;
     }
 
@@ -32,19 +31,23 @@ export class LoginComponent {
       next: (response) => {
         Swal.fire({
           icon: 'success',
-          title: `¡Bienvenido, ${response.userName}!`,
+          title: `¡Bienvenido, ${response.userName || this.credentials.username}!`,
           text: 'Has iniciado sesión correctamente.',
           timer: 2000,
           showConfirmButton: false
         });
-        // NO NAVEGAMOS AQUÍ: el AuthService ya lo hace
+
+        // ✅ El token y navegación ya se manejan en AuthService
       },
       error: (err) => {
+        console.error(err);
+        this.loginError = err?.error?.message || 'Credenciales inválidas.';
         Swal.fire({
           icon: 'error',
-          title: 'Error de Autenticación',
-          text: 'El nombre de usuario o la contraseña son incorrectos.',
+          title: 'Error al iniciar sesión',
+          text: this.loginError ?? 'Ocurrió un error inesperado.',
         });
+
       }
     });
   }

@@ -1,22 +1,24 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './register.component.html',
   styleUrls: ['../login/login.component.css']
 })
 export class RegisterComponent {
   public userData = {
     username: '',
+    nombreCompleto: '',
     email: '',
-    password: ''
+    password: '',
+    telefono: ''
   };
 
   constructor(
@@ -24,8 +26,19 @@ export class RegisterComponent {
     private router: Router
   ) {}
 
-  onSubmit(registerForm: NgForm): void {
-    if (registerForm.invalid) {
+  onSubmit(): void {
+    if (
+      !this.userData.username ||
+      !this.userData.nombreCompleto ||
+      !this.userData.email ||
+      !this.userData.password ||
+      !this.userData.telefono
+    ) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Faltan datos',
+        text: 'Por favor completa todos los campos.',
+      });
       return;
     }
 
@@ -39,11 +52,10 @@ export class RegisterComponent {
           showConfirmButton: false
         });
 
-        // ✅ Redirigir al login
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        const errorMsg = err.error?.errors?.[0]?.description || 'Error inesperado. Inténtalo de nuevo.';
+        const errorMsg = err.error?.message || err.error?.errors?.[0]?.description || 'Error inesperado.';
         Swal.fire({
           icon: 'error',
           title: 'Error en el registro',

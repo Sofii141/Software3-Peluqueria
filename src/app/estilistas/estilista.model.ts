@@ -1,11 +1,11 @@
 export interface Estilista {
   id: number;
-  nombre: string;
-  nombreUsuario?: string;
+  nombreCompleto: string;
+  username: string;
   telefono: string;
   email: string;
   estado: boolean;
-  servicios: string[];    
-  imagenUrl?: string;
-  password?: string;
+  servicios: number[];        // IDs de servicios (para backend)
+  imagenUrl?: string;    
+  password?: string; // ← agregar esto     
 }

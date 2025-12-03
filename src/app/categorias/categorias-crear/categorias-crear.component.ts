@@ -24,25 +24,25 @@ export class CategoriasCrearComponent {
     private router: Router
   ) {}
 
-  crear(form: NgForm) {
+  crear(form: NgForm): void {
     if (form.invalid) {
-      Swal.fire("Campos incompletos", "Revisa el formulario.", "warning");
+      Swal.fire('Campos incompletos', 'Revisa el formulario.', 'warning');
       return;
     }
 
     this.categoriaService.crearCategoria(this.categoria).subscribe({
       next: () => {
-        Swal.fire("Éxito", "Categoría creada correctamente", "success");
+        Swal.fire('Éxito', 'Categoría creada correctamente', 'success');
         this.router.navigate(['/admin/categorias']);
       },
       error: (err) => {
         console.error(err);
-        Swal.fire("Error", "No se pudo crear la categoría.", "error");
+        Swal.fire('Error', 'No se pudo crear la categoría.', 'error');
       }
     });
   }
 
-  cerrar() {
+  cerrar(): void {
     this.router.navigate(['/admin/categorias']);
   }
 }

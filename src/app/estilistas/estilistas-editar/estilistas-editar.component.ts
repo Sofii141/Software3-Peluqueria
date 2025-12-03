@@ -15,9 +15,11 @@ import { Estilista } from '../estilista.model';
 })
 export class EstilistasEditarComponent implements OnInit {
 
-  estilista!: Estilista;          // Estilista cargado desde backend
-  serviciosDisponibles: string[] = [];
-  servicioSeleccionado: string = "";
+  estilista!: Estilista;
+  serviciosDisponibles: { id: number, nombre: string }[] = [];
+
+  imagenSeleccionada: File | null = null;
+  preview: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,40 +40,48 @@ export class EstilistasEditarComponent implements OnInit {
     this.cargarServicios();
   }
 
-  /** Obtener datos del estilista por ID */
   cargarEstilista(id: number) {
-    this.estilistasService.listar().subscribe({
-      next: (lista: Estilista[]) => {
-        const encontrado = lista.find(e => e.id === id);
+    this.estilistasService.obtener(id).subscribe({
+      next: (data) => {
+        this.estilista = { ...data };
 
-        if (!encontrado) {
-          Swal.fire("No encontrado", "El estilista no existe.", "error");
-          this.router.navigate(['/admin/estilistas']);
-          return;
-        }
+        // Si los servicios vienen como strings, puedes convertirlos a IDs si es necesario
+        // this.estilista.servicios = this.convertirServiciosANumeros(data.servicios);
 
-        this.estilista = { ...encontrado };
+        this.preview = this.estilista.imagenUrl || null;
       },
       error: () => {
         Swal.fire("Error", "No se pudo cargar el estilista.", "error");
+        this.router.navigate(['/admin/estilistas']);
       }
     });
   }
 
-  /** Servicios que ya existen en el sistema */
   cargarServicios() {
     this.serviciosDisponibles = [
-      "Corte",
-      "Color",
-      "Manicure",
-      "Pedicure",
-      "Tratamientos",
-      "Peinados",
-      "Depilación"
+      { id: 1, nombre: "Corte" },
+      { id: 2, nombre: "Color" },
+      { id: 3, nombre: "Manicure" },
+      { id: 4, nombre: "Pedicure" },
+      { id: 5, nombre: "Peinados" },
+      { id: 6, nombre: "Tratamientos" }
     ];
   }
 
-  /** Actualizar estilista */
+  onImagenSeleccionada(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this.imagenSeleccionada = file;
+
+    const reader = new FileReader();
+    reader.onload = () => (this.preview = reader.result as string);
+    reader.readAsDataURL(file);
+  }
+  seleccionarImagen() {
+    const fileInput = document.getElementById('fileInput') as HTMLElement;
+    fileInput.click();
+  }
   actualizar(form: NgForm) {
     if (form.invalid) {
       Swal.fire("Formulario incompleto", "Revisa los campos.", "warning");
@@ -85,38 +95,47 @@ export class EstilistasEditarComponent implements OnInit {
       confirmButtonText: "Guardar",
       cancelButtonText: "Cancelar"
     }).then(res => {
-
       if (!res.isConfirmed) return;
 
-        const payload: any = {
-            nombre: this.estilista.nombre,
-            nombreUsuario: this.estilista.nombreUsuario,
-            email: this.estilista.email,
-            telefono: this.estilista.telefono,
-            estado: this.estilista.estado,
-            servicios: this.estilista.servicios
-        };
+      const formData = new FormData();
 
-    
-      this.estilistasService.actualizar(this.estilista.id, payload).subscribe({
-        next: () => {
-          Swal.fire("Actualizado", "El estilista fue modificado.", "success");
-          this.router.navigate(['/admin/estilistas']);
-        },
-        error: (err) => {
-          console.error(err);
+      formData.append('Username', this.estilista.username);
+      formData.append('NombreCompleto', this.estilista.nombreCompleto || '');
 
-          Swal.fire(
-            "Error",
-            err.status === 409 ?
-              "El nombre de usuario o email ya existen." :
-              "No se pudo actualizar el estilista.",
-            "error"
-          );
-        }
+      formData.append('Email', this.estilista.email);
+      formData.append('Telefono', this.estilista.telefono);
+      formData.append('Estado', String(this.estilista.estado));
+
+      // Si quieres actualizar contraseña, puedes agregarla opcionalmente
+      if (this.estilista.password?.trim()) {
+        formData.append('Password', this.estilista.password);
+      }
+
+      this.estilista.servicios.forEach(servicioId => {
+        formData.append('ServiciosIds', servicioId.toString());
       });
+
+      if (this.imagenSeleccionada) {
+        formData.append('Imagen', this.imagenSeleccionada);
+      }
+
+      this.estilistasService.actualizar(this.estilista.id!, formData, this.imagenSeleccionada)
+        .subscribe({
+          next: () => {
+            Swal.fire("Actualizado", "El estilista fue modificado.", "success");
+            this.router.navigate(['/admin/estilistas']);
+          },
+          error: (err) => {
+            Swal.fire(
+              "Error",
+              err.status === 409
+                ? "El nombre de usuario o email ya existen."
+                : "No se pudo actualizar el estilista.",
+              "error"
+            );
+          }
+        });
 
     });
   }
-
 }

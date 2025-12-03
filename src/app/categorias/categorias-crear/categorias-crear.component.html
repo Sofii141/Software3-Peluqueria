@@ -1,25 +1,28 @@
-<!-- FONDO OSCURO DEL MODAL -->
-<div class="overlay" (click)="cerrar()"></div>
+<!-- Fondo oscuro del modal -->
+<div class="overlay" (click)="cerrar()" aria-hidden="true"></div>
 
-<div class="modal">
+<!-- Contenedor del modal -->
+<div class="modal" role="dialog" aria-modal="true">
   <div class="modal-header">
-    <h2>Crear Categoría</h2>
-    <button class="close-btn" (click)="cerrar()">✕</button>
+    <h2 class="modal-title">Crear Categoría</h2>
+    <button class="close-btn" type="button" (click)="cerrar()" aria-label="Cerrar modal">✕</button>
   </div>
 
-  <form #f="ngForm" (ngSubmit)="crear(f)">
+  <form #f="ngForm" (ngSubmit)="crear(f)" novalidate>
     <div class="form-group">
-      <label>Nombre:</label>
-      <input type="text"
-             class="input"
-             name="nombre"
-             [(ngModel)]="categoria.nombre"
-             placeholder="NombreActualCategoria"
-             required>
+      <label for="nombre">Nombre:</label>
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        class="input"
+        [(ngModel)]="categoria.nombre"
+        placeholder="Ej. Belleza Facial"
+        required>
     </div>
 
     <div class="btn-row">
-      <button type="submit" class="btn-guardar">Guardar</button>
+      <button type="submit" class="btn-guardar" [disabled]="f.invalid">Guardar</button>
       <button type="button" class="btn-cancelar" (click)="cerrar()">Cancelar</button>
     </div>
   </form>

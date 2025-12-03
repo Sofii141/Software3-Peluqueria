@@ -1,0 +1,110 @@
+<div class="contenedor-principal">
+
+  <div class="header-editar">
+    <h2>Editar Servicio</h2>
+    <button class="btn-cerrar" routerLink="/admin/servicios">✕</button>
+  </div>
+
+  <form #f="ngForm" (ngSubmit)="actualizar(f)" class="form-servicio" novalidate>
+
+    <div class="col">
+
+      <div class="form-grupo">
+        <label for="nombre">Nombre</label>
+        <input
+          id="nombre"
+          name="nombre"
+          type="text"
+          class="form-input"
+          required
+          [(ngModel)]="servicioForm.nombre"
+        />
+      </div>
+
+      <div class="form-grupo">
+        <label for="descripcion">Descripción</label>
+        <textarea
+          id="descripcion"
+          name="descripcion"
+          class="form-input"
+          rows="4"
+          required
+          [(ngModel)]="servicioForm.descripcion"
+        ></textarea>
+      </div>
+
+      <div class="form-grupo">
+        <label for="precio">Precio</label>
+        <input
+          id="precio"
+          name="precio"
+          type="number"
+          class="form-input"
+          min="0"
+          required
+          [(ngModel)]="servicioForm.precio"
+        />
+      </div>
+
+      <div class="form-grupo">
+        <label for="categoria">Categoría</label>
+        <select
+          id="categoria"
+          name="categoriaId"
+          class="form-input"
+          required
+          [(ngModel)]="servicioForm.categoriaId"
+        >
+          <option [ngValue]="0" disabled>Seleccione una categoría</option>
+          <option *ngFor="let c of categorias" [ngValue]="c.id">
+            {{ c.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-grupo check">
+        <label for="disponible">Disponible</label>
+        <input
+          id="disponible"
+          name="disponible"
+          type="checkbox"
+          [(ngModel)]="servicioForm.disponible"
+        />
+      </div>
+
+      <div class="acciones">
+        <button type="submit" class="btn-guardar" [disabled]="f.invalid">
+          Guardar cambios
+        </button>
+        <button type="button" class="btn-cancelar" routerLink="/admin/servicios">
+          Cancelar
+        </button>
+      </div>
+
+    </div>
+
+    <div class="col">
+      <div class="form-grupo">
+        <label for="fileInput">Imagen</label>
+
+        <div class="image-box" (click)="seleccionarImagen()">
+          <img *ngIf="preview" [src]="preview" class="preview-img" alt="Vista previa">
+          <div *ngIf="!preview" class="placeholder">
+            <div class="plus">+</div>
+            <span>Adjuntar nueva imagen (opcional)</span>
+          </div>
+        </div>
+
+        <input
+          type="file"
+          id="fileInput"
+          hidden
+          accept="image/*"
+          (change)="onImagenSeleccionada($event)"
+        />
+      </div>
+    </div>
+
+  </form>
+
+</div>

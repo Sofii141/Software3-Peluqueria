@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { EstilistasService } from '../estilistas.service';
 import { Estilista } from '../estilista.model';
 import Swal from 'sweetalert2';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-estilistas-listar',
@@ -17,8 +16,11 @@ export class EstilistasListarComponent implements OnInit {
 
   estilistas: Estilista[] = [];
   estilistasFiltrados: Estilista[] = [];
-  serviciosDisponibles: string[] = [];
-  servicioSeleccionado: string = 'Todos';
+
+  // → Ahora servicios son objetos con id + nombre
+  serviciosDisponibles: { id: number, nombre: string }[] = [];
+
+  servicioSeleccionado: number | 'Todos' = 'Todos';
 
   constructor(private estilistasService: EstilistasService) {}
 
@@ -26,86 +28,112 @@ export class EstilistasListarComponent implements OnInit {
     this.cargarEstilistas();
   }
 
-  cargarEstilistas() {
+  /** Cargar estilistas */
+  cargarEstilistas(): void {
     this.estilistasService.listar().subscribe({
       next: (data: Estilista[]) => {
-
         this.estilistas = data;
         this.estilistasFiltrados = data;
 
-        // Obtener lista de servicios únicos
-        const setServicios = new Set<string>();
+        // Construir set de IDs de servicios
+        const setIds = new Set<number>();
 
-        this.estilistas.forEach((e: Estilista) => {
-          if (Array.isArray(e.servicios)) {
-            e.servicios.forEach(s => setServicios.add(s));
-          }
+        data.forEach(e => {
+          e.servicios?.forEach(id => {
+            if (typeof id === 'number') {
+              setIds.add(id);
+            }
+          });
         });
 
-        this.serviciosDisponibles = Array.from(setServicios);
+        // Convertir ids a objetos para mostrar su nombre
+        this.serviciosDisponibles = Array.from(setIds).map(id => {
+          return {
+            id,
+            nombre: this.getNombreServicio(id)   // ← traducir nombre
+          }
+        });
       },
 
-      error: (err) => {
-        console.error(err);
+      error: () => {
         Swal.fire('Error', 'No se pudieron cargar los estilistas.', 'error');
       }
     });
   }
-filtrarPorServicio(servicio: string) {
-  this.servicioSeleccionado = servicio;
 
-  if (servicio === 'Todos') {
-    this.estilistasFiltrados = this.estilistas;
-  } else {
+  /** Traduce ID → nombre del servicio */
+  getNombreServicio(id: number): string {
+    const diccionario: any = {
+      1: 'Corte',
+      2: 'Color',
+      3: 'Manicure',
+      4: 'Pedicure',
+      5: 'Peinados',
+      6: 'Tratamientos'
+    };
+
+    return diccionario[id] || 'Desconocido';
+  }
+
+  /** Nombres para mostrar en tarjetas */
+  obtenerNombresServicios(ids: number[]): string[] {
+    return ids.map(id => this.getNombreServicio(id));
+  }
+
+  /** Filtrar por ID del servicio */
+  filtrarPorServicio(servicioId: number | 'Todos'): void {
+
+    this.servicioSeleccionado = servicioId;
+
+    if (servicioId === 'Todos') {
+      this.estilistasFiltrados = [...this.estilistas];
+      return;
+    }
+
     this.estilistasFiltrados = this.estilistas.filter(e =>
-      e.servicios.includes(servicio)
+      Array.isArray(e.servicios) && e.servicios.includes(servicioId)
     );
   }
-}
 
-  inactivar(estilista: Estilista) {
-  this.estilistasService.citasPendientes(estilista.id).subscribe({
-    next: (citas: number) => {
+  /** Inactivar estilista */
+  inactivar(estilista: Estilista): void {
+    this.estilistasService.citasPendientes(estilista.id).subscribe({
+      next: (citas: number) => {
 
-      // Si tiene citas pendientes → no permitir inactivar
-      if (citas > 0) {
-        Swal.fire(
-          'Bloqueo',
-          `Este estilista tiene ${citas} citas futuras.  
-Debe reasignarlas o cancelarlas antes de inactivarlo.`,
-          'error'
-        );
-        return;
-      }
+        if (citas > 0) {
+          Swal.fire(
+            'Bloqueo',
+            `Este estilista tiene ${citas} cita(s) pendiente(s).`,
+            'error'
+          );
+          return;
+        }
 
-      // Confirmación de inactivación
-      Swal.fire({
-        title: "¿Inactivar estilista?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Sí, inactivar",
-        cancelButtonText: "Cancelar"
-      }).then(r => {
-        if (!r.isConfirmed) return;
+        Swal.fire({
+          title: "¿Inactivar estilista?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sí, inactivar",
+          cancelButtonText: "Cancelar"
+        }).then(r => {
+          if (!r.isConfirmed) return;
 
-        // Llamar al backend para inactivar
-        this.estilistasService.inactivar(estilista.id).subscribe({
-          next: () => {
-            Swal.fire('Listo', 'El estilista ha sido inactivado.', 'success');
-            this.cargarEstilistas();
-          },
-          error: () => {
-            Swal.fire('Error', 'No se pudo inactivar el estilista.', 'error');
-          }
+          this.estilistasService.inactivar(estilista.id).subscribe({
+            next: () => {
+              Swal.fire('Listo', 'Estilista inactivado.', 'success');
+              this.cargarEstilistas();
+            },
+            error: () => {
+              Swal.fire('Error', 'No se pudo inactivar el estilista.', 'error');
+            }
+          });
         });
-      });
+      },
 
-    },
-
-    error: () => {
-      Swal.fire('Error', 'No se pudo verificar las citas pendientes.', 'error');
-    }
-  });
-}
+      error: () => {
+        Swal.fire('Error', 'Error verificando citas pendientes.', 'error');
+      }
+    });
+  }
 
 }

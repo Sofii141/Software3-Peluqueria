@@ -3,7 +3,7 @@ import { CategoriaService } from '../servicios/categoria.service';
 import { Categoria } from '../modelos/categoria';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
-import { NgFor} from '@angular/common';
+import { NgFor } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -25,26 +25,27 @@ export class CategoriasListarComponent implements OnInit {
     this.cargarCategorias();
   }
 
-  cargarCategorias() {
+  cargarCategorias(): void {
     this.categoriaService.getCategorias().subscribe({
       next: (data) => {
         this.categorias = data;
-        this.categoriasFiltradas = data;
+        this.categoriasFiltradas = [...data]; // copia defensiva
       },
-      error: () => {
+      error: (err) => {
+        console.error(err);
         Swal.fire("Error", "No se pudieron cargar las categorías.", "error");
       }
     });
   }
 
-  filtrar() {
-    const texto = this.filtro.toLowerCase();
+  filtrar(): void {
+    const texto = this.filtro.toLowerCase().trim();
     this.categoriasFiltradas = this.categorias.filter(cat =>
       cat.nombre.toLowerCase().includes(texto)
     );
   }
 
-  inactivar(cat: Categoria) {
+  inactivar(cat: Categoria): void {
     Swal.fire({
       title: "¿Inactivar categoría?",
       text: "Esta categoría no estará disponible en el catálogo.",
@@ -57,9 +58,10 @@ export class CategoriasListarComponent implements OnInit {
       this.categoriaService.inactivarCategoria(cat.id).subscribe({
         next: () => {
           Swal.fire("Listo", "Categoría inactivada.", "success");
-          this.cargarCategorias();
+          this.cargarCategorias(); // Refresca la lista
         },
-        error: () => {
+        error: (err) => {
+          console.error(err);
           Swal.fire("Error", "No se pudo inactivar la categoría.", "error");
         }
       });

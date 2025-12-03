@@ -7,8 +7,9 @@ export const adminGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  // Si no está logueado
-  if (!authService.getToken()) {
+  const token = authService.getToken();
+
+  if (!token) {
     Swal.fire({
       icon: 'warning',
       title: 'Sesión requerida',
@@ -20,7 +21,6 @@ export const adminGuard: CanActivateFn = (route, state) => {
     return false;
   }
 
-  // Si está logueado pero no es admin
   if (!authService.isAdmin()) {
     Swal.fire({
       icon: 'error',
@@ -35,4 +35,3 @@ export const adminGuard: CanActivateFn = (route, state) => {
 
   return true;
 };
-

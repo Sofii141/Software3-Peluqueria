@@ -15,19 +15,23 @@ import { EstilistasService } from '../estilistas.service';
 export class EstilistasCrearComponent {
 
   estilista = {
-    nombreUsuario: '',
+    username: '',
+    nombreCompleto: '',
     email: '',
     telefono: '',
     password: '',
-    servicios: [] as string[]
+    servicios: [] as number[]
   };
 
   preview: string | null = null;
   imagenSeleccionada: File | null = null;
 
-  // Servicios disponibles
-  serviciosDisponibles: string[] = [
-    'Corte', 'Color', 'Peinado', 'Manicure', 'Pedicure'
+  serviciosDisponibles = [
+    { id: 1, nombre: 'Corte' },
+    { id: 2, nombre: 'Color' },
+    { id: 3, nombre: 'Peinado' },
+    { id: 4, nombre: 'Manicure' },
+    { id: 5, nombre: 'Pedicure' }
   ];
 
   constructor(
@@ -36,33 +40,29 @@ export class EstilistasCrearComponent {
   ) {}
 
   crear(form: NgForm) {
-  if (form.invalid) {
-    Swal.fire("Campos incompletos", "Revisa el formulario.", "warning");
-    return;
-  }
 
-  if (this.estilista.servicios.length === 0) {
-    Swal.fire("Servicios requeridos", "Debe seleccionar al menos un servicio.", "warning");
-    return;
-  }
-
-  this.estilistasService.crear(this.estilista).subscribe({
-    next: () => {
-      Swal.fire("Éxito", "Estilista creado correctamente", "success");
-      this.router.navigate(['/admin/estilistas']);
-    },
-    error: err => {
-      if (err.status === 409) {
-        Swal.fire("Error", "El usuario o email ya existen.", "error");
-      } else {
-        Swal.fire("Error", "No se pudo crear el estilista.", "error");
-      }
+    if (form.invalid) {
+      Swal.fire("Campos incompletos", "Revisa el formulario.", "warning");
+      return;
     }
-  });
 
-  return; // ← ESTA LÍNEA ELIMINA TU ERROR
-}
+    if (this.estilista.servicios.length === 0) {
+      Swal.fire("Servicios requeridos", "Debe seleccionar al menos un servicio.", "warning");
+      return;
+    }
 
+    // 👉 El servicio espera datos sueltos, NO un FormData
+    this.estilistasService.crear(this.estilista, this.imagenSeleccionada).subscribe({
+      next: () => {
+        Swal.fire("Éxito", "Estilista creado correctamente", "success");
+        this.router.navigate(['/admin/estilistas']);
+      },
+      error: err => {
+        console.log(err);
+        Swal.fire("Error", "No se pudo crear el estilista", "error");
+      }
+    });
+  }
 
   seleccionarImagen() {
     document.getElementById('fileInput')?.click();
@@ -78,5 +78,4 @@ export class EstilistasCrearComponent {
     reader.onload = () => this.preview = reader.result as string;
     reader.readAsDataURL(file);
   }
-
 }

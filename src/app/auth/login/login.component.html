@@ -6,17 +6,18 @@
       <p class="auth-subtitle">Bienvenido de nuevo. Accede a tu cuenta.</p>
     </div>
 
-    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
-      
+    <!-- FORMULARIO DE LOGIN -->
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+
       <!-- Campo de Usuario -->
       <div class="form-group">
         <label for="username">Nombre de Usuario</label>
         <div class="input-group-icon">
           <i class="fas fa-user"></i>
           <input 
-            type="text" 
-            id="username" 
-            name="username" 
+            type="text"
+            id="username"
+            name="username"
             class="form-control"
             placeholder="Tu nombre de usuario"
             [(ngModel)]="credentials.username"
@@ -25,7 +26,7 @@
             minlength="3">
         </div>
 
-        <!-- Mensaje validación -->
+        <!-- Validaciones -->
         <div *ngIf="username.invalid && (username.dirty || username.touched)" class="invalid-feedback">
           <span *ngIf="username.errors?.['required']">El nombre de usuario es requerido.</span>
           <span *ngIf="username.errors?.['minlength']">Debe tener mínimo 3 caracteres.</span>
@@ -38,9 +39,9 @@
         <div class="input-group-icon">
           <i class="fas fa-lock"></i>
           <input 
-            type="password" 
-            id="password" 
-            name="password" 
+            type="password"
+            id="password"
+            name="password"
             class="form-control"
             placeholder="Tu contraseña"
             [(ngModel)]="credentials.password"
@@ -49,26 +50,29 @@
             minlength="4">
         </div>
 
-        <!-- Mensaje validación -->
+        <!-- Validaciones -->
         <div *ngIf="password.invalid && (password.dirty || password.touched)" class="invalid-feedback">
           <span *ngIf="password.errors?.['required']">La contraseña es requerida.</span>
           <span *ngIf="password.errors?.['minlength']">Debe tener mínimo 4 caracteres.</span>
         </div>
       </div>
 
+      <!-- Error del backend -->
+      <div *ngIf="loginError" class="alert alert-danger mt-2">
+        {{ loginError }}
+      </div>
+
       <!-- Botón de Envío -->
       <button 
-        type="submit" 
-        class="btn btn-primary btn-block" 
+        type="submit"
+        class="btn btn-primary btn-block"
         [disabled]="loginForm.invalid">
         Entrar
       </button>
     </form>
 
     <div class="auth-footer">
-      <p>¿No tienes una cuenta? 
-        <a routerLink="/register">Regístrate aquí</a>
-      </p>
+      <p>¿No tienes una cuenta? <a routerLink="/register">Regístrate aquí</a></p>
     </div>
   </div>
 </div>

@@ -1,14 +1,15 @@
 <div class="contenedor-categorias">
 
+  <!-- Header con botón -->
   <div class="header">
     <h2>Gestión de Categorías</h2>
 
-    <button class="btn-crear" routerLink="/admin/categorias/crear">
+    <button class="btn-crear" type="button" routerLink="/admin/categorias/crear" aria-label="Crear categoría">
       <i class="fas fa-plus"></i> Crear Nueva Categoría
     </button>
   </div>
 
-  <!-- BUSCADOR -->
+  <!-- Buscador -->
   <div class="buscador">
     <i class="fas fa-search"></i>
     <input 
@@ -16,15 +17,16 @@
       placeholder="Buscar Categoría"
       [(ngModel)]="filtro"
       (input)="filtrar()"
+      aria-label="Buscar categoría por nombre"
     />
   </div>
 
-  <!-- GRID -->
+  <!-- Lista / Grid de Categorías -->
   <div class="grid-categorias">
 
     <div *ngFor="let c of categoriasFiltradas" class="card">
 
-      <!-- Estado -->
+      <!-- Estado visual -->
       <div class="estado" [class.inactivo]="!c.activa">
         {{ c.activa ? 'Activo' : 'Inactivo' }}
       </div>
@@ -32,13 +34,20 @@
       <!-- Nombre -->
       <h3>{{ c.nombre }}</h3>
 
-      <!-- Botones -->
+      <!-- Acciones -->
       <div class="acciones">
-        <button class="btn-editar" [routerLink]="['/admin/categorias/editar', c.id]">
+        <button 
+          class="btn-editar" 
+          type="button"
+          [routerLink]="['/admin/categorias/editar', c.id]">
           Editar
         </button>
 
-        <button class="btn-inactivar" (click)="inactivar(c)" [disabled]="!c.activa">
+        <button 
+          class="btn-inactivar" 
+          type="button"
+          (click)="inactivar(c)" 
+          [disabled]="!c.activa">
           Inactivar
         </button>
       </div>
@@ -46,5 +55,4 @@
     </div>
 
   </div>
-
 </div>

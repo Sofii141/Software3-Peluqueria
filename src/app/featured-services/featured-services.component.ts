@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+
 import { Servicio } from '../servicios/modelos/servicio';
-import { ServicioService } from '../servicios/servicios/servicio.service';
+import { ServiciosService } from '../servicios/servicios/servicio.service'; // ✅ nombre corregido
 import { Categoria } from '../categorias/modelos/categoria';
 import { CategoriaService } from '../categorias/servicios/categoria.service';
 
@@ -20,12 +21,12 @@ export class FeaturedServicesComponent implements OnInit {
   public categoriaActiva: number | 'all' = 'all';
 
   constructor(
-    private servicioService: ServicioService,
+    private servicioService: ServiciosService, // ✅ nombre corregido
     private categoriaService: CategoriaService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.categoriaService.getCategorias().subscribe(cats => {
+    this.categoriaService.getCategorias().subscribe((cats: Categoria[]) => {
       this.categorias = cats;
     });
 
@@ -33,20 +34,32 @@ export class FeaturedServicesComponent implements OnInit {
   }
 
   filtrarServicios(idCategoria: number | 'all'): void {
-    this.categoriaActiva = idCategoria;
-    
-    // Convertimos 'all' a 0 para que el ServicioService lo maneje correctamente
-    const idParaLaPeticion = idCategoria === 'all' ? 0 : idCategoria;
+  this.categoriaActiva = idCategoria;
 
-    this.servicioService.getServiciosPorCategoria(idParaLaPeticion).subscribe(
+  if (idCategoria === 'all') {
+    // ✅ Llama al endpoint que trae todos los servicios sin filtrar
+    this.servicioService.getServicios().subscribe(
       servicios => {
-        // Adicionalmente, filtramos para mostrar solo los que están 'disponibles'
         this.serviciosFiltrados = servicios.filter(s => s.disponible);
       },
       error => {
-        console.error('Error al filtrar servicios desde el backend:', error);
-        this.serviciosFiltrados = []; // En caso de error, la lista queda vacía
+        console.error('Error al obtener todos los servicios:', error);
+        this.serviciosFiltrados = [];
       }
     );
+    return;
   }
+
+  //  Si hay una categoría válida, filtra por esa
+  this.servicioService.getServiciosPorCategoria(idCategoria).subscribe(
+    servicios => {
+      this.serviciosFiltrados = servicios.filter(s => s.disponible);
+    },
+    error => {
+      console.error('Error al filtrar servicios desde el backend:', error);
+      this.serviciosFiltrados = [];
+    }
+  );
+}
+
 }

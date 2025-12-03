@@ -11,26 +11,30 @@ export class CategoriaService {
 
   private apiUrl = `${environment.apiUrl}/api/categorias`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
+  /** Obtener todas las categorías */
   getCategorias(): Observable<Categoria[]> {
     return this.http.get<Categoria[]>(this.apiUrl);
   }
 
+  /** Obtener una sola categoría por ID */
   getCategoria(id: number): Observable<Categoria> {
     return this.http.get<Categoria>(`${this.apiUrl}/${id}`);
   }
 
-  crearCategoria(categoria: Partial<Categoria>): Observable<any> {
-    return this.http.post(this.apiUrl, categoria);
+  /** Crear una nueva categoría */
+  crearCategoria(categoria: Partial<Categoria>): Observable<Categoria> {
+    return this.http.post<Categoria>(this.apiUrl, categoria);
   }
 
-  actualizarCategoria(id: number, categoria: Partial<Categoria>): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, categoria);
+  /** Actualizar una categoría existente */
+  actualizarCategoria(id: number, categoria: Partial<Categoria>): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, categoria);
   }
 
-  inactivarCategoria(id: number): Observable<any> {
-
-    return this.http.put(`${this.apiUrl}/${id}/inactivar`, {});
+  /** Inactivar una categoría */
+  inactivarCategoria(id: number): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}/inactivar`, {});
   }
 }
