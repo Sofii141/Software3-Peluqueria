@@ -1,5 +1,31 @@
 [
   {
+    "ContainingType": "peluqueria.reservaciones.Api.Controladores.ReportesController",
+    "Method": "ObtenerReporteEstilista",
+    "RelativePath": "api/reportes/estilista",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "peticion",
+        "Type": "peluqueria.reservaciones.Aplicacion.DTO.Comunicacion.PeticionReservasEstilistaDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "peluqueria.reservaciones.Aplicacion.DTO.Comunicacion.InfoReportesRespuestaDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "peluqueria.reservaciones.Api.Controladores.ReservacionesController",
     "Method": "CrearReservacion",
     "RelativePath": "api/reservaciones",

@@ -131,5 +131,44 @@ namespace peluqueria.reservaciones.Aplicacion.Fachada
             return listaReservaciones.Select(ReservacionMapper.ToRespuestaDTO).ToList();
         }
 
+        // generar reporte de un estilista en un rango de fechas
+        public async Task<InfoReportesRespuestaDTO> GenerarReporteEstilistaAsync(PeticionReservasEstilistaDTO peticion)
+        {
+  
+            var listaReservaciones = await _reservacionRepositorio.BuscarReservasEstilistaRangoAsync(
+                peticion.EstilistaId,
+                peticion.FechaInicio,
+                peticion.FechaFin);
+
+
+            var reservasInteres = listaReservaciones.Where(r =>
+                r.Estado == "COMPLETADO" ||
+                r.Estado == "NOSHOW" ||
+                r.Estado == "CANCELADA").ToList();
+
+            
+            var reporte = new InfoReportesRespuestaDTO
+            {
+                NumeroReservacionesFinalizadas = reservasInteres.Count(r => r.Estado == "COMPLETADO"),
+                NumeroReservacionesNoShow = reservasInteres.Count(r => r.Estado == "NOSHOW"),
+                NumeroReservacionesCanceladas = reservasInteres.Count(r => r.Estado == "CANCELADA")
+            };
+
+         
+            var serviciosAgrupados = reservasInteres
+                .Where(r => r.Estado == "COMPLETADO") 
+                .GroupBy(r => r.Servicio.Nombre)
+                .Select(grupo => new ServicioRespuestaDTO
+                {
+                    ServicioNombre = grupo.Key,
+                    TotalReservaciones = grupo.Count()
+                })
+                .ToList();
+
+            reporte.ServiciosRealizados = serviciosAgrupados;
+
+            return reporte;
+        }
+
     }
 }

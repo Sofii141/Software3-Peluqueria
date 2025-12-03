@@ -29,5 +29,7 @@ namespace peluqueria.reservaciones.Aplicacion.Puertos.Entrada
         Task<List<ReservacionRespuestaDTO>> ConsultarReservasEstilistaFechaAsync(PeticionReservaEstilistaFechaDTO peticion);
 
         Task<List<ReservacionRespuestaDTO>> ConsultarTodasLasReservacionesAsync();
+
+        Task<InfoReportesRespuestaDTO> GenerarReporteEstilistaAsync(PeticionReservasEstilistaDTO peticion);
     }
 }
