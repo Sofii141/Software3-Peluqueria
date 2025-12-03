@@ -5,22 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{6D6B77B4-1E3E-4EB4-9744-10948F317864}|Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj|c:\\users\\usuario\\documents\\semestre 7\\inf software 3\\final\\software3-peluqueria\\peluqueria.apigateway\\peluqueria.apigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{6D6B77B4-1E3E-4EB4-9744-10948F317864}|Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj|solutionrelative:peluqueria.apigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D6B77B4-1E3E-4EB4-9744-10948F317864}|Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj|c:\\users\\usuario\\documents\\semestre 7\\inf software 3\\final\\software3-peluqueria\\peluqueria.apigateway\\peluqueria.apigateway\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{6D6B77B4-1E3E-4EB4-9744-10948F317864}|Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj|solutionrelative:peluqueria.apigateway\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D6B77B4-1E3E-4EB4-9744-10948F317864}|Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj|c:\\users\\usuario\\documents\\semestre 7\\inf software 3\\final\\software3-peluqueria\\peluqueria.apigateway\\peluqueria.apigateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D6B77B4-1E3E-4EB4-9744-10948F317864}|Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj|solutionrelative:peluqueria.apigateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D6B77B4-1E3E-4EB4-9744-10948F317864}|Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj|c:\\users\\usuario\\documents\\semestre 7\\inf software 3\\final\\software3-peluqueria\\peluqueria.apigateway\\peluqueria.apigateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{6D6B77B4-1E3E-4EB4-9744-10948F317864}|Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj|solutionrelative:peluqueria.apigateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D6B77B4-1E3E-4EB4-9744-10948F317864}|Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj|c:\\users\\usuario\\documents\\semestre 7\\inf software 3\\final\\software3-peluqueria\\peluqueria.apigateway\\peluqueria.apigateway\\peluqueria.apigateway.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{6D6B77B4-1E3E-4EB4-9744-10948F317864}|Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj|solutionrelative:peluqueria.apigateway\\peluqueria.apigateway.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,64 +38,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway\\appsettings.json",
-              "RelativeDocumentMoniker": "Peluqueria.ApiGateway\\appsettings.json",
-              "ToolTip": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway\\appsettings.json",
-              "RelativeToolTip": "Peluqueria.ApiGateway\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-11-23T22:19:43.186Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway\\Program.cs",
-              "RelativeDocumentMoniker": "Peluqueria.ApiGateway\\Program.cs",
-              "ToolTip": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway\\Program.cs",
-              "RelativeToolTip": "Peluqueria.ApiGateway\\Program.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAAABgAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-23T22:17:32.435Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "ocelot.json",
               "DocumentMoniker": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway\\ocelot.json",
               "RelativeDocumentMoniker": "Peluqueria.ApiGateway\\ocelot.json",
               "ToolTip": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway\\ocelot.json",
               "RelativeToolTip": "Peluqueria.ApiGateway\\ocelot.json",
-              "ViewState": "AgIAAAUAAAAAAAAAAAArwBYAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAYwKIAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-11-23T22:21:25.251Z",
+              "WhenOpened": "2025-12-03T01:41:19.471Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Peluqueria.ApiGateway\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Peluqueria.ApiGateway\\Properties\\launchSettings.json",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAuwBYAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-11-23T22:23:23.971Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Peluqueria.ApiGateway.csproj",
-              "DocumentMoniker": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj",
-              "RelativeDocumentMoniker": "Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj",
-              "ToolTip": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj",
-              "RelativeToolTip": "Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-11-23T23:21:58.837Z"
             }
           ]
         }

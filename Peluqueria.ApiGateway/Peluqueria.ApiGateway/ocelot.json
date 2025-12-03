@@ -1,6 +1,7 @@
 {
   "Routes": [
-    // 1. AUTENTICACIÓN (LOGIN & REGISTRO) - PÚBLICO
+    // 1. AUTENTICACIÓN (LOGIN & REGISTRO)
+    // 1.1. AUTENTICACIÓN (LOGIN & REGISTRO) - PÚBLICO (Solo POST)
     {
       "DownstreamPathTemplate": "/api/account/{everything}",
       "DownstreamScheme": "http",
@@ -11,8 +12,27 @@
         }
       ],
       "UpstreamPathTemplate": "/api/account/{everything}",
-      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamHttpMethod": [ "Post" ], // Solo POST es público
       "Priority": 9
+    },
+
+    // 1.2. AUTENTICACIÓN (CONSULTAS DE USUARIOS/CLIENTES) - PROTEGIDO (Solo GET)
+    {
+      "DownstreamPathTemplate": "/api/account/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5034
+        }
+      ],
+      "UpstreamPathTemplate": "/api/account/{everything}",
+      "UpstreamHttpMethod": [ "Get" ], // Solo GET requiere token
+      "Priority": 9,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ApiSecurityScheme",
+        "AllowedScopes": []
+      }
     },
 
     // 2. [GESTIÓN DE CATEGORÍAS] - CONSULTAS PÚBLICAS
@@ -137,6 +157,8 @@
       }
     },
 
+    // ** RUTA AÑADIDA DESDE LA VERSIÓN LOCAL (<<<<<<< HEAD) **
+    // 8. [REPORTE] - REPORTE DE ESTILISTA
     {
       "DownstreamPathTemplate": "/api/reportes/estilista",
       "DownstreamScheme": "http",
@@ -155,7 +177,8 @@
       }
     },
 
-    // 8. [MICROSERVICIO DE RESERVAS] (FUTURO) - PROTEGIDO (Ruta Original 6)
+
+    // 9. [MICROSERVICIO DE RESERVAS] (FUTURO) - PROTEGIDO (Ruta Original 6)
     {
       "DownstreamPathTemplate": "/api/reservaciones/{everything}",
       "DownstreamScheme": "http",
@@ -174,7 +197,7 @@
       }
     }
   ],
-    "GlobalConfiguration": {
-        "BaseUrl": "http://localhost:5000"
-    }
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000"
+  }
 }

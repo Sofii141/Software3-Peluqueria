@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6D6B77B4-1E3E-4EB4-9744-10948F317864}|Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj|c:\\users\\usuario\\documents\\semestre 7\\inf software 3\\final\\software3-peluqueria\\peluqueria.apigateway\\peluqueria.apigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6D6B77B4-1E3E-4EB4-9744-10948F317864}|Peluqueria.ApiGateway\\Peluqueria.ApiGateway.csproj|solutionrelative:peluqueria.apigateway\\ocelot.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,6 +35,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ocelot.json",
+              "DocumentMoniker": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway\\ocelot.json",
+              "RelativeDocumentMoniker": "Peluqueria.ApiGateway\\ocelot.json",
+              "ToolTip": "C:\\Users\\usuario\\Documents\\Semestre 7\\Inf Software 3\\Final\\Software3-Peluqueria\\Peluqueria.ApiGateway\\Peluqueria.ApiGateway\\ocelot.json",
+              "RelativeToolTip": "Peluqueria.ApiGateway\\ocelot.json",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAYwKIAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-03T01:41:19.471Z",
+              "EditorCaption": ""
             }
           ]
         }
