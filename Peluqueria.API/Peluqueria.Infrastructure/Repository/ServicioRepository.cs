@@ -5,6 +5,9 @@ using Peluqueria.Infrastructure.Data;
 
 namespace Peluqueria.Infrastructure.Repositories
 {
+    /// <summary>
+    /// Repositorio de acceso a datos para Servicios.
+    /// </summary>
     public class ServicioRepository : IServicioRepository
     {
         private readonly ApplicationDBContext _context;
@@ -15,6 +18,7 @@ namespace Peluqueria.Infrastructure.Repositories
 
         public async Task<IEnumerable<Servicio>> GetAllAsync()
         {
+            // Incluimos siempre la categoría para mostrarla en el listado del frontend
             return await _context.Servicios.Include(s => s.Categoria).ToListAsync();
         }
 
@@ -48,6 +52,8 @@ namespace Peluqueria.Infrastructure.Repositories
             existingServicio.Precio = servicio.Precio;
             existingServicio.Disponible = servicio.Disponible;
             existingServicio.CategoriaId = servicio.CategoriaId;
+            // Nota: La duración se actualiza, lo que afectará la creación de *nuevos* slots en el microservicio
+            existingServicio.DuracionMinutos = servicio.DuracionMinutos;
 
             if (!string.IsNullOrEmpty(servicio.Imagen))
             {
@@ -61,13 +67,15 @@ namespace Peluqueria.Infrastructure.Repositories
         public async Task<bool> DeleteAsync(int id)
         {
             var servicio = await _context.Servicios.FindAsync(id);
-            
             if (servicio == null) return false;
 
             _context.Servicios.Remove(servicio);
             return await _context.SaveChangesAsync() > 0;
         }
 
+        /// <summary>
+        /// Inactiva el servicio (Disponible = false).
+        /// </summary>
         public async Task<bool> InactivateAsync(int id)
         {
             var servicio = await _context.Servicios.FindAsync(id);

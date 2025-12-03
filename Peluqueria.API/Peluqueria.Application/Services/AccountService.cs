@@ -6,6 +6,12 @@ using Peluqueria.Application.Interfaces;
 
 namespace Peluqueria.Application.Services
 {
+    /// <summary>
+    /// Servicio encargado de orquestar la autenticación y registro de usuarios.
+    /// </summary>
+    /// <remarks>
+    /// Actúa como intermediario entre la API y el sistema Identity de ASP.NET Core.
+    /// </remarks>
     public class AccountService : IAccountService
     {
         private readonly IIdentityService _identityService;
@@ -19,6 +25,10 @@ namespace Peluqueria.Application.Services
             _messagePublisher = messagePublisher;
         }
 
+        /// <summary>
+        /// Valida las credenciales y genera un Token JWT.
+        /// </summary>
+        /// <exception cref="ReglaNegocioException">Si el usuario no existe o la contraseña es incorrecta (G-ERROR-015).</exception>
         public async Task<NewUserDto?> LoginAsync(LoginDto loginDto)
         {
             // 1. Buscar usuario
@@ -46,6 +56,12 @@ namespace Peluqueria.Application.Services
             };
         }
 
+        /// <summary>
+        /// Registra un cliente, le asigna rol y notifica el evento a RabbitMQ.
+        /// </summary>
+        /// <remarks>
+        /// El evento `cliente.registrado` es crucial para que el microservicio cree su copia local del cliente.
+        /// </remarks>
         public async Task<IdentityResult> RegisterAsync(RegisterDto registerDto)
         {
             var createdUser = await _identityService.CreateUserAsync(
@@ -73,6 +89,7 @@ namespace Peluqueria.Application.Services
             {
                 var userDetails = await _identityService.FindByNameAsync(registerDto.Username!);
 
+                // Publicar evento para sincronización
                 var clienteEvent = new ClienteRegistradoEventDto
                 {
                     IdentityId = userDetails.Id,

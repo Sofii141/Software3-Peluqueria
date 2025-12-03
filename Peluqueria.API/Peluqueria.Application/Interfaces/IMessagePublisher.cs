@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Peluqueria.Application.Interfaces
+﻿namespace Peluqueria.Application.Interfaces
 {
+    /// <summary>
+    /// Abstracción para el bus de mensajería (RabbitMQ).
+    /// </summary>
     public interface IMessagePublisher
     {
-        // Publica cualquier evento de cambio de datos maestros
-        // Usamos object y generic para que sea flexible a cualquier DTO/modelo de evento
+        /// <summary>
+        /// Publica un evento genérico en un Exchange específico.
+        /// </summary>
+        /// <typeparam name="T">Tipo del DTO del evento.</typeparam>
+        /// <param name="message">El objeto del mensaje a enviar.</param>
+        /// <param name="routingKey">Clave de enrutamiento (Topic) para filtrar el mensaje.</param>
+        /// <param name="exchangeName">Nombre del Exchange en RabbitMQ.</param>
         Task PublishAsync<T>(T message, string routingKey, string exchangeName) where T : class;
     }
 }

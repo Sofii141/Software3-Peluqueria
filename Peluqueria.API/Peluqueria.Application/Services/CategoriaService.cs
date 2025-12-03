@@ -6,18 +6,20 @@ using Peluqueria.Domain.Entities;
 
 namespace Peluqueria.Application.Services
 {
+    /// <summary>
+    /// Lógica de negocio para Categorías.
+    /// </summary>
     public class CategoriaService : ICategoriaService
     {
         private readonly ICategoriaRepository _categoriaRepo;
         private readonly IServicioRepository _servicioRepo;
         private readonly IMessagePublisher _messagePublisher;
-        // Inyectamos el cliente para validación externa
         private readonly IReservacionClient _reservacionClient;
 
         public CategoriaService(ICategoriaRepository categoriaRepo,
                                 IServicioRepository servicioRepo,
                                 IMessagePublisher messagePublisher,
-                                IReservacionClient reservacionClient) // <--- INYECCIÓN
+                                IReservacionClient reservacionClient)
         {
             _categoriaRepo = categoriaRepo;
             _servicioRepo = servicioRepo;
@@ -36,6 +38,9 @@ namespace Peluqueria.Application.Services
             });
         }
 
+        /// <summary>
+        /// Crea una categoría validando que el nombre no exista previamente.
+        /// </summary>
         public async Task<CategoriaDto> CreateAsync(CreateCategoriaRequestDto requestDto)
         {
             var existing = await _categoriaRepo.GetByNameAsync(requestDto.Nombre);
@@ -81,6 +86,13 @@ namespace Peluqueria.Application.Services
             return new CategoriaDto { Id = updatedCategoria!.Id, Nombre = updatedCategoria.Nombre, EstaActiva = updatedCategoria.EstaActiva };
         }
 
+        /// <summary>
+        /// Realiza baja lógica previa validación de dependencias externas.
+        /// </summary>
+        /// <remarks>
+        /// Consulta al Microservicio de Reservas si existen citas pendientes para servicios de esta categoría.
+        /// </remarks>
+        /// <exception cref="ReglaNegocioException">Si existen reservas futuras (G-ERROR-008).</exception>
         public async Task<bool> InactivateAsync(int id)
         {
             var existingCategoria = await _categoriaRepo.GetByIdAsync(id);
@@ -90,12 +102,10 @@ namespace Peluqueria.Application.Services
             }
 
             // --- VALIDACIÓN CON MICROSERVICIO ---
-            // Consultamos si existen reservas futuras que involucren servicios de esta categoría
             bool tieneReservasAsociadas = await _reservacionClient.TieneReservasCategoria(id);
 
             if (tieneReservasAsociadas)
             {
-                // Usamos G-ERROR-008: Categoría con Servicios (y por ende reservas)
                 throw new ReglaNegocioException(CodigoError.CATEGORIA_CON_SERVICIOS,
                     "No se puede inactivar la categoría porque tiene servicios con reservaciones futuras activas.");
             }

@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Peluqueria.Application.Interfaces;
 using Peluqueria.Domain.Entities;
-using Peluqueria.Infrastructure.Data; // Asegúrate de que este using apunte a tu DbContext
+using Peluqueria.Infrastructure.Data;
 
 namespace Peluqueria.Infrastructure.Repositories
 {
+    /// <summary>
+    /// Repositorio especializado para gestionar las tablas satélites de la agenda (Horarios, Descansos, Bloqueos).
+    /// </summary>
     public class EstilistaAgendaRepository : IEstilistaAgendaRepository
     {
         private readonly ApplicationDBContext _context;
@@ -14,22 +17,27 @@ namespace Peluqueria.Infrastructure.Repositories
             _context = context;
         }
 
-        // --- HORARIO BASE (Lógica Upsert: Actualizar si existe, Crear si no) ---
+        /// <summary>
+        /// Aplica lógica "Upsert" para los horarios base.
+        /// </summary>
+        /// <remarks>
+        /// Si ya existe configuración para un día (ej. Lunes), la actualiza. 
+        /// Si no existe, crea el registro nuevo.
+        /// </remarks>
         public async Task UpdateHorarioBaseAsync(int estilistaId, List<HorarioSemanalBase> horariosEntrantes)
         {
-            // 1. Traemos los horarios actuales de ese estilista
+            // 1. Traemos los horarios actuales de ese estilista para comparar
             var horariosExistentes = await _context.HorariosSemanalBase
                 .Where(h => h.EstilistaId == estilistaId)
                 .ToListAsync();
 
             foreach (var nuevo in horariosEntrantes)
             {
-                // Buscamos si ya existe configuración para ese día (Lunes, Martes...)
                 var existente = horariosExistentes.FirstOrDefault(h => h.DiaSemana == nuevo.DiaSemana);
 
                 if (existente != null)
                 {
-                    // Actualizamos
+                    // Actualizamos registro existente
                     existente.HoraInicioJornada = nuevo.HoraInicioJornada;
                     existente.HoraFinJornada = nuevo.HoraFinJornada;
                     existente.EsLaborable = nuevo.EsLaborable;
@@ -37,7 +45,7 @@ namespace Peluqueria.Infrastructure.Repositories
                 }
                 else
                 {
-                    // Creamos
+                    // Insertamos nuevo registro
                     await _context.HorariosSemanalBase.AddAsync(nuevo);
                 }
             }
@@ -48,36 +56,39 @@ namespace Peluqueria.Infrastructure.Repositories
         {
             return await _context.HorariosSemanalBase
                 .Where(h => h.EstilistaId == estilistaId)
-                .OrderBy(h => h.DiaSemana) // Ordenar Lunes -> Domingo
+                .OrderBy(h => h.DiaSemana) // Importante: Ordenar Lunes -> Domingo
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Actualiza los descansos fijos aplicando una estrategia de "Borrar y Reemplazar".
+        /// </summary>
+        /// <remarks>
+        /// Para los días afectados, elimina todos los descansos previos e inserta los nuevos.
+        /// Esto evita tener que comparar uno por uno para detectar cambios de hora.
+        /// </remarks>
         public async Task UpdateDescansosFijosAsync(int estilistaId, List<BloqueoDescansoFijoDiario> descansosEntrantes)
         {
-            // 1. Identificar qué días de la semana estamos intentando actualizar (ej: Lunes)
+            // 1. Identificar qué días de la semana estamos intentando actualizar
             var diasAfectados = descansosEntrantes.Select(x => x.DiaSemana).ToList();
 
-            // 2. Buscar en la BD si ya existen descansos para esos días específicos y ese estilista
+            // 2. Buscar descansos viejos en esos días
             var descansosViejos = await _context.BloqueosDescansoFijoDiario
                 .Where(d => d.EstilistaId == estilistaId && diasAfectados.Contains(d.DiaSemana))
                 .ToListAsync();
 
-            // 3. ELIMINAR los viejos (Limpiamos el camino)
+            // 3. ELIMINAR los viejos
             if (descansosViejos.Any())
             {
                 _context.BloqueosDescansoFijoDiario.RemoveRange(descansosViejos);
-                // Guardamos cambios aquí para confirmar el borrado antes de insertar
                 await _context.SaveChangesAsync();
             }
 
             // 4. INSERTAR los nuevos
             if (descansosEntrantes.Any())
             {
-                // Truco de seguridad: Aseguramos que el ID sea 0 para que EF entienda que es nuevo
-                foreach (var nuevo in descansosEntrantes)
-                {
-                    nuevo.Id = 0;
-                }
+                // Aseguramos ID=0 para que EF Core sepa que son inserciones
+                foreach (var nuevo in descansosEntrantes) nuevo.Id = 0;
 
                 await _context.BloqueosDescansoFijoDiario.AddRangeAsync(descansosEntrantes);
                 await _context.SaveChangesAsync();
@@ -104,7 +115,8 @@ namespace Peluqueria.Infrastructure.Repositories
             }
         }
 
-        // --- BLOQUEOS / VACACIONES (CRUD Estándar) ---
+        // --- BLOQUEOS / VACACIONES ---
+
         public async Task<BloqueoRangoDiasLibres> CreateBloqueoDiasLibresAsync(BloqueoRangoDiasLibres bloqueo)
         {
             await _context.BloqueosRangoDiasLibres.AddAsync(bloqueo);
@@ -116,7 +128,7 @@ namespace Peluqueria.Infrastructure.Repositories
         {
             var existing = await _context.BloqueosRangoDiasLibres.FindAsync(bloqueo.Id);
 
-            // Validamos que exista y que pertenezca al estilista correcto (Seguridad)
+            // Validamos propiedad (seguridad básica)
             if (existing == null || existing.EstilistaId != bloqueo.EstilistaId) return false;
 
             existing.FechaInicioBloqueo = bloqueo.FechaInicioBloqueo;
@@ -130,8 +142,6 @@ namespace Peluqueria.Infrastructure.Repositories
         public async Task<bool> DeleteBloqueoDiasLibresAsync(int id, int estilistaId)
         {
             var existing = await _context.BloqueosRangoDiasLibres.FindAsync(id);
-
-            // Validamos que exista y que pertenezca al estilista correcto
             if (existing == null || existing.EstilistaId != estilistaId) return false;
 
             _context.BloqueosRangoDiasLibres.Remove(existing);
@@ -143,18 +153,18 @@ namespace Peluqueria.Infrastructure.Repositories
         {
             return await _context.BloqueosRangoDiasLibres
                 .Where(b => b.EstilistaId == estilistaId)
-                .OrderByDescending(b => b.FechaInicioBloqueo) // Los más recientes primero
+                .OrderByDescending(b => b.FechaInicioBloqueo) // Vacaciones más recientes primero
                 .ToListAsync();
         }
 
-        // --- HELPER VALIDACIÓN ---
+        /// <summary>
+        /// Consulta rápida para validar si un día está configurado como laborable.
+        /// </summary>
         public async Task<bool> IsDiaLaborableAsync(int estilistaId, DayOfWeek dia)
         {
-            // Consultamos si existe configuración para ese día
             var h = await _context.HorariosSemanalBase
                 .FirstOrDefaultAsync(x => x.EstilistaId == estilistaId && x.DiaSemana == dia);
 
-            // Retorna true SOLO si existe Y está marcado como laborable
             return h != null && h.EsLaborable;
         }
     }

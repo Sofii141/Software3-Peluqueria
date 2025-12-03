@@ -6,6 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Peluqueria.Infrastructure.Service
 {
+    /// <summary>
+    /// Fachada (Facade) que abstrae la complejidad de ASP.NET Core Identity.
+    /// </summary>
+    /// <remarks>
+    /// El objetivo de esta clase es evitar que los Controladores o Servicios de Aplicación
+    /// dependan directamente de <c>UserManager</c> o <c>SignInManager</c>, manteniendo la arquitectura limpia.
+    /// </remarks>
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<AppUser> _userManager;
@@ -78,6 +85,12 @@ namespace Peluqueria.Infrastructure.Service
             return user == null ? null : MapToMinimalDto(user);
         }
 
+        /// <summary>
+        /// Permite a un administrador forzar el cambio de contraseña de un usuario.
+        /// </summary>
+        /// <remarks>
+        /// Utiliza un token de reseteo interno para evitar requerir la contraseña anterior.
+        /// </remarks>
         public async Task<IdentityResult> AdminResetPasswordAsync(string identityId, string newPassword)
         {
             var user = await _userManager.FindByIdAsync(identityId);
@@ -86,15 +99,18 @@ namespace Peluqueria.Infrastructure.Service
                 return IdentityResult.Failed(new IdentityError { Description = "Usuario no encontrado." });
             }
 
-            // 1. Generamos un token de reseteo de contraseña (interno, no se envía por email)
+            // 1. Generamos un token de reseteo de contraseña (interno)
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            // 2. Usamos ese token para forzar el cambio a la nueva contraseña
+            // 2. Usamos ese token para forzar el cambio
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
 
             return result;
         }
 
+        /// <summary>
+        /// Actualiza credenciales verificando que no existan duplicados en la base de datos.
+        /// </summary>
         public async Task<IdentityResult> UpdateUserCredentialsAsync(string identityId, string newUsername, string newEmail)
         {
             var user = await _userManager.FindByIdAsync(identityId);
@@ -106,7 +122,6 @@ namespace Peluqueria.Infrastructure.Service
             // 1. Actualizar Username si cambió y no está vacío
             if (!string.IsNullOrWhiteSpace(newUsername) && user.UserName != newUsername)
             {
-                // Validar si ya existe otro usuario con ese nombre
                 var existingUser = await _userManager.FindByNameAsync(newUsername);
                 if (existingUser != null && existingUser.Id != identityId)
                 {
@@ -120,7 +135,6 @@ namespace Peluqueria.Infrastructure.Service
             // 2. Actualizar Email si cambió y no está vacío
             if (!string.IsNullOrWhiteSpace(newEmail) && user.Email != newEmail)
             {
-                // Validar si ya existe
                 var existingEmail = await _userManager.FindByEmailAsync(newEmail);
                 if (existingEmail != null && existingEmail.Id != identityId)
                 {
@@ -136,19 +150,16 @@ namespace Peluqueria.Infrastructure.Service
 
         public async Task<IEnumerable<ClienteResponseDto>> GetUsersByRoleAsync(string roleName)
         {
-            // Este método de Identity trae todos los usuarios de ese rol
             var users = await _userManager.GetUsersInRoleAsync(roleName);
 
-            // Mapeamos a nuestro DTO
             return users.Select(u => new ClienteResponseDto
             {
                 Id = u.Id,
                 Username = u.UserName!,
                 Email = u.Email!,
-                NombreCompleto = u.NombreCompleto, // Propiedad personalizada de tu AppUser
-                Telefono = u.Telefono              // Propiedad personalizada de tu AppUser
+                NombreCompleto = u.NombreCompleto,
+                Telefono = u.Telefono
             }).ToList();
         }
-
     }
 }

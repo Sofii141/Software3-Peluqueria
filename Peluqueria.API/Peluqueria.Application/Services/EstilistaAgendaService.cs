@@ -6,12 +6,19 @@ using Peluqueria.Domain.Entities;
 
 namespace Peluqueria.Application.Services
 {
+    /// <summary>
+    /// Servicio de lógica compleja para la gestión de horarios y agenda.
+    /// </summary>
+    /// <remarks>
+    /// Este servicio consulta intensivamente al Microservicio de Reservas para evitar 
+    /// corrupciones de datos (ej. quitar un día laborable cuando ya hay citas vendidas).
+    /// </remarks>
     public class EstilistaAgendaService : IEstilistaAgendaService
     {
         private readonly IEstilistaAgendaRepository _agendaRepo;
         private readonly IEstilistaRepository _estilistaRepo;
         private readonly IMessagePublisher _messagePublisher;
-        private readonly IReservacionClient _reservacionClient; // Cliente HTTP
+        private readonly IReservacionClient _reservacionClient;
 
         private const string EXCHANGE_NAME = "agenda_exchange";
 
@@ -27,6 +34,10 @@ namespace Peluqueria.Application.Services
         }
 
         // --- 1. ACTUALIZAR HORARIO BASE (Jornada Laboral) ---
+        /// <summary>
+        /// Actualiza la configuración semanal (Lunes-Domingo).
+        /// </summary>
+        /// <exception cref="ReglaNegocioException">Si se intenta reducir jornada y quedan citas por fuera.</exception>
         public async Task<bool> UpdateHorarioBaseAsync(int estilistaId, List<HorarioDiaDto> horarios)
         {
             var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(estilistaId);
@@ -146,7 +157,7 @@ namespace Peluqueria.Application.Services
             if (validDescansos.Count > 0)
             {
                 await _agendaRepo.UpdateDescansosFijosAsync(estilistaId, validDescansos);
-                // ... Publicar Evento ...
+
                 var evento = new DescansoFijoActualizadoEventDto
                 {
                     EstilistaId = estilistaId,
@@ -165,6 +176,12 @@ namespace Peluqueria.Application.Services
         }
 
         // --- 3. CREAR BLOQUEO (Vacaciones) ---
+        /// <summary>
+        /// Bloquea un rango de fechas (Vacaciones).
+        /// </summary>
+        /// <remarks>
+        /// Valida solapamientos locales y consulta al microservicio si existen citas en ese periodo.
+        /// </remarks>
         public async Task<bool> CreateBloqueoDiasLibresAsync(int estilistaId, BloqueoRangoDto bloqueoDto)
         {
             var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(estilistaId);
@@ -286,7 +303,6 @@ namespace Peluqueria.Application.Services
         // --- 5. ELIMINAR BLOQUEO ---
         public async Task<bool> DeleteBloqueoDiasLibresAsync(int estilistaId, int bloqueoId)
         {
-            // Validaciones básicas de existencia...
             var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(estilistaId);
             if (estilista == null) throw new EntidadNoExisteException(CodigoError.ENTIDAD_NO_ENCONTRADA);
 

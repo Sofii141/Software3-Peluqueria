@@ -8,9 +8,16 @@ using System.Collections.Generic;
 
 namespace Peluqueria.Infrastructure.Data
 {
+    /// <summary>
+    /// Contexto principal de base de datos de la aplicación.
+    /// </summary>
+    /// <remarks>
+    /// Hereda de <see cref="IdentityDbContext{AppUser}"/> para integrar automáticamente las tablas de seguridad (ASP.NET Identity)
+    /// junto con las tablas de negocio (Estilistas, Servicios, etc.).
+    /// </remarks>
     public class ApplicationDBContext : IdentityDbContext<AppUser>
     {
-        // Constantes para asegurar consistencia en las relaciones
+        // Constantes para asegurar consistencia en las relaciones durante el Seeding
         private const string LAURA_ID = "b7e289d1-d21a-4c9f-8d7e-00bd9344e575";
         private const string JUAN_ID = "c7e289d1-d21a-4c9f-8d7e-00bd9344e575";
         private const int LAURA_ESTILISTA_ID = 2;
@@ -19,29 +26,67 @@ namespace Peluqueria.Infrastructure.Data
         {
         }
 
-        // DbSets Existentes
+        // --- TABLAS DEL DOMINIO ---
+
+        /// <summary>
+        /// Acceso a la tabla de Categorías.
+        /// </summary>
         public DbSet<Categoria> Categorias { get; set; } = null!;
+
+        /// <summary>
+        /// Acceso a la tabla de Servicios.
+        /// </summary>
         public DbSet<Servicio> Servicios { get; set; } = null!;
 
-        // Nuevos DbSets para la Arquitectura y Microservicio
+        /// <summary>
+        /// Persistencia de perfiles de Estilistas (Profesionales).
+        /// </summary>
         public DbSet<Estilista> Estilistas { get; set; } = null!;
+
+        /// <summary>
+        /// Tabla intermedia para la relación Muchos a Muchos (Estilistas <-> Servicios).
+        /// </summary>
         public DbSet<EstilistaServicio> EstilistaServicios { get; set; } = null!;
+
+        /// <summary>
+        /// Configuración global del sistema (Reglas de negocio parametrizables).
+        /// </summary>
         public DbSet<ParametroSistema> ParametrosSistema { get; set; } = null!;
 
-        // DbSets de Agenda
+        // --- TABLAS DE AGENDA Y DISPONIBILIDAD ---
+
+        /// <summary>
+        /// Configuración de horarios semanales recurrentes.
+        /// </summary>
         public DbSet<HorarioSemanalBase> HorariosSemanalBase { get; set; } = null!;
+
+        /// <summary>
+        /// Registro de bloqueos de calendario (Vacaciones).
+        /// </summary>
         public DbSet<BloqueoRangoDiasLibres> BloqueosRangoDiasLibres { get; set; } = null!;
+
+        /// <summary>
+        /// Registro de descansos diarios recurrentes (Almuerzos).
+        /// </summary>
         public DbSet<BloqueoDescansoFijoDiario> BloqueosDescansoFijoDiario { get; set; } = null!;
 
+        /// <summary>
+        /// Configuración del modelo de datos (Fluent API) y carga de datos iniciales (Seeding).
+        /// </summary>
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            // Configuración de la relación M:N Estilista-Servicio
+            // Configuración de clave compuesta para la relación M:N
             builder.Entity<EstilistaServicio>()
                 .HasKey(es => new { es.EstilistaId, es.ServicioId });
 
-            // 1. Seed de Roles
+            // ==============================================================================
+            // DATA SEEDING (Datos Semilla)
+            // Carga inicial de datos para que el sistema funcione desde el primer despliegue.
+            // ==============================================================================
+
+            // 1. Roles del Sistema
             List<IdentityRole> roles = new List<IdentityRole>
             {
                 new IdentityRole { Id = AdminUserSeed.ADMIN_ROLE_ID, Name = "Admin", NormalizedName = "ADMIN" },
@@ -50,7 +95,7 @@ namespace Peluqueria.Infrastructure.Data
             };
             builder.Entity<IdentityRole>().HasData(roles);
 
-            // 2. Seed de Parametros del Sistema
+            // 2. Parámetros del Sistema (Singleton ID=1)
             builder.Entity<ParametroSistema>().HasData(
                 new ParametroSistema
                 {
@@ -61,7 +106,7 @@ namespace Peluqueria.Infrastructure.Data
                 }
             );
 
-            // 3. Seed de Categorías
+            // 3. Catálogo de Categorías
             builder.Entity<Categoria>().HasData(
                 new Categoria { Id = 1, Nombre = "Cortes de Cabello", EstaActiva = true },
                 new Categoria { Id = 2, Nombre = "Tratamientos Capilares", EstaActiva = true },
@@ -69,7 +114,7 @@ namespace Peluqueria.Infrastructure.Data
                 new Categoria { Id = 4, Nombre = "Otra", EstaActiva = true }
             );
 
-            // 4. Seed de Servicios
+            // 4. Catálogo de Servicios
             builder.Entity<Servicio>().HasData(
                 new Servicio { Id = 1, Nombre = "Corte Estilo Bob", Descripcion = "Un corte clásico...", Precio = 50000, DuracionMinutos = 60, Imagen = "https://localhost:7274/images/bobCut.png", FechaCreacion = new DateTime(2025, 10, 23), Disponible = true, CategoriaId = 1 },
                 new Servicio { Id = 2, Nombre = "Hidratación Profunda", Descripcion = "Tratamiento keratina...", Precio = 80000, DuracionMinutos = 90, Imagen = "https://localhost:7274/images/hidratacion.jpg", FechaCreacion = new DateTime(2025, 10, 23), Disponible = true, CategoriaId = 2 },
@@ -81,7 +126,7 @@ namespace Peluqueria.Infrastructure.Data
             var userList = new List<AppUser>();
             var userRoleList = new List<IdentityUserRole<string>>();
 
-            // 5. Seed de Usuarios (Admin, Laura, Juan)
+            // 5. Usuarios Base (Admin, Laura, Juan)
 
             // ADMIN
             var (adminUser, adminUserRole) = AdminUserSeed.CreateAdminUserWithRole();
@@ -128,13 +173,13 @@ namespace Peluqueria.Infrastructure.Data
             builder.Entity<IdentityUserRole<string>>().HasData(userRoleList);
 
 
-            // 6. Seed de Estilistas (Entidad de Dominio)
+            // 6. Entidades de Estilistas (Vinculadas a Identity por ID)
             builder.Entity<Estilista>().HasData(
                 new Estilista { Id = 1, IdentityId = AdminUserSeed.ADMIN_ID, NombreCompleto = "Administrador Principal", Telefono = "3001234567", EstaActivo = true },
                 new Estilista { Id = LAURA_ESTILISTA_ID, IdentityId = LAURA_ID, NombreCompleto = "Laura Valencia", Telefono = "3001234568", EstaActivo = true }
             );
 
-            // 7. Seed de Estilista-Servicio
+            // 7. Relación Estilista-Servicio (Habilidades)
             builder.Entity<EstilistaServicio>().HasData(
                 new EstilistaServicio { EstilistaId = 1, ServicioId = 1 },
                 new EstilistaServicio { EstilistaId = 1, ServicioId = 2 },
@@ -143,7 +188,7 @@ namespace Peluqueria.Infrastructure.Data
                 new EstilistaServicio { EstilistaId = LAURA_ESTILISTA_ID, ServicioId = 4 }
             );
 
-            // --- SEED DE AGENDA (AQUÍ ESTÁ LO NUEVO) ---
+            // --- AGENDA INICIAL (DEMO DATA) ---
 
             // A. Horario Semanal Base (Laura trabaja Lunes, Miércoles y Viernes)
             builder.Entity<HorarioSemanalBase>().HasData(
@@ -159,7 +204,7 @@ namespace Peluqueria.Infrastructure.Data
                 new BloqueoDescansoFijoDiario { Id = 3, EstilistaId = LAURA_ESTILISTA_ID, DiaSemana = DayOfWeek.Friday, HoraInicioDescanso = new TimeSpan(13, 0, 0), HoraFinDescanso = new TimeSpan(14, 0, 0), Razon = "Almuerzo" }
             );
 
-            // C. Vacaciones (Un bloqueo futuro)
+            // C. Vacaciones (Un bloqueo futuro para demostración)
             builder.Entity<BloqueoRangoDiasLibres>().HasData(
                 new BloqueoRangoDiasLibres { Id = 1, EstilistaId = LAURA_ESTILISTA_ID, FechaInicioBloqueo = new DateTime(2026, 1, 15).Date, FechaFinBloqueo = new DateTime(2026, 1, 18).Date, Razon = "Vacaciones" }
             );

@@ -9,11 +9,18 @@ using System;
 using System.Globalization;
 using System.Threading;
 
-namespace Peluqueria.Infrastructure.Service // Asegúrate de que el namespace sea correcto
+namespace Peluqueria.Infrastructure.Service
 {
+    /// <summary>
+    /// Servicio encargado de publicar mensajes en el bus de eventos (RabbitMQ).
+    /// </summary>
+    /// <remarks>
+    /// Implementa <see cref="IDisposable"/> para asegurar que la conexión TCP con el broker se cierre correctamente
+    /// cuando la aplicación se detiene.
+    /// Configura los Exchanges como tipo "Topic" para permitir enrutamiento flexible mediante Routing Keys.
+    /// </remarks>
     public class RabbitMQMessagePublisher : IMessagePublisher, IDisposable
     {
-        // Se inicializa a null para satisfacer el constructor que puede fallar.
         private IConnection? _connection;
         private readonly ILogger<RabbitMQMessagePublisher> _logger;
         private bool _disposed = false;
@@ -22,7 +29,6 @@ namespace Peluqueria.Infrastructure.Service // Asegúrate de que el namespace se
         {
             _logger = logger;
 
-            // Obtener configuración de appsettings.json
             string hostName = config["RabbitMQ:HostName"] ?? "localhost";
             string portString = config["RabbitMQ:Port"] ?? "5672";
             string userName = config["RabbitMQ:UserName"] ?? "guest";
@@ -44,43 +50,49 @@ namespace Peluqueria.Infrastructure.Service // Asegúrate de que el namespace se
 
             try
             {
-                // Crear la conexión
+                // Intentamos conectar al inicio. Si falla, la app inicia pero sin mensajería.
                 _connection = factory.CreateConnection();
                 _logger.LogInformation("Conectado exitosamente a RabbitMQ en {HostName}:{Port}", hostName, port);
             }
             catch (Exception ex)
             {
-                // Manejo de error si RabbitMQ no está disponible
                 _logger.LogError(ex, "Error CRÍTICO al conectar con RabbitMQ. Verificar Docker y configuración.");
                 _connection = null;
             }
         }
 
+        /// <summary>
+        /// Publica un mensaje genérico en RabbitMQ.
+        /// </summary>
+        /// <typeparam name="T">Tipo del DTO a enviar.</typeparam>
+        /// <param name="message">El objeto de datos.</param>
+        /// <param name="routingKey">La llave de enrutamiento (ej: "estilista.creado").</param>
+        /// <param name="exchangeName">El nombre del Exchange destino.</param>
         public Task PublishAsync<T>(T message, string routingKey, string exchangeName) where T : class
         {
-            // Verificación de conexión antes de publicar
+            // Verificación de seguridad: si no hay conexión, no hacemos nada para evitar crashes.
             if (_disposed || _connection == null || !_connection.IsOpen)
             {
                 _logger.LogError("Intento de publicar en RabbitMQ con conexión nula, cerrada o desechada. Mensaje no enviado: {Key}", routingKey);
                 return Task.CompletedTask;
             }
 
-            // Serializa el objeto a bytes JSON (UTF-8)
+            // Serialización a JSON UTF-8 (Estándar para microservicios)
             var body = JsonSerializer.SerializeToUtf8Bytes(message);
 
-            // Se usa 'using' para el canal para asegurar que se deseche correctamente
+            // Creamos un canal temporal para este mensaje
             using var channel = _connection.CreateModel();
 
-            // 1. Declaración del Exchange (Tipo Topic para enrutamiento flexible)
+            // 1. Declaración del Exchange (Idempotente: si existe no hace nada)
             channel.ExchangeDeclare(
                 exchange: exchangeName,
                 type: ExchangeType.Topic,
-                durable: true // La cola y el exchange sobreviven a reinicios
+                durable: true // Importante: Sobrevive a reinicios del broker
             );
 
-            // 2. Propiedades del mensaje (Persistente)
+            // 2. Propiedades del mensaje
             var properties = channel.CreateBasicProperties();
-            properties.Persistent = true;
+            properties.Persistent = true; // El mensaje se guarda en disco en RabbitMQ
 
             // 3. Publicación
             channel.BasicPublish(
@@ -95,7 +107,9 @@ namespace Peluqueria.Infrastructure.Service // Asegúrate de que el namespace se
             return Task.CompletedTask;
         }
 
-        // Implementación de IDisposable para una limpieza correcta
+        /// <summary>
+        /// Limpieza de recursos no administrados (Conexión TCP).
+        /// </summary>
         public void Dispose()
         {
             if (_disposed) return;
@@ -106,7 +120,6 @@ namespace Peluqueria.Infrastructure.Service // Asegúrate de que el namespace se
             {
                 if (_connection.IsOpen)
                 {
-                    // Cerrar y luego Desechar
                     _connection.Close();
                 }
                 _connection.Dispose();

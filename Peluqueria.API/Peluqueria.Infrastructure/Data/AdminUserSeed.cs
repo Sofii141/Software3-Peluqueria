@@ -3,12 +3,31 @@ using Peluqueria.Infrastructure.Identity;
 
 namespace Peluqueria.Infrastructure.Data
 {
+    /// <summary>
+    /// Clase auxiliar estática para la generación de datos semilla del Administrador.
+    /// </summary>
+    /// <remarks>
+    /// Se separa del DbContext para mantener el código limpio. 
+    /// Define constantes para los IDs con el fin de asegurar la integridad referencial en cada migración de EF Core.
+    /// </remarks>
     public static class AdminUserSeed
     {
         // Se cambia a public para acceso desde ApplicationDBContext
+
+        /// <summary>
+        /// ID fijo para el usuario Admin. Garantiza que siempre sea el mismo en todas las bases de datos.
+        /// </summary>
         public const string ADMIN_ID = "a18be9c0-aa65-4af8-bd17-00bd9344e575";
+
+        /// <summary>
+        /// ID fijo para el Rol de Administrador.
+        /// </summary>
         public const string ADMIN_ROLE_ID = "d17abceb-8c0b-454e-b296-883bc029d82b";
 
+        /// <summary>
+        /// Genera la instancia del usuario Administrador y su relación con el Rol.
+        /// </summary>
+        /// <returns>Una tupla conteniendo el usuario (AppUser) y la relación (IdentityUserRole).</returns>
         public static (AppUser, IdentityUserRole<string>) CreateAdminUserWithRole()
         {
             var hasher = new PasswordHasher<AppUser>();
@@ -27,6 +46,7 @@ namespace Peluqueria.Infrastructure.Data
                 ConcurrencyStamp = new Guid().ToString()
             };
 
+            // Hash de contraseña predeterminado
             adminUser.PasswordHash = hasher.HashPassword(adminUser, "password123");
 
             var adminUserRole = new IdentityUserRole<string>

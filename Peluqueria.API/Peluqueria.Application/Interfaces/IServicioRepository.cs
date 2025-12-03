@@ -2,6 +2,9 @@
 
 namespace Peluqueria.Application.Interfaces
 {
+    /// <summary>
+    /// Repositorio para el acceso a datos de la entidad Servicio.
+    /// </summary>
     public interface IServicioRepository
     {
         Task<IEnumerable<Servicio>> GetAllAsync();
@@ -11,7 +14,5 @@ namespace Peluqueria.Application.Interfaces
         Task<Servicio?> UpdateAsync(int id, Servicio servicio);
         Task<bool> InactivateAsync(int id);
         Task<bool> ExistsByNameAsync(string nombre);
-
-        // Task<bool> HasFutureAppointmentsAsync(int id); // TODO: Agregar cuando conectes con Reservas
     }
 }

@@ -8,6 +8,9 @@ using System.Globalization;
 
 namespace Peluqueria.Application.Services
 {
+    /// <summary>
+    /// Gestión del catálogo de servicios aplicando reglas de negocio estrictas.
+    /// </summary>
     public class ServicioService : IServicioService
     {
         private readonly IServicioRepository _servicioRepo;
@@ -30,6 +33,9 @@ namespace Peluqueria.Application.Services
             _reservacionClient = reservacionClient;
         }
 
+        /// <summary>
+        /// Crea un servicio validando duración, precio, imagen y unicidad.
+        /// </summary>
         public async Task<ServicioDto> CreateAsync(CreateServicioRequestDto requestDto)
         {
             // 1. VALIDAR DURACIÓN (Regla de Negocio RNI-S001 y Política Operativa)
@@ -85,6 +91,9 @@ namespace Peluqueria.Application.Services
             return MapToDto(servicioCompleto!);
         }
 
+        /// <summary>
+        /// Actualiza un servicio. Verifica integridad referencial si hay citas futuras.
+        /// </summary>
         public async Task<ServicioDto?> UpdateAsync(int id, UpdateServicioRequestDto requestDto)
         {
             // 1. VALIDACIÓN EXISTENCIA (G-ERROR-011)
@@ -95,7 +104,6 @@ namespace Peluqueria.Application.Services
             }
 
             // 2. VALIDACIÓN BLOQUEO POR CITAS (G-ERROR-004)
-            // Consultamos al microservicio si existen reservas futuras para este servicio
             bool tieneCitasFuturas = await _reservacionClient.TieneReservasServicio(id);
 
             if (tieneCitasFuturas)
@@ -173,13 +181,11 @@ namespace Peluqueria.Application.Services
 
         // --- MÉTODOS PRIVADOS ---
 
-        // Validar Regla de Negocio de Duración
         private void ValidateDuracion(int minutos)
         {
             // RNI-S001: Mínimo 45 minutos
             if (minutos < 45)
             {
-                // Usamos el constructor que acepta mensaje personalizado
                 throw new ReglaNegocioException(CodigoError.FORMATO_INVALIDO, "La duración mínima permitida es de 45 minutos.");
             }
 

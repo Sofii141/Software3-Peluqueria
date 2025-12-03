@@ -3,12 +3,19 @@ using Peluqueria.Application.Interfaces;
 
 namespace Peluqueria.Application.Services
 {
+    /// <summary>
+    /// Servicio de infraestructura para la sincronización inicial de datos.
+    /// </summary>
+    /// <remarks>
+    /// Este servicio se ejecuta al arrancar el Monolito. 
+    /// Su función es asegurar que el Microservicio de Reservas tenga la información más reciente
+    /// (reparando posibles pérdidas de mensajes si RabbitMQ estuvo caído).
+    /// </remarks>
     public class DataSyncService : IDataSyncService
     {
         private readonly IEstilistaRepository _estilistaRepo;
         private readonly IServicioRepository _servicioRepo;
         private readonly ICategoriaRepository _categoriaRepo;
-        // Agregamos el repo de Agenda para leer horarios
         private readonly IEstilistaAgendaRepository _agendaRepo;
         private readonly IMessagePublisher _messagePublisher;
 
@@ -16,7 +23,7 @@ namespace Peluqueria.Application.Services
             IEstilistaRepository estilistaRepo,
             IServicioRepository servicioRepo,
             ICategoriaRepository categoriaRepo,
-            IEstilistaAgendaRepository agendaRepo, // <--- INYECTAR
+            IEstilistaAgendaRepository agendaRepo,
             IMessagePublisher messagePublisher)
         {
             _estilistaRepo = estilistaRepo;
@@ -26,6 +33,9 @@ namespace Peluqueria.Application.Services
             _messagePublisher = messagePublisher;
         }
 
+        /// <summary>
+        /// Lee toda la base de datos maestra y publica eventos masivos en RabbitMQ.
+        /// </summary>
         public async Task SincronizarTodoAsync()
         {
             // 1. Sincronizar Categorías

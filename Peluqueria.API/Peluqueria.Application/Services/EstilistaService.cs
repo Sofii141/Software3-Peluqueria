@@ -6,6 +6,13 @@ using Peluqueria.Domain.Entities;
 
 namespace Peluqueria.Application.Services
 {
+    /// <summary>
+    /// Gestión de perfiles de Estilistas (Profesionales).
+    /// </summary>
+    /// <remarks>
+    /// Esta clase coordina la creación del usuario de Identity (autenticación) y la entidad Estilista (dominio),
+    /// asegurando que ambas se creen de manera consistente.
+    /// </remarks>
     public class EstilistaService : IEstilistaService
     {
         private readonly IEstilistaRepository _estilistaRepo;
@@ -64,6 +71,18 @@ namespace Peluqueria.Application.Services
             return dto;
         }
 
+        /// <summary>
+        /// Crea un nuevo estilista en el sistema.
+        /// </summary>
+        /// <remarks>
+        /// Flujo:
+        /// 1. Valida servicios.
+        /// 2. Crea Usuario Identity.
+        /// 3. Asigna Rol.
+        /// 4. Sube imagen.
+        /// 5. Crea Entidad Estilista.
+        /// 6. Publica Evento.
+        /// </remarks>
         public async Task<EstilistaDto> CreateAsync(CreateEstilistaRequestDto requestDto)
         {
             if (requestDto.ServiciosIds == null || requestDto.ServiciosIds.Count == 0)
@@ -211,6 +230,10 @@ namespace Peluqueria.Application.Services
             return dto;
         }
 
+        /// <summary>
+        /// Inactiva el perfil del estilista (borrado lógico).
+        /// </summary>
+        /// <exception cref="ReglaNegocioException">Si el estilista tiene citas futuras pendientes.</exception>
         public async Task<bool> InactivateAsync(int id)
         {
             var estilista = await _estilistaRepo.GetFullEstilistaByIdAsync(id);
@@ -223,7 +246,6 @@ namespace Peluqueria.Application.Services
 
             if (tieneCitas)
             {
-                // Si tiene citas, lanzamos la excepción con tu código de error G-ERROR-009
                 throw new ReglaNegocioException(CodigoError.OPERACION_BLOQUEADA_POR_CITAS,
                     "El estilista tiene reservaciones futuras pendientes y no puede ser inactivado.");
             }

@@ -18,12 +18,15 @@ using Peluqueria.API.Errors;
 using Peluqueria.Application.Exceptions;
 using Peluqueria.Infrastructure.HttpClients;
 
+// Configuración de la cultura por defecto para asegurar consistencia en formatos de fecha y moneda (en-US).
 var cultureInfo = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuración de controladores y serialización JSON.
+// Se utiliza NewtonsoftJson para manejar referencias circulares que pueden ocurrir con Entity Framework.
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
     {
@@ -31,10 +34,13 @@ builder.Services.AddControllers()
     })
     .AddMvcOptions(options =>
     {
+        // Personalización de mensajes de error de validación de modelos.
         options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
             _ => "El valor es requerido.");
     });
 
+// Personalización de la respuesta para errores de validación (HTTP 400).
+// Intercepta el comportamiento por defecto para devolver un formato estandarizado (ErrorResponse).
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
     {
@@ -62,6 +68,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 
+// Configuración de Swagger/OpenAPI con soporte para autenticación JWT (Bearer Token).
 builder.Services.AddSwaggerGen(option =>
 {
     option.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -80,12 +87,16 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
-// --- DATABASE AND IDENTITY CONFIGURATION ---
+// --- CAPA DE INFRAESTRUCTURA: PERSISTENCIA E IDENTIDAD ---
+
+// Configuración del contexto de base de datos (SQL Server).
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// Configuración de ASP.NET Core Identity (Usuarios y Roles).
+// Se definen las políticas de complejidad de contraseñas y unicidad de emails.
 builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
     options.SignIn.RequireConfirmedAccount = false;
     options.User.RequireUniqueEmail = true;
@@ -99,7 +110,10 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
 .AddEntityFrameworkStores<ApplicationDBContext>()
 .AddDefaultTokenProviders();
 
-// --- AUTHENTICATION CONFIGURATION ---
+// --- CAPA DE INFRAESTRUCTURA: AUTENTICACIÓN Y JWT ---
+
+// Configuración del esquema de autenticación JWT Bearer.
+// Valida el emisor, la audiencia y la firma del token usando la clave secreta configurada.
 builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -119,21 +133,21 @@ builder.Services.AddAuthentication(options => {
 });
 
 
-// --- INYECCION DE DEPENDENCIAS ---
+// --- INYECCIÓN DE DEPENDENCIAS (IoC) ---
 
-// Repositorios
+// 1. Repositorios (Acceso a Datos)
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IServicioRepository, ServicioRepository>();
 builder.Services.AddScoped<IEstilistaRepository, EstilistaRepository>();
 builder.Services.AddScoped<IEstilistaAgendaRepository, EstilistaAgendaRepository>();
 
-// Servicios de Infraestructura
+// 2. Servicios de Infraestructura (Externos/Cross-Cutting)
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
-builder.Services.AddSingleton<IMessagePublisher, RabbitMQMessagePublisher>();
+builder.Services.AddSingleton<IMessagePublisher, RabbitMQMessagePublisher>(); // Singleton para conexión persistente a RabbitMQ
 
-// Servicios de Aplicación
+// 3. Servicios de Aplicación (Lógica de Negocio)
 builder.Services.AddScoped<IEstilistaService, EstilistaService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IServicioService, ServicioService>();
@@ -141,20 +155,21 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IEstilistaAgendaService, EstilistaAgendaService>();
 builder.Services.AddScoped<IDataSyncService, DataSyncService>();
 
-// Esto permite inyectar IReservacionClient en los servicios
+// 4. Clientes HTTP (Comunicación entre microservicios)
+// Configuración del cliente tipado para consultar el Microservicio de Reservaciones.
 builder.Services.AddHttpClient<IReservacionClient, ReservacionClient>(client =>
 {
     client.BaseAddress = new Uri("http://localhost:5288/");
-
-    // Timeout de seguridad para que el monolito no se quede colgado si el microservicio no responde
+    // Establece un tiempo de espera para evitar bloqueos en la comunicación síncrona.
     client.Timeout = TimeSpan.FromSeconds(5);
 });
 
 var app = builder.Build();
 
 // =================================================================
-// BLOQUE DE INICIALIZACIÓN Y SINCRONIZACIÓN AUTOMÁTICA
+// INICIALIZACIÓN DE DATOS Y SINCRONIZACIÓN
 // =================================================================
+// Crea un alcance (scope) temporal para resolver servicios 'Scoped' durante el inicio de la aplicación.
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -162,18 +177,17 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        // 1. Aplicar Migraciones y Seeds automáticamente (Crear BD si no existe)
+        // 1. Migraciones de Base de Datos
+        // Aplica las migraciones pendientes o crea la base de datos si no existe.
+        // También ejecuta el Seeding de datos definido en OnModelCreating.
         var context = services.GetRequiredService<ApplicationDBContext>();
-
-        // Esto ejecuta 'Update-Database' automáticamente al iniciar
-        // Si la BD no existe, la crea. Si hay cambios pendientes, los aplica.
-        // Y lo más importante: EJECUTA EL SEED (OnModelCreating)
         context.Database.Migrate();
 
         logger.LogInformation("Base de datos del Monolito actualizada/creada correctamente.");
 
-        // 2. DISPARAR LA SINCRONIZACIÓN A RABBITMQ
-        // Aquí llamamos al servicio que creamos antes, pero lo hacemos nosotros, no el usuario.
+        // 2. Sincronización de Datos (Event Bus)
+        // Publica el estado actual de las entidades maestras a RabbitMQ para asegurar
+        // que el microservicio consumidor tenga la data actualizada al arrancar.
         var syncService = services.GetRequiredService<IDataSyncService>();
 
         logger.LogInformation("Iniciando sincronización de datos con el Microservicio...");
@@ -188,9 +202,10 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-app.UseStaticFiles();
+// Configuración del Pipeline de solicitudes HTTP.
 
-// Configure the HTTP request pipeline.
+app.UseStaticFiles(); // Habilita el servicio de archivos estáticos (imágenes).
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -200,16 +215,19 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+// Middleware global de manejo de excepciones.
 app.UseMiddleware<Peluqueria.API.Middleware.ExceptionMiddleware>();
 
+// Configuración de CORS para permitir peticiones desde el cliente Angular.
 app.UseCors(corsBuilder => corsBuilder
     .WithOrigins("http://localhost:4200", "https://localhost:4200")
     .AllowAnyMethod()
     .AllowAnyHeader()
     .AllowCredentials());
 
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseAuthentication(); // Habilita la autenticación.
+app.UseAuthorization();  // Habilita la autorización.
 
-app.MapControllers();
+app.MapControllers(); // Mapea los controladores de la API.
+
 app.Run();

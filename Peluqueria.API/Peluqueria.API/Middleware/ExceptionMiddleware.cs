@@ -5,17 +5,35 @@ using Peluqueria.Application.Exceptions;
 
 namespace Peluqueria.API.Middleware
 {
+    /// <summary>
+    /// Middleware global encargado de interceptar y manejar las excepciones no controladas
+    /// ocurridas durante el ciclo de vida de una solicitud HTTP.
+    /// </summary>
+    /// <remarks>
+    /// Este componente implementa el manejo centralizado de errores, asegurando que todas las excepciones,
+    /// ya sean de dominio o del sistema, se transformen en una respuesta JSON estandarizada (<see cref="ErrorResponse"/>)
+    /// con el código de estado HTTP adecuado.
+    /// </remarks>
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
 
+        /// <summary>
+        /// Inicializa una nueva instancia del middleware.
+        /// </summary>
+        /// <param name="next">Delegado que representa el siguiente componente en el pipeline de solicitud.</param>
+        /// <param name="logger">Servicio de logging para registrar los detalles de las excepciones capturadas.</param>
         public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {
             _next = next;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Invoca la ejecución del middleware. Envuelve la ejecución del resto del pipeline en un bloque try-catch.
+        /// </summary>
+        /// <param name="context">Contexto de la solicitud HTTP actual.</param>
         public async Task InvokeAsync(HttpContext context)
         {
             try
@@ -29,6 +47,12 @@ namespace Peluqueria.API.Middleware
             }
         }
 
+        /// <summary>
+        /// Procesa la excepción capturada, determina el código de estado HTTP correspondiente
+        /// y escribe la respuesta de error estandarizada en el flujo de salida.
+        /// </summary>
+        /// <param name="context">Contexto HTTP.</param>
+        /// <param name="exception">La excepción capturada.</param>
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
@@ -37,7 +61,7 @@ namespace Peluqueria.API.Middleware
             string codigoError;
             string mensaje;
 
-            // Evaluamos el tipo de excepción
+            // Mapeo de excepciones de dominio a códigos HTTP
             switch (exception)
             {
                 case EntidadNoExisteException ex:
@@ -58,11 +82,12 @@ namespace Peluqueria.API.Middleware
                     mensaje = ex.Message;
                     break;
 
-                // Si es una excepción que no controlamos (Bug, NullPointer, DB off)
                 default:
+                    // Manejo de errores no controlados (Errores de sistema o infraestructura)
                     statusCode = (int)HttpStatusCode.InternalServerError; // 500
                     codigoError = CodigoError.ERROR_GENERICO.Codigo;
-                    mensaje = "Error interno del servidor."; // No mostrar ex.Message en prod por seguridad
+                    // Se utiliza un mensaje genérico por seguridad para no exponer detalles internos
+                    mensaje = "Error interno del servidor.";
                     break;
             }
 
@@ -76,7 +101,7 @@ namespace Peluqueria.API.Middleware
                 context.Request.Method
             );
 
-            // Usamos System.Text.Json con nomenclatura camelCase (estándar JSON)
+            // Serialización de la respuesta a formato JSON (CamelCase estándar)
             var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
             var json = JsonSerializer.Serialize(errorResponse, options);
 
